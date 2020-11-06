@@ -43,7 +43,7 @@ import javax.swing.JSeparator;
 
 /**
  * Test for {@link JPopupMenuInfo}.
- * 
+ *
  * @author scheglov_ke
  */
 public class JPopupMenuTest extends SwingModelTest {
@@ -65,24 +65,23 @@ public class JPopupMenuTest extends SwingModelTest {
    * Test that we can parse {@link JPopupMenu}.
    */
   public void test_parse() throws Exception {
-    ContainerInfo panelInfo =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JPopupMenu popup = new JPopupMenu();",
-            "    addPopup(this, popup);",
-            "    {",
-            "      JMenuItem item_1 = new JMenuItem('Item 1');",
-            "      popup.add(item_1);",
-            "    }",
-            "    {",
-            "      JMenuItem item_2 = new JMenuItem('Item 2');",
-            "      popup.add(item_2);",
-            "    }",
-            "  }",
-            "  private static void addPopup(Component component, JPopupMenu popup) {",
-            "  }",
-            "}");
+    ContainerInfo panelInfo = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JPopupMenu popup = new JPopupMenu();",
+        "    addPopup(this, popup);",
+        "    {",
+        "      JMenuItem item_1 = new JMenuItem('Item 1');",
+        "      popup.add(item_1);",
+        "    }",
+        "    {",
+        "      JMenuItem item_2 = new JMenuItem('Item 2');",
+        "      popup.add(item_2);",
+        "    }",
+        "  }",
+        "  private static void addPopup(Component component, JPopupMenu popup) {",
+        "  }",
+        "}");
     panelInfo.refresh();
     // prepare JPopupMenu_Info
     JPopupMenuInfo popupInfo = panelInfo.getChildren(JPopupMenuInfo.class).get(0);
@@ -131,16 +130,15 @@ public class JPopupMenuTest extends SwingModelTest {
    * Even when {@link JPopupMenu} has no items, it still has non-zero size.
    */
   public void test_noItems() throws Exception {
-    ContainerInfo panelInfo =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JPopupMenu popup = new JPopupMenu();",
-            "    addPopup(this, popup);",
-            "  }",
-            "  private static void addPopup(Component component, JPopupMenu popup) {",
-            "  }",
-            "}");
+    ContainerInfo panelInfo = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JPopupMenu popup = new JPopupMenu();",
+        "    addPopup(this, popup);",
+        "  }",
+        "  private static void addPopup(Component component, JPopupMenu popup) {",
+        "  }",
+        "}");
     panelInfo.refresh();
     // do checks
     JPopupMenuInfo popupInfo = panelInfo.getChildren(JPopupMenuInfo.class).get(0);
@@ -158,24 +156,23 @@ public class JPopupMenuTest extends SwingModelTest {
    * {@link JSeparator} should be {@link IMenuItemInfo}.
    */
   public void test_IMenuInfo_withSeparator() throws Exception {
-    ContainerInfo panelInfo =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JPopupMenu popup = new JPopupMenu();",
-            "    addPopup(this, popup);",
-            "    {",
-            "      JMenuItem item_1 = new JMenuItem('Item 1');",
-            "      popup.add(item_1);",
-            "    }",
-            "    {",
-            "      JSeparator separator = new JSeparator();",
-            "      popup.add(separator);",
-            "    }",
-            "  }",
-            "  private static void addPopup(Component component, JPopupMenu popup) {",
-            "  }",
-            "}");
+    ContainerInfo panelInfo = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JPopupMenu popup = new JPopupMenu();",
+        "    addPopup(this, popup);",
+        "    {",
+        "      JMenuItem item_1 = new JMenuItem('Item 1');",
+        "      popup.add(item_1);",
+        "    }",
+        "    {",
+        "      JSeparator separator = new JSeparator();",
+        "      popup.add(separator);",
+        "    }",
+        "  }",
+        "  private static void addPopup(Component component, JPopupMenu popup) {",
+        "  }",
+        "}");
     panelInfo.refresh();
     // prepare models
     JPopupMenuInfo popupInfo = panelInfo.getChildren(JPopupMenuInfo.class).get(0);
@@ -226,13 +223,12 @@ public class JPopupMenuTest extends SwingModelTest {
    * Test that we can add new {@link JPopupMenu}.
    */
   public void test_CREATE() throws Exception {
-    ContainerInfo panelInfo =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panelInfo = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panelInfo.refresh();
     // add new JPopupMenu
     JPopupMenuInfo popupInfo = (JPopupMenuInfo) createComponent(JPopupMenu.class);
@@ -274,25 +270,24 @@ public class JPopupMenuTest extends SwingModelTest {
    * Test that we can move {@link JPopupMenu}.
    */
   public void test_MOVE() throws Exception {
-    ContainerInfo panelInfo =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JButton button_1 = new JButton();",
-            "      add(button_1);",
-            "      JPopupMenu popup = new JPopupMenu();",
-            "      addPopup(button_1, popup);",
-            "      popup.add(new JMenuItem());",
-            "    }",
-            "    {",
-            "      JButton button_2 = new JButton();",
-            "      add(button_2);",
-            "    }",
-            "  }",
-            "  private static void addPopup(Component component, JPopupMenu popup) {",
-            "  }",
-            "}");
+    ContainerInfo panelInfo = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JButton button_1 = new JButton();",
+        "      add(button_1);",
+        "      JPopupMenu popup = new JPopupMenu();",
+        "      addPopup(button_1, popup);",
+        "      popup.add(new JMenuItem());",
+        "    }",
+        "    {",
+        "      JButton button_2 = new JButton();",
+        "      add(button_2);",
+        "    }",
+        "  }",
+        "  private static void addPopup(Component component, JPopupMenu popup) {",
+        "  }",
+        "}");
     panelInfo.refresh();
     // prepare components
     ComponentInfo buttonInfo_1 = panelInfo.getChildrenComponents().get(0);
@@ -324,18 +319,17 @@ public class JPopupMenuTest extends SwingModelTest {
    * Test that we can move {@link JPopupMenu} to the container.
    */
   public void test_MOVE_toTheContainer() throws Exception {
-    ContainerInfo panelInfo =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JPopupMenu popupMenu = new JPopupMenu();",
-            "    addPopup(this, popupMenu);",
-            "    JPanel innerPanel = new JPanel();",
-            "    add(innerPanel);",
-            "  }",
-            "  private static void addPopup(Component component, JPopupMenu popup) {",
-            "  }",
-            "}");
+    ContainerInfo panelInfo = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JPopupMenu popupMenu = new JPopupMenu();",
+        "    addPopup(this, popupMenu);",
+        "    JPanel innerPanel = new JPanel();",
+        "    add(innerPanel);",
+        "  }",
+        "  private static void addPopup(Component component, JPopupMenu popup) {",
+        "  }",
+        "}");
     panelInfo.refresh();
     // prepare components
     JPopupMenuInfo popupInfo = getJavaInfoByName("popupMenu");
@@ -359,27 +353,26 @@ public class JPopupMenuTest extends SwingModelTest {
    * Test that we can paste {@link JPopupMenu}.
    */
   public void test_PASTE() throws Exception {
-    ContainerInfo panelInfo =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JButton button_1 = new JButton();",
-            "      add(button_1);",
-            "      {",
-            "        JPopupMenu popup = new JPopupMenu();",
-            "        addPopup(button_1, popup);",
-            "        popup.add(new JMenuItem('Some item'));",
-            "      }",
-            "    }",
-            "    {",
-            "      JButton button_2 = new JButton();",
-            "      add(button_2);",
-            "    }",
-            "  }",
-            "  private static void addPopup(Component component, JPopupMenu popup) {",
-            "  }",
-            "}");
+    ContainerInfo panelInfo = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JButton button_1 = new JButton();",
+        "      add(button_1);",
+        "      {",
+        "        JPopupMenu popup = new JPopupMenu();",
+        "        addPopup(button_1, popup);",
+        "        popup.add(new JMenuItem('Some item'));",
+        "      }",
+        "    }",
+        "    {",
+        "      JButton button_2 = new JButton();",
+        "      add(button_2);",
+        "    }",
+        "  }",
+        "  private static void addPopup(Component component, JPopupMenu popup) {",
+        "  }",
+        "}");
     panelInfo.refresh();
     // prepare components
     ComponentInfo buttonInfo_1 = panelInfo.getChildrenComponents().get(0);
@@ -408,11 +401,11 @@ public class JPopupMenuTest extends SwingModelTest {
         "      JButton button_2 = new JButton();",
         "      add(button_2);",
         "      {",
-        "        JPopupMenu popupMenu = new JPopupMenu();",
-        "        addPopup(button_2, popupMenu);",
+        "        JPopupMenu popup = new JPopupMenu();",
+        "        addPopup(button_2, popup);",
         "        {",
         "          JMenuItem menuItem = new JMenuItem('Some item');",
-        "          popupMenu.add(menuItem);",
+        "          popup.add(menuItem);",
         "        }",
         "      }",
         "    }",
@@ -426,16 +419,15 @@ public class JPopupMenuTest extends SwingModelTest {
    * Tests for popup menu to have a special popup menu tracking listener.
    */
   public void test_hasTrackingListener() throws Exception {
-    ContainerInfo panelInfo =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JPopupMenu popup = new JPopupMenu();",
-            "    addPopup(this, popup);",
-            "  }",
-            "  private static void addPopup(Component component, JPopupMenu popup) {",
-            "  }",
-            "}");
+    ContainerInfo panelInfo = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JPopupMenu popup = new JPopupMenu();",
+        "    addPopup(this, popup);",
+        "  }",
+        "  private static void addPopup(Component component, JPopupMenu popup) {",
+        "  }",
+        "}");
     panelInfo.refresh();
     MouseListener[] mouseListeners = panelInfo.getComponent().getMouseListeners();
     assertThat(mouseListeners).isNotEmpty();
@@ -532,13 +524,14 @@ public class JPopupMenuTest extends SwingModelTest {
     // create separator
     JPopupMenuSeparatorCreationSupport creationSupport =
         new JPopupMenuSeparatorCreationSupport(popup);
-    JPopupMenuSeparatorInfo separator =
-        (JPopupMenuSeparatorInfo) JavaInfoUtils.createJavaInfo(
-            m_lastEditor,
-            JPopupMenu.Separator.class,
-            creationSupport);
+    JPopupMenuSeparatorInfo separator = (JPopupMenuSeparatorInfo) JavaInfoUtils.createJavaInfo(
+        m_lastEditor,
+        JPopupMenu.Separator.class,
+        creationSupport);
     // add separator
-    MenuObjectInfoUtils.getMenuPopupInfo(popup).getMenu().getPolicy().commandCreate(separator, null);
+    MenuObjectInfoUtils.getMenuPopupInfo(popup).getMenu().getPolicy().commandCreate(
+        separator,
+        null);
     // check creation
     assertNotNull(creationSupport.getInvocation());
     // check variable

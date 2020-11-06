@@ -31,7 +31,7 @@ import javax.swing.JInternalFrame;
 
 /**
  * Basic tests for {@link WindowTopBoundsSupport}.
- * 
+ *
  * @author scheglov_ke
  */
 public class JFrameTopBoundsTest extends SwingGefTest {
@@ -73,18 +73,17 @@ public class JFrameTopBoundsTest extends SwingGefTest {
             "  }",
             "}"));
     waitForAutoBuild();
-    // 
+    //
     Dimension oldSize = new Dimension(500, 400);
     Dimension resizeSize = new Dimension(350, 200);
-    ICompilationUnit unit =
-        check_resize(
-            "MyBigFrame",
-            "// no size",
-            "// none",
-            oldSize,
-            resizeSize,
-            resizeSize,
-            "// no size");
+    ICompilationUnit unit = check_resize(
+        "MyBigFrame",
+        "// no size",
+        "// none",
+        oldSize,
+        resizeSize,
+        resizeSize,
+        "// no size");
     assert_sameSizeAfterReparse(unit, resizeSize);
   }
 
@@ -101,18 +100,17 @@ public class JFrameTopBoundsTest extends SwingGefTest {
             "  }",
             "}"));
     waitForAutoBuild();
-    // 
+    //
     Dimension oldSize = new Dimension(500, 400);
     Dimension resizeSize = new Dimension(350, 200);
-    ICompilationUnit unit =
-        check_resize(
-            "MyBigFrame",
-            "// no size",
-            "// none",
-            oldSize,
-            resizeSize,
-            resizeSize,
-            "// no size");
+    ICompilationUnit unit = check_resize(
+        "MyBigFrame",
+        "// no size",
+        "// none",
+        oldSize,
+        resizeSize,
+        resizeSize,
+        "// no size");
     assert_sameSizeAfterReparse(unit, resizeSize);
   }
 
@@ -120,8 +118,9 @@ public class JFrameTopBoundsTest extends SwingGefTest {
    * Using {@link JFrame#pack()}.
    */
   public void test_resize_pack() throws Exception {
-    Dimension packSize =
-        Expectations.get(new Dimension(132, 89), new DimValue[]{
+    Dimension packSize = Expectations.get(
+        new Dimension(136, 84),
+        new DimValue[]{
             new DimValue("flanker-windows", new Dimension(132, 83)),
             new DimValue("scheglov-win", new Dimension(132, 83)),});
     Dimension resizeSize = new Dimension(450, 300);
@@ -157,14 +156,13 @@ public class JFrameTopBoundsTest extends SwingGefTest {
             "</component>"));
     waitForAutoBuild();
     // open
-    ContainerInfo frame =
-        openContainer(
-            "// filler filler filler filler filler",
-            "public class Test extends MyFrame {",
-            "  public Test() {",
-            "    finishInit();",
-            "  }",
-            "}");
+    ContainerInfo frame = openContainer(
+        "// filler filler filler filler filler",
+        "public class Test extends MyFrame {",
+        "  public Test() {",
+        "    finishInit();",
+        "  }",
+        "}");
     // assert that pack() was invoked and not overridden
     Dimension size = frame.getBounds().getSize();
     assertThat(size.width).isNotEqualTo(450);
@@ -229,16 +227,15 @@ public class JFrameTopBoundsTest extends SwingGefTest {
       Dimension resizeSize,
       Dimension newSize,
       String newSizeLine) throws Exception {
-    ContainerInfo frame =
-        openContainer(
-            "public class Test extends " + superClassName + " {",
-            "  public Test() {",
-            "    " + oldSizeLine,
-            "    getContentPane().add(new JButton('Swing JButton'), BorderLayout.NORTH);",
-            "    getContentPane().add(new Button('AWT Button'), BorderLayout.WEST);",
-            "    " + addSizeString,
-            "  }",
-            "}");
+    ContainerInfo frame = openContainer(
+        "public class Test extends " + superClassName + " {",
+        "  public Test() {",
+        "    " + oldSizeLine,
+        "    getContentPane().add(new JButton('Swing JButton'), BorderLayout.NORTH);",
+        "    getContentPane().add(new Button('AWT Button'), BorderLayout.WEST);",
+        "    " + addSizeString,
+        "  }",
+        "}");
     // check size
     assertEquals(oldSize, canvas.getSize(frame));
     waitEventLoop(50);

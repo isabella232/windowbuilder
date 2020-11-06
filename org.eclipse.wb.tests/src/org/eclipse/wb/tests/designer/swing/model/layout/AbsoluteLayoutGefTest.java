@@ -19,7 +19,7 @@ import org.eclipse.jface.action.IAction;
 
 /**
  * Tests for {@link AbsoluteLayoutInfo}.
- * 
+ *
  * @author scheglov_ke
  */
 public class AbsoluteLayoutGefTest extends SwingGefTest {
@@ -39,13 +39,12 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   public void test_canvas_CREATE() throws Exception {
     prepareBox();
-    ContainerInfo panel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "  }",
+        "}");
     // create Box
     loadCreationBox();
     // use canvas
@@ -67,18 +66,17 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
 
   public void test_canvas_PASTE() throws Exception {
     prepareBox();
-    ContainerInfo panel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "    {",
-            "      Box boxA = new Box();",
-            "      boxA.setBounds(10, 20, 100, 50);",
-            "      add(boxA);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "    {",
+        "      Box boxA = new Box();",
+        "      boxA.setBounds(10, 20, 100, 50);",
+        "      add(boxA);",
+        "    }",
+        "  }",
+        "}");
     // copy "boxA"
     {
       // select "boxA"
@@ -109,9 +107,9 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
         "      add(boxA);",
         "    }",
         "    {",
-        "      Box box = new Box();",
-        "      box.setBounds(50, 100, 100, 50);",
-        "      add(box);",
+        "      Box boxA = new Box();",
+        "      boxA.setBounds(50, 100, 100, 50);",
+        "      add(boxA);",
         "    }",
         "  }",
         "}");
@@ -119,18 +117,17 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
 
   public void test_canvas_MOVE() throws Exception {
     prepareBox();
-    ContainerInfo panel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "    {",
-            "      Box box = new Box();",
-            "      box.setBounds(30, 40, 100, 50);",
-            "      add(box);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "    {",
+        "      Box box = new Box();",
+        "      box.setBounds(30, 40, 100, 50);",
+        "      add(box);",
+        "    }",
+        "  }",
+        "}");
     ComponentInfo box = panel.getChildrenComponents().get(0);
     // move
     canvas.sideMode().beginMove(box);
@@ -151,24 +148,23 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
 
   public void test_canvas_ADD() throws Exception {
     prepareBox();
-    ContainerInfo panel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "    {",
-            "      JPanel inner = new JPanel();",
-            "      inner.setLayout(null);",
-            "      add(inner);",
-            "      inner.setBounds(20, 100, 200, 150);",
-            "      {",
-            "        Box box = new Box();",
-            "        box.setBounds(10, 20, 100, 50);",
-            "        inner.add(box);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "    {",
+        "      JPanel inner = new JPanel();",
+        "      inner.setLayout(null);",
+        "      add(inner);",
+        "      inner.setBounds(20, 100, 200, 150);",
+        "      {",
+        "        Box box = new Box();",
+        "        box.setBounds(10, 20, 100, 50);",
+        "        inner.add(box);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo inner = (ContainerInfo) panel.getChildrenComponents().get(0);
     ComponentInfo box = inner.getChildrenComponents().get(0);
     // move
@@ -201,13 +197,12 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   public void test_tree_CREATE() throws Exception {
     prepareBox();
-    ContainerInfo panel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "  }",
+        "}");
     // create Box
     ComponentInfo newBox = loadCreationBox();
     // use tree
@@ -230,18 +225,17 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
 
   public void test_tree_PASTE() throws Exception {
     prepareBox();
-    ContainerInfo panel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "    {",
-            "      Box boxA = new Box();",
-            "      boxA.setBounds(10, 20, 100, 50);",
-            "      add(boxA);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "    {",
+        "      Box boxA = new Box();",
+        "      boxA.setBounds(10, 20, 100, 50);",
+        "      add(boxA);",
+        "    }",
+        "  }",
+        "}");
     // copy "boxA"
     {
       // select "boxA"
@@ -272,9 +266,9 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
         "      add(boxA);",
         "    }",
         "    {",
-        "      Box box = new Box();",
-        "      box.setBounds(0, 0, 100, 50);",
-        "      add(box);",
+        "      Box boxA = new Box();",
+        "      boxA.setBounds(0, 0, 100, 50);",
+        "      add(boxA);",
         "    }",
         "  }",
         "}");
@@ -282,23 +276,22 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
 
   public void test_tree_MOVE() throws Exception {
     prepareBox();
-    ContainerInfo panel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "    {",
-            "      Box boxA = new Box();",
-            "      boxA.setBounds(10, 20, 100, 50);",
-            "      add(boxA);",
-            "    }",
-            "    {",
-            "      Box boxB = new Box();",
-            "      boxB.setBounds(20, 100, 100, 50);",
-            "      add(boxB);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "    {",
+        "      Box boxA = new Box();",
+        "      boxA.setBounds(10, 20, 100, 50);",
+        "      add(boxA);",
+        "    }",
+        "    {",
+        "      Box boxB = new Box();",
+        "      boxB.setBounds(20, 100, 100, 50);",
+        "      add(boxB);",
+        "    }",
+        "  }",
+        "}");
     ComponentInfo boxA = panel.getChildrenComponents().get(0);
     ComponentInfo boxB = panel.getChildrenComponents().get(1);
     // use tree
@@ -327,24 +320,23 @@ public class AbsoluteLayoutGefTest extends SwingGefTest {
 
   public void test_tree_ADD() throws Exception {
     prepareBox();
-    ContainerInfo panel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "    {",
-            "      JPanel inner = new JPanel();",
-            "      inner.setLayout(null);",
-            "      add(inner);",
-            "      inner.setBounds(20, 100, 200, 150);",
-            "      {",
-            "        Box box = new Box();",
-            "        box.setBounds(10, 20, 100, 50);",
-            "        inner.add(box);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "    {",
+        "      JPanel inner = new JPanel();",
+        "      inner.setLayout(null);",
+        "      add(inner);",
+        "      inner.setBounds(20, 100, 200, 150);",
+        "      {",
+        "        Box box = new Box();",
+        "        box.setBounds(10, 20, 100, 50);",
+        "        inner.add(box);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo inner = (ContainerInfo) panel.getChildrenComponents().get(0);
     ComponentInfo box = inner.getChildrenComponents().get(0);
     // use tree

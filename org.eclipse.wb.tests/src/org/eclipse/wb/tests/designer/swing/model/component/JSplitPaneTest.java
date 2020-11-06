@@ -23,7 +23,7 @@ import javax.swing.JSplitPane;
 
 /**
  * Test for {@link JSplitPane}.
- * 
+ *
  * @author scheglov_ke
  */
 public class JSplitPaneTest extends SwingModelTest {
@@ -45,22 +45,21 @@ public class JSplitPaneTest extends SwingModelTest {
    * Test for association using setLeftComponent/setRightComponent.
    */
   public void test_association_setLeftRight() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane();",
-            "    add(split);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      split.setLeftComponent(button);",
-            "    }",
-            "    {",
-            "      JButton button = new JButton();",
-            "      split.setRightComponent(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane();",
+        "    add(split);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      split.setLeftComponent(button);",
+        "    }",
+        "    {",
+        "      JButton button = new JButton();",
+        "      split.setRightComponent(button);",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     //
@@ -88,14 +87,13 @@ public class JSplitPaneTest extends SwingModelTest {
    * Test for empty positions.
    */
   public void test_association_empty() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane();",
-            "    add(split);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane();",
+        "    add(split);",
+        "  }",
+        "}");
     panel.refresh();
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     //
@@ -107,22 +105,21 @@ public class JSplitPaneTest extends SwingModelTest {
    * {@link JSplitPane#setDividerLocation(double)} should be added after all children.
    */
   public void test_association_setDividerLocation() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane();",
-            "    add(split);",
-            "    {",
-            "      JButton button_1 = new JButton();",
-            "      split.setLeftComponent(button_1);",
-            "    }",
-            "    {",
-            "      JButton button_2 = new JButton();",
-            "      split.setRightComponent(button_2);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane();",
+        "    add(split);",
+        "    {",
+        "      JButton button_1 = new JButton();",
+        "      split.setLeftComponent(button_1);",
+        "    }",
+        "    {",
+        "      JButton button_2 = new JButton();",
+        "      split.setRightComponent(button_2);",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     //
@@ -154,22 +151,21 @@ public class JSplitPaneTest extends SwingModelTest {
    * Test for existing left/right components.
    */
   public void test_getPositionRectangle_1() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane();",
-            "    add(split);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      split.setLeftComponent(button);",
-            "    }",
-            "    {",
-            "      JButton button = new JButton();",
-            "      split.setRightComponent(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane();",
+        "    add(split);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      split.setLeftComponent(button);",
+        "    }",
+        "    {",
+        "      JButton button = new JButton();",
+        "      split.setRightComponent(button);",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     //
@@ -191,14 +187,13 @@ public class JSplitPaneTest extends SwingModelTest {
    * Test for empty component.
    */
   public void test_getPositionRectangle_2() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, null, null);",
-            "    add(split);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, null, null);",
+        "    add(split);",
+        "  }",
+        "}");
     panel.refresh();
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     //
@@ -212,14 +207,13 @@ public class JSplitPaneTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_CREATE() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane();",
-            "    add(split);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane();",
+        "    add(split);",
+        "  }",
+        "}");
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     // add component
     {
@@ -247,22 +241,21 @@ public class JSplitPaneTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_OUT() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane();",
-            "    add(split);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      split.setLeftComponent(button);",
-            "    }",
-            "    {",
-            "      JPanel innerPanel = new JPanel();",
-            "      add(innerPanel);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane();",
+        "    add(split);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      split.setLeftComponent(button);",
+        "    }",
+        "    {",
+        "      JPanel innerPanel = new JPanel();",
+        "      add(innerPanel);",
+        "    }",
+        "  }",
+        "}");
     // prepare source
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     ComponentInfo button = split.getChildrenComponents().get(0);
@@ -289,18 +282,17 @@ public class JSplitPaneTest extends SwingModelTest {
   }
 
   public void test_MOVE() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane();",
-            "    add(split);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      split.setLeftComponent(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane();",
+        "    add(split);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      split.setLeftComponent(button);",
+        "    }",
+        "  }",
+        "}");
     // prepare source
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     ComponentInfo button = split.getChildrenComponents().get(0);
@@ -325,26 +317,25 @@ public class JSplitPaneTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_ADD() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JSplitPane split = new JSplitPane();",
-            "    add(split);",
-            "    {",
-            "      JPanel innerPanel = new JPanel();",
-            "      add(innerPanel);",
-            "      {",
-            "        JButton button = new JButton();",
-            "        innerPanel.add(button);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JSplitPane split = new JSplitPane();",
+        "    add(split);",
+        "    {",
+        "      JPanel innerPanel = new JPanel();",
+        "      add(innerPanel);",
+        "      {",
+        "        JButton button = new JButton();",
+        "        innerPanel.add(button);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     JSplitPaneInfo split = (JSplitPaneInfo) panel.getChildrenComponents().get(0);
     ContainerInfo innerPanel = (ContainerInfo) panel.getChildrenComponents().get(1);
     ComponentInfo button = innerPanel.getChildrenComponents().get(0);
-    // 
+    //
     split.command_ADD(button, true);
     assertEditor(
         "class Test extends JPanel {",
@@ -369,24 +360,23 @@ public class JSplitPaneTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_clipboard() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    {",
-            "      JSplitPane split = new JSplitPane();",
-            "      add(split);",
-            "      {",
-            "        JButton button = new JButton('A');",
-            "        split.setLeftComponent(button);",
-            "      }",
-            "      {",
-            "        JButton button = new JButton('B');",
-            "        split.setRightComponent(button);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    {",
+        "      JSplitPane split = new JSplitPane();",
+        "      add(split);",
+        "      {",
+        "        JButton button = new JButton('A');",
+        "        split.setLeftComponent(button);",
+        "      }",
+        "      {",
+        "        JButton button = new JButton('B');",
+        "        split.setRightComponent(button);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     refresh();
     //
     {
@@ -413,15 +403,15 @@ public class JSplitPaneTest extends SwingModelTest {
         "      }",
         "    }",
         "    {",
-        "      JSplitPane splitPane = new JSplitPane();",
-        "      add(splitPane);",
+        "      JSplitPane split = new JSplitPane();",
+        "      add(split);",
         "      {",
         "        JButton button = new JButton('A');",
-        "        splitPane.setLeftComponent(button);",
+        "        split.setLeftComponent(button);",
         "      }",
         "      {",
         "        JButton button = new JButton('B');",
-        "        splitPane.setRightComponent(button);",
+        "        split.setRightComponent(button);",
         "      }",
         "    }",
         "  }",

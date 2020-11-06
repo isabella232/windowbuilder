@@ -32,7 +32,7 @@ import javax.swing.UIManager;
 
 /**
  * Test for {@link FontPropertyEditor}.
- * 
+ *
  * @author scheglov_ke
  */
 public class FontPropertyEditorTest extends SwingModelTest {
@@ -138,15 +138,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     String baseFontClipboardSource = "%this%.getFont()";
     // no changes
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              null,
-              null,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          null,
+          null,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -159,15 +158,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // new family
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              "Tahoma",
-              null,
-              null,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          "Tahoma",
+          null,
+          null,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Tahoma", font.getFamily());
@@ -184,15 +182,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // new family +5
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              "Tahoma",
-              null,
-              null,
-              new Integer(5),
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          "Tahoma",
+          null,
+          null,
+          new Integer(5),
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Tahoma", font.getFamily());
@@ -209,15 +206,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // new family =20
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              "Tahoma",
-              null,
-              null,
-              null,
-              new Integer(20));
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          "Tahoma",
+          null,
+          null,
+          null,
+          new Integer(20));
       {
         Font font = fontInfo.getFont();
         assertEquals("Tahoma", font.getFamily());
@@ -231,15 +227,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // +Bold
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              Boolean.TRUE,
-              null,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          Boolean.TRUE,
+          null,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -253,15 +248,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // -Bold
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              Boolean.FALSE,
-              null,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          Boolean.FALSE,
+          null,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -275,15 +269,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // +Italic
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              null,
-              Boolean.TRUE,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          null,
+          Boolean.TRUE,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -297,15 +290,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // -Italic
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              null,
-              Boolean.FALSE,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          null,
+          Boolean.FALSE,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -319,15 +311,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // +Bold +Italic
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              Boolean.TRUE,
-              Boolean.TRUE,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          Boolean.TRUE,
+          Boolean.TRUE,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -341,15 +332,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // -Bold +Italic
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              Boolean.FALSE,
-              Boolean.TRUE,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          Boolean.FALSE,
+          Boolean.TRUE,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -363,15 +353,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // +Bold -Italic
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              Boolean.TRUE,
-              Boolean.FALSE,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          Boolean.TRUE,
+          Boolean.FALSE,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -385,15 +374,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // -Bold -Italic
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              Boolean.FALSE,
-              Boolean.FALSE,
-              null,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          Boolean.FALSE,
+          Boolean.FALSE,
+          null,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -407,15 +395,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // +5
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              null,
-              null,
-              +5,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          null,
+          null,
+          +5,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -429,15 +416,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // -5
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              null,
-              null,
-              -5,
-              null);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          null,
+          null,
+          -5,
+          null);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -451,15 +437,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // =20
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              null,
-              null,
-              null,
-              20);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          null,
+          null,
+          null,
+          20);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -471,15 +456,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // -Bold =20
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              Boolean.FALSE,
-              null,
-              null,
-              20);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          Boolean.FALSE,
+          null,
+          null,
+          20);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -493,15 +477,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
     }
     // -Italic =20
     {
-      FontInfo fontInfo =
-          new DerivedFontInfo(baseFont,
-              baseFontSource,
-              baseFontClipboardSource,
-              null,
-              null,
-              Boolean.FALSE,
-              null,
-              20);
+      FontInfo fontInfo = new DerivedFontInfo(baseFont,
+          baseFontSource,
+          baseFontClipboardSource,
+          null,
+          null,
+          Boolean.FALSE,
+          null,
+          20);
       {
         Font font = fontInfo.getFont();
         assertEquals("Arial", font.getFamily());
@@ -622,19 +605,17 @@ public class FontPropertyEditorTest extends SwingModelTest {
 
   public void test_decodeFontInfo_derived_minusBold_plusSize() throws Exception {
     String text = "+5 -Bold, Dialog 17";
-    String source =
-        "button.getFont().deriveFont("
-            + "button.getFont().getStyle() & ~java.awt.Font.BOLD, "
-            + "button.getFont().getSize() + 5f)";
+    String source = "button.getFont().deriveFont("
+        + "button.getFont().getStyle() & ~java.awt.Font.BOLD, "
+        + "button.getFont().getSize() + 5f)";
     assertFont2(source, text);
   }
 
   public void test_decodeFontInfo_derived_newFamily() throws Exception {
     String text = "*Arial +5 -Bold, Arial 17";
-    String source =
-        "new java.awt.Font(\"Arial\", "
-            + "button.getFont().getStyle() & ~java.awt.Font.BOLD, "
-            + "button.getFont().getSize() + 5)";
+    String source = "new java.awt.Font(\"Arial\", "
+        + "button.getFont().getStyle() & ~java.awt.Font.BOLD, "
+        + "button.getFont().getSize() + 5)";
     String clipboardSource = null; // unsupported
     assertFont(source, text, clipboardSource);
   }
@@ -651,15 +632,14 @@ public class FontPropertyEditorTest extends SwingModelTest {
   private void assertFont(String fontSource, String expectedText, String expectedClipboard)
       throws Exception {
     String fontLine = fontSource != null ? "    button.setFont(" + fontSource + ");" : "";
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            fontLine,
-            "    add(button);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        fontLine,
+        "    add(button);",
+        "  }",
+        "}");
     ComponentInfo button = panel.getChildrenComponents().get(0);
     // property
     Property property = button.getPropertyByTitle("font");
@@ -691,22 +671,21 @@ public class FontPropertyEditorTest extends SwingModelTest {
 
   public void test_copyPaste_derived() throws Exception {
     String originalSource = "myLabel.getFont().deriveFont(20f)";
-    String expectedSource = "label.getFont().deriveFont(20f)";
+    String expectedSource = "myLabel.getFont().deriveFont(20f)";
     check_copyPaste(originalSource, expectedSource);
   }
 
   private void check_copyPaste(String originalSource, String expectedSource) throws Exception {
-    String[] lines1 =
-        {
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JLabel myLabel = new JLabel();",
-            "      myLabel.setFont(" + originalSource + ");",
-            "      add(myLabel);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines1 = {
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JLabel myLabel = new JLabel();",
+        "      myLabel.setFont(" + originalSource + ");",
+        "      add(myLabel);",
+        "    }",
+        "  }",
+        "}"};
     ContainerInfo panel = parseContainer(lines1);
     panel.refresh();
     ComponentInfo label = panel.getChildrenComponents().get(0);
@@ -717,22 +696,21 @@ public class FontPropertyEditorTest extends SwingModelTest {
       ((FlowLayoutInfo) panel.getLayout()).add(newLabel, null);
       memento.apply();
     }
-    String[] lines =
-        {
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JLabel myLabel = new JLabel();",
-            "      myLabel.setFont(" + originalSource + ");",
-            "      add(myLabel);",
-            "    }",
-            "    {",
-            "      JLabel label = new JLabel();",
-            "      label.setFont(" + expectedSource + ");",
-            "      add(label);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines = {
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JLabel myLabel = new JLabel();",
+        "      myLabel.setFont(" + originalSource + ");",
+        "      add(myLabel);",
+        "    }",
+        "    {",
+        "      JLabel myLabel = new JLabel();",
+        "      myLabel.setFont(" + expectedSource + ");",
+        "      add(myLabel);",
+        "    }",
+        "  }",
+        "}"};
     assertEditor(lines);
   }
 }

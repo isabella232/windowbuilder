@@ -29,7 +29,7 @@ import javax.swing.JSpinner;
 
 /**
  * Tests for {@link JSpinner} support, such as {@link SpinnerModelPropertyEditor}.
- * 
+ *
  * @author scheglov_ke
  */
 public class JSpinnerTest extends SwingModelTest {
@@ -42,15 +42,14 @@ public class JSpinnerTest extends SwingModelTest {
    * There was bug that parser handled <code>Type.Inner</code> incorrectly.
    */
   public void test_setEditor() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JSpinner spinner = new JSpinner();",
-            "    spinner.setEditor(new JSpinner.NumberEditor(spinner, '#'));",
-            "    add(spinner);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JSpinner spinner = new JSpinner();",
+        "    spinner.setEditor(new JSpinner.NumberEditor(spinner, '#'));",
+        "    add(spinner);",
+        "  }",
+        "}");
     panel.refresh();
     assertNoErrors(panel);
   }
@@ -114,38 +113,36 @@ public class JSpinnerTest extends SwingModelTest {
           break;
         }
         // check actual name
-        String actualName =
-            (String) ReflectionUtils.invokeMethod2(
-                SpinnerModelPropertyEditor.class,
-                "getDateStep",
-                int.class,
-                field.getInt(null));
+        String actualName = (String) ReflectionUtils.invokeMethod2(
+            SpinnerModelPropertyEditor.class,
+            "getDateStep",
+            int.class,
+            field.getInt(null));
         assertEquals(expectedName, actualName);
       }
     }
     // some unknown field
-    assertNull(ReflectionUtils.invokeMethod2(
-        SpinnerModelPropertyEditor.class,
-        "getDateStep",
-        int.class,
-        0xDEADBEEF));
+    assertNull(
+        ReflectionUtils.invokeMethod2(
+            SpinnerModelPropertyEditor.class,
+            "getDateStep",
+            int.class,
+            0xDEADBEEF));
   }
 
   public void test_dateModel() throws Exception {
     String source =
         "new SpinnerDateModel(new java.util.Date(0), null, null, java.util.Calendar.SECOND)";
-    String expectedText =
-        Expectations.get(
-            "01.01.1970 03:00:00, null, null, SECOND",
-            new StrValue("America/New_York", "31.12.1969 19:00:00, null, null, SECOND"),
-            new StrValue("America/Los_Angeles", "31.12.1969 16:00:00, null, null, SECOND"));
-    String expectedTooltip =
-        Expectations.get(
-            "value=01.01.1970 03:00:00\nstart=null\nend=null\nstep=SECOND",
-            new StrValue("America/New_York",
-                "value=31.12.1969 19:00:00\nstart=null\nend=null\nstep=SECOND"),
-            new StrValue("America/Los_Angeles",
-                "value=31.12.1969 16:00:00\nstart=null\nend=null\nstep=SECOND"));
+    String expectedText = Expectations.get(
+        "01.01.1970 01:00:00, null, null, SECOND",
+        new StrValue("America/New_York", "31.12.1969 19:00:00, null, null, SECOND"),
+        new StrValue("America/Los_Angeles", "31.12.1969 16:00:00, null, null, SECOND"));
+    String expectedTooltip = Expectations.get(
+        "value=01.01.1970 01:00:00\nstart=null\nend=null\nstep=SECOND",
+        new StrValue("America/New_York",
+            "value=31.12.1969 19:00:00\nstart=null\nend=null\nstep=SECOND"),
+        new StrValue("America/Los_Angeles",
+            "value=31.12.1969 16:00:00\nstart=null\nend=null\nstep=SECOND"));
     assertEditorTextTooltip(source, expectedText, expectedTooltip);
   }
 
@@ -160,27 +157,25 @@ public class JSpinnerTest extends SwingModelTest {
   private void assertEditorTextTooltip(String modelSource,
       String expectedText,
       String expectedTooltip) throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JSpinner spinner = new JSpinner();",
-            "    spinner.setModel(" + modelSource + ");",
-            "    add(spinner);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JSpinner spinner = new JSpinner();",
+        "    spinner.setModel(" + modelSource + ");",
+        "    add(spinner);",
+        "  }",
+        "}");
     panel.refresh();
     ComponentInfo spinner = panel.getChildrenComponents().get(0);
     Property modelProperty = spinner.getPropertyByTitle("model");
     PropertyEditor modelEditor = modelProperty.getEditor();
     // text
     {
-      String text =
-          (String) ReflectionUtils.invokeMethod2(
-              modelEditor,
-              "getText",
-              Property.class,
-              modelProperty);
+      String text = (String) ReflectionUtils.invokeMethod2(
+          modelEditor,
+          "getText",
+          Property.class,
+          modelProperty);
       assertEquals(expectedText, text);
     }
     // tooltip

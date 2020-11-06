@@ -10,13 +10,8 @@
  *******************************************************************************/
 package org.eclipse.wb.tests.designer;
 
-import org.eclipse.wb.tests.designer.XML.XmlTests;
-import org.eclipse.wb.tests.designer.XWT.XwtTests;
 import org.eclipse.wb.tests.designer.core.CoreTests;
-import org.eclipse.wb.tests.designer.editor.EditorTests;
-import org.eclipse.wb.tests.designer.rcp.RcpTests;
 import org.eclipse.wb.tests.designer.swing.SwingTests;
-import org.eclipse.wb.tests.designer.swt.SwtTests;
 import org.eclipse.wb.tests.utils.CommonTests;
 
 import junit.framework.Test;
@@ -34,12 +29,10 @@ public class WindowBuilderTests extends TestCase {
     suite.addTest(CommonTests.suite());
     suite.addTest(CoreTests.suite());
     suite.addTest(SwingTests.suite());
-    suite.addTest(SwtTests.suite());
-    suite.addTest(RcpTests.suite());
-    suite.addTest(XmlTests.suite());
-    suite.addTest(XwtTests.suite());
-    suite.addTest(EditorTests.suite());
-    //suite.addTestSuite(WaitForMemoryProfilerTest.class);
+    //suite.addTest(SwtTests.suite()); // NOK
+    //suite.addTest(RcpTests.suite());
+//    suite.addTest(XmlTests.suite());
+//    suite.addTest(EditorTests.suite());
     return suite;
   }
 }

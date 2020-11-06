@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 
 /**
  * Test for {@link FlowLayoutInfo}.
- * 
+ *
  * @author scheglov_ke
  */
 public class FlowLayoutTest extends AbstractLayoutTest {
@@ -44,13 +44,12 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for installing.
    */
   public void test_setLayout() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     setLayout(panel, FlowLayout.class);
     assertEditor(
         "// filler filler filler",
@@ -65,17 +64,16 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for installing, remove other layout constraints.
    */
   public void test_setLayout2() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     setLayout(panel, FlowLayout.class);
     assertEditor(
         "public class Test extends JPanel {",
@@ -93,13 +91,12 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for adding new component: as last.
    */
   public void test_add_last() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FlowLayout());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FlowLayout());",
+        "  }",
+        "}");
     // add component
     {
       FlowLayoutInfo layout = (FlowLayoutInfo) panel.getLayout();
@@ -123,17 +120,16 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for adding new component: before existing.
    */
   public void test_add_before() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FlowLayout());",
-            "    {",
-            "      JButton button = new JButton('111');",
-            "      add(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FlowLayout());",
+        "    {",
+        "      JButton button = new JButton('111');",
+        "      add(button);",
+        "    }",
+        "  }",
+        "}");
     // add component
     {
       FlowLayoutInfo layout = (FlowLayoutInfo) panel.getLayout();
@@ -168,34 +164,32 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for moving: before.
    */
   public void test_move_before() throws Exception {
-    String[] lines =
-        new String[]{
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JButton button_1 = new JButton();",
-            "      add(button_1);",
-            "    }",
-            "    {",
-            "      JButton button_2 = new JButton();",
-            "      add(button_2);",
-            "    }",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JButton button_2 = new JButton();",
-            "      add(button_2);",
-            "    }",
-            "    {",
-            "      JButton button_1 = new JButton();",
-            "      add(button_1);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JButton button_1 = new JButton();",
+        "      add(button_1);",
+        "    }",
+        "    {",
+        "      JButton button_2 = new JButton();",
+        "      add(button_2);",
+        "    }",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JButton button_2 = new JButton();",
+        "      add(button_2);",
+        "    }",
+        "    {",
+        "      JButton button_1 = new JButton();",
+        "      add(button_1);",
+        "    }",
+        "  }",
+        "}"};
     //
     check_move_before(lines, expectedLines);
   }
@@ -204,42 +198,40 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for moving {@link JPanel} with children.
    */
   public void test_moveComplex() throws Exception {
-    String[] lines =
-        new String[]{
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button);",
-            "    }",
-            "    {",
-            "      JPanel complexPanel = new JPanel();",
-            "      add(complexPanel);",
-            "      {",
-            "        JButton button2 = new JButton();",
-            "        complexPanel.add(button2);",
-            "      }",
-            "    }",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JPanel complexPanel = new JPanel();",
-            "      add(complexPanel);",
-            "      {",
-            "        JButton button2 = new JButton();",
-            "        complexPanel.add(button2);",
-            "      }",
-            "    }",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button);",
+        "    }",
+        "    {",
+        "      JPanel complexPanel = new JPanel();",
+        "      add(complexPanel);",
+        "      {",
+        "        JButton button2 = new JButton();",
+        "        complexPanel.add(button2);",
+        "      }",
+        "    }",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JPanel complexPanel = new JPanel();",
+        "      add(complexPanel);",
+        "      {",
+        "        JButton button2 = new JButton();",
+        "        complexPanel.add(button2);",
+        "      }",
+        "    }",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button);",
+        "    }",
+        "  }",
+        "}"};
     //
     check_move_before(lines, expectedLines);
   }
@@ -248,50 +240,48 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for moving: before, lazy.
    */
   public void test_move_before_lazy() throws Exception {
-    String[] lines =
-        new String[]{
-            "public class Test extends JPanel {",
-            "  private JButton button_1;",
-            "  private JButton button_2;",
-            "  public Test() {",
-            "    add(getButton_1());",
-            "    add(getButton_2());",
-            "  }",
-            "  private JButton getButton_1() {",
-            "    if (button_1 == null) {",
-            "      button_1 = new JButton(\"Button 1\");",
-            "    }",
-            "    return button_1;",
-            "  }",
-            "  private JButton getButton_2() {",
-            "    if (button_2 == null) {",
-            "      button_2 = new JButton(\"button 2\");",
-            "    }",
-            "    return button_2;",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public class Test extends JPanel {",
-            "  private JButton button_1;",
-            "  private JButton button_2;",
-            "  public Test() {",
-            "    add(getButton_2());",
-            "    add(getButton_1());",
-            "  }",
-            "  private JButton getButton_1() {",
-            "    if (button_1 == null) {",
-            "      button_1 = new JButton(\"Button 1\");",
-            "    }",
-            "    return button_1;",
-            "  }",
-            "  private JButton getButton_2() {",
-            "    if (button_2 == null) {",
-            "      button_2 = new JButton(\"button 2\");",
-            "    }",
-            "    return button_2;",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public class Test extends JPanel {",
+        "  private JButton button_1;",
+        "  private JButton button_2;",
+        "  public Test() {",
+        "    add(getButton_1());",
+        "    add(getButton_2());",
+        "  }",
+        "  private JButton getButton_1() {",
+        "    if (button_1 == null) {",
+        "      button_1 = new JButton(\"Button 1\");",
+        "    }",
+        "    return button_1;",
+        "  }",
+        "  private JButton getButton_2() {",
+        "    if (button_2 == null) {",
+        "      button_2 = new JButton(\"button 2\");",
+        "    }",
+        "    return button_2;",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public class Test extends JPanel {",
+        "  private JButton button_1;",
+        "  private JButton button_2;",
+        "  public Test() {",
+        "    add(getButton_2());",
+        "    add(getButton_1());",
+        "  }",
+        "  private JButton getButton_1() {",
+        "    if (button_1 == null) {",
+        "      button_1 = new JButton(\"Button 1\");",
+        "    }",
+        "    return button_1;",
+        "  }",
+        "  private JButton getButton_2() {",
+        "    if (button_2 == null) {",
+        "      button_2 = new JButton(\"button 2\");",
+        "    }",
+        "    return button_2;",
+        "  }",
+        "}"};
     //
     check_move_before(lines, expectedLines);
   }
@@ -317,20 +307,19 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for move last.
    */
   public void test_move_last() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JButton button_1 = new JButton();",
-            "      add(button_1);",
-            "    }",
-            "    {",
-            "      JButton button_2 = new JButton();",
-            "      add(button_2);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JButton button_1 = new JButton();",
+        "      add(button_1);",
+        "    }",
+        "    {",
+        "      JButton button_2 = new JButton();",
+        "      add(button_2);",
+        "    }",
+        "  }",
+        "}");
     // move button_1 to last
     {
       FlowLayoutInfo layout = (FlowLayoutInfo) panel.getLayout();
@@ -363,38 +352,36 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for reparenting, normal variable.
    */
   public void test_reparentingVariable() throws Exception {
-    String[] lines =
-        new String[]{
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JPanel panel = new JPanel();",
-            "      panel.setLayout(new BorderLayout());",
-            "      panel.setPreferredSize(new Dimension(150, 150));",
-            "      add(panel);",
-            "      {",
-            "        JButton button = new JButton();",
-            "        panel.add(button, BorderLayout.NORTH);",
-            "      }",
-            "    }",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JPanel panel = new JPanel();",
-            "      panel.setLayout(new BorderLayout());",
-            "      panel.setPreferredSize(new Dimension(150, 150));",
-            "      add(panel);",
-            "    }",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JPanel panel = new JPanel();",
+        "      panel.setLayout(new BorderLayout());",
+        "      panel.setPreferredSize(new Dimension(150, 150));",
+        "      add(panel);",
+        "      {",
+        "        JButton button = new JButton();",
+        "        panel.add(button, BorderLayout.NORTH);",
+        "      }",
+        "    }",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JPanel panel = new JPanel();",
+        "      panel.setLayout(new BorderLayout());",
+        "      panel.setPreferredSize(new Dimension(150, 150));",
+        "      add(panel);",
+        "    }",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button);",
+        "    }",
+        "  }",
+        "}"};
     check_reparenting(lines, expectedLines);
   }
 
@@ -419,24 +406,23 @@ public class FlowLayoutTest extends AbstractLayoutTest {
    * Test for copy/paste.
    */
   public void test_clipboard() throws Exception {
-    String[] lines1 =
-        {
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JPanel inner = new JPanel();",
-            "      add(inner);",
-            "      {",
-            "        JButton button = new JButton('A');",
-            "        inner.add(button);",
-            "      }",
-            "      {",
-            "        JButton button = new JButton('B');",
-            "        inner.add(button);",
-            "      }",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines1 = {
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JPanel inner = new JPanel();",
+        "      add(inner);",
+        "      {",
+        "        JButton button = new JButton('A');",
+        "        inner.add(button);",
+        "      }",
+        "      {",
+        "        JButton button = new JButton('B');",
+        "        inner.add(button);",
+        "      }",
+        "    }",
+        "  }",
+        "}"};
     ContainerInfo panel = parseContainer(lines1);
     panel.refresh();
     // prepare memento
@@ -449,36 +435,35 @@ public class FlowLayoutTest extends AbstractLayoutTest {
     ContainerInfo copy = (ContainerInfo) memento.create(panel);
     ((FlowLayoutInfo) panel.getLayout()).add(copy, null);
     memento.apply();
-    String[] lines =
-        {
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JPanel inner = new JPanel();",
-            "      add(inner);",
-            "      {",
-            "        JButton button = new JButton('A');",
-            "        inner.add(button);",
-            "      }",
-            "      {",
-            "        JButton button = new JButton('B');",
-            "        inner.add(button);",
-            "      }",
-            "    }",
-            "    {",
-            "      JPanel panel = new JPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton button = new JButton('A');",
-            "        panel.add(button);",
-            "      }",
-            "      {",
-            "        JButton button = new JButton('B');",
-            "        panel.add(button);",
-            "      }",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines = {
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JPanel inner = new JPanel();",
+        "      add(inner);",
+        "      {",
+        "        JButton button = new JButton('A');",
+        "        inner.add(button);",
+        "      }",
+        "      {",
+        "        JButton button = new JButton('B');",
+        "        inner.add(button);",
+        "      }",
+        "    }",
+        "    {",
+        "      JPanel inner = new JPanel();",
+        "      add(inner);",
+        "      {",
+        "        JButton button = new JButton('A');",
+        "        inner.add(button);",
+        "      }",
+        "      {",
+        "        JButton button = new JButton('B');",
+        "        inner.add(button);",
+        "      }",
+        "    }",
+        "  }",
+        "}"};
     assertEditor(lines);
   }
 }

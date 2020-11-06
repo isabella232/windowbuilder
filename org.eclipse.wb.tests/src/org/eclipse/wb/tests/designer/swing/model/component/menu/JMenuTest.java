@@ -58,7 +58,7 @@ import javax.swing.JSeparator;
 
 /**
  * Test for {@link JMenuInfo}.
- * 
+ *
  * @author scheglov_ke
  */
 public class JMenuTest extends SwingModelTest {
@@ -190,26 +190,25 @@ public class JMenuTest extends SwingModelTest {
    * Test for {@link IMenuItemInfo} and {@link IMenuInfo} from {@link JMenuInfo}.
    */
   public void test_IMenuItemInfo_IMenuInfo() throws Exception {
-    ContainerInfo frameInfo =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "      {",
-            "        JMenuItem item_1 = new JMenuItem('Item 1');",
-            "        menu.add(item_1);",
-            "      }",
-            "      {",
-            "        JMenuItem item_2 = new JMenuItem('Item 2');",
-            "        menu.add(item_2);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo frameInfo = parseContainer(
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    {",
+        "      JMenu menu = new JMenu('Menu');",
+        "      menuBar.add(menu);",
+        "      {",
+        "        JMenuItem item_1 = new JMenuItem('Item 1');",
+        "        menu.add(item_1);",
+        "      }",
+        "      {",
+        "        JMenuItem item_2 = new JMenuItem('Item 2');",
+        "        menu.add(item_2);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     frameInfo.refresh();
     // prepare models
     JMenuInfo menuInfo = getJavaInfoByName("menu");
@@ -253,26 +252,27 @@ public class JMenuTest extends SwingModelTest {
    * {@link JSeparator} should be {@link IMenuItemInfo}.
    */
   public void test_IMenuInfo_withSeparator() throws Exception {
-    ContainerInfo frameInfo =
-        parseContainer(getDoubleQuotes(new String[]{
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "      {",
-            "        JMenuItem item_1 = new JMenuItem('Item 1');",
-            "        menu.add(item_1);",
-            "      }",
-            "      {",
-            "        JSeparator separator = new JSeparator();",
-            "        menu.add(separator);",
-            "      }",
-            "    }",
-            "  }",
-            "}"}));
+    ContainerInfo frameInfo = parseContainer(
+        getDoubleQuotes(
+            new String[]{
+                "public class Test extends JFrame {",
+                "  public Test() {",
+                "    JMenuBar menuBar = new JMenuBar();",
+                "    setJMenuBar(menuBar);",
+                "    {",
+                "      JMenu menu = new JMenu('Menu');",
+                "      menuBar.add(menu);",
+                "      {",
+                "        JMenuItem item_1 = new JMenuItem('Item 1');",
+                "        menu.add(item_1);",
+                "      }",
+                "      {",
+                "        JSeparator separator = new JSeparator();",
+                "        menu.add(separator);",
+                "      }",
+                "    }",
+                "  }",
+                "}"}));
     frameInfo.refresh();
     // prepare models
     JMenuBarInfo menuBarInfo = frameInfo.getChildren(JMenuBarInfo.class).get(0);
@@ -328,18 +328,17 @@ public class JMenuTest extends SwingModelTest {
    * We can not drop new invalid objects.
    */
   public void test_IMenuInfo_CREATE_noObject() throws Exception {
-    ContainerInfo frameInfo =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo frameInfo = parseContainer(
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    {",
+        "      JMenu menu = new JMenu('Menu');",
+        "      menuBar.add(menu);",
+        "    }",
+        "  }",
+        "}");
     frameInfo.refresh();
     // prepare models
     JMenuBarInfo menuBarInfo = frameInfo.getChildren(JMenuBarInfo.class).get(0);
@@ -364,18 +363,17 @@ public class JMenuTest extends SwingModelTest {
    * We can drop new {@link JMenuItemInfo}.
    */
   public void test_IMenuInfo_CREATE() throws Exception {
-    ContainerInfo frameInfo =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo frameInfo = parseContainer(
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    {",
+        "      JMenu menu = new JMenu('Menu');",
+        "      menuBar.add(menu);",
+        "    }",
+        "  }",
+        "}");
     frameInfo.refresh();
     // prepare models
     JMenuBarInfo menuBarInfo = frameInfo.getChildren(JMenuBarInfo.class).get(0);
@@ -452,26 +450,25 @@ public class JMenuTest extends SwingModelTest {
    * We can move {@link JMenuItemInfo}'s.
    */
   public void test_IMenuInfo_MOVE() throws Exception {
-    ContainerInfo frameInfo =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "      {",
-            "        JMenuItem item_1 = new JMenuItem('Item 1');",
-            "        menu.add(item_1);",
-            "      }",
-            "      {",
-            "        JMenuItem item_2 = new JMenuItem('Item 2');",
-            "        menu.add(item_2);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo frameInfo = parseContainer(
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    {",
+        "      JMenu menu = new JMenu('Menu');",
+        "      menuBar.add(menu);",
+        "      {",
+        "        JMenuItem item_1 = new JMenuItem('Item 1');",
+        "        menu.add(item_1);",
+        "      }",
+        "      {",
+        "        JMenuItem item_2 = new JMenuItem('Item 2');",
+        "        menu.add(item_2);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     frameInfo.refresh();
     // prepare models
     JMenuInfo menuInfo = getJavaInfoByName("menu");
@@ -518,22 +515,21 @@ public class JMenuTest extends SwingModelTest {
    * We can paste {@link JMenuItemInfo}'s.
    */
   public void test_IMenuInfo_PASTE() throws Exception {
-    ContainerInfo frameInfo =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "      {",
-            "        JMenuItem existingItem = new JMenuItem('Some item');",
-            "        menu.add(existingItem);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo frameInfo = parseContainer(
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    {",
+        "      JMenu menu = new JMenu('Menu');",
+        "      menuBar.add(menu);",
+        "      {",
+        "        JMenuItem existingItem = new JMenuItem('Some item');",
+        "        menu.add(existingItem);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     frameInfo.refresh();
     // prepare models
     JMenuBarInfo menuBarInfo = frameInfo.getChildren(JMenuBarInfo.class).get(0);
@@ -561,8 +557,8 @@ public class JMenuTest extends SwingModelTest {
         "        menu.add(existingItem);",
         "      }",
         "      {",
-        "        JMenuItem menuItem = new JMenuItem('Some item');",
-        "        menu.add(menuItem);",
+        "        JMenuItem existingItem = new JMenuItem('Some item');",
+        "        menu.add(existingItem);",
         "      }",
         "    }",
         "  }",
@@ -597,22 +593,21 @@ public class JMenuTest extends SwingModelTest {
    */
   public void test_addAction_parse() throws Exception {
     createExternalAction();
-    ContainerInfo frameInfo =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  private ExternalAction action = new ExternalAction();",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "      {",
-            "        JMenuItem menuItem = menu.add(action);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo frameInfo = parseContainer(
+        "public class Test extends JFrame {",
+        "  private ExternalAction action = new ExternalAction();",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    {",
+        "      JMenu menu = new JMenu('Menu');",
+        "      menuBar.add(menu);",
+        "      {",
+        "        JMenuItem menuItem = menu.add(action);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     frameInfo.refresh();
     // prepare models
     JMenuBarInfo menuBarInfo = frameInfo.getChildren(JMenuBarInfo.class).get(0);
@@ -635,24 +630,7 @@ public class JMenuTest extends SwingModelTest {
    */
   public void test_IMenuInfo_CREATE_existingAction() throws Exception {
     createExternalAction();
-    String[] lines =
-        {
-            "public class Test extends JFrame {",
-            "  private ExternalAction action = new ExternalAction();",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "    }",
-            "  }",
-            "}"};
-    ContainerInfo frameInfo = parseContainer(lines);
-    frameInfo.refresh();
-    // prepare models
-    ActionInfo action = ActionContainerInfo.getActions(frameInfo).get(0);
-    test_IMenuInfo_CREATE_forAction(frameInfo, action, new String[]{
+    String[] lines = {
         "public class Test extends JFrame {",
         "  private ExternalAction action = new ExternalAction();",
         "  public Test() {",
@@ -661,12 +639,31 @@ public class JMenuTest extends SwingModelTest {
         "    {",
         "      JMenu menu = new JMenu('Menu');",
         "      menuBar.add(menu);",
-        "      {",
-        "        JMenuItem menuItem = menu.add(action);",
-        "      }",
         "    }",
         "  }",
-        "}"});
+        "}"};
+    ContainerInfo frameInfo = parseContainer(lines);
+    frameInfo.refresh();
+    // prepare models
+    ActionInfo action = ActionContainerInfo.getActions(frameInfo).get(0);
+    test_IMenuInfo_CREATE_forAction(
+        frameInfo,
+        action,
+        new String[]{
+            "public class Test extends JFrame {",
+            "  private ExternalAction action = new ExternalAction();",
+            "  public Test() {",
+            "    JMenuBar menuBar = new JMenuBar();",
+            "    setJMenuBar(menuBar);",
+            "    {",
+            "      JMenu menu = new JMenu('Menu');",
+            "      menuBar.add(menu);",
+            "      {",
+            "        JMenuItem menuItem = menu.add(action);",
+            "      }",
+            "    }",
+            "  }",
+            "}"});
   }
 
   /**
@@ -674,37 +671,39 @@ public class JMenuTest extends SwingModelTest {
    */
   public void test_IMenuInfo_CREATE_newAction() throws Exception {
     createExternalAction();
-    String[] lines =
-        {
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu('Menu');",
-            "      menuBar.add(menu);",
-            "    }",
-            "  }",
-            "}"};
-    ContainerInfo frameInfo = parseContainer(lines);
-    frameInfo.refresh();
-    // prepare models
-    ActionInfo action = createJavaInfo("test.ExternalAction");
-    test_IMenuInfo_CREATE_forAction(frameInfo, action, new String[]{
+    String[] lines = {
         "public class Test extends JFrame {",
-        "  private final ExternalAction externalAction = new ExternalAction();",
         "  public Test() {",
         "    JMenuBar menuBar = new JMenuBar();",
         "    setJMenuBar(menuBar);",
         "    {",
         "      JMenu menu = new JMenu('Menu');",
         "      menuBar.add(menu);",
-        "      {",
-        "        JMenuItem menuItem = menu.add(externalAction);",
-        "      }",
         "    }",
         "  }",
-        "}"});
+        "}"};
+    ContainerInfo frameInfo = parseContainer(lines);
+    frameInfo.refresh();
+    // prepare models
+    ActionInfo action = createJavaInfo("test.ExternalAction");
+    test_IMenuInfo_CREATE_forAction(
+        frameInfo,
+        action,
+        new String[]{
+            "public class Test extends JFrame {",
+            "  private final ExternalAction externalAction = new ExternalAction();",
+            "  public Test() {",
+            "    JMenuBar menuBar = new JMenuBar();",
+            "    setJMenuBar(menuBar);",
+            "    {",
+            "      JMenu menu = new JMenu('Menu');",
+            "      menuBar.add(menu);",
+            "      {",
+            "        JMenuItem menuItem = menu.add(externalAction);",
+            "      }",
+            "    }",
+            "  }",
+            "}"});
   }
 
   /**
@@ -712,18 +711,17 @@ public class JMenuTest extends SwingModelTest {
    */
   public void test_IMenuInfo_CREATE_newAction_lazy() throws Exception {
     createExternalAction();
-    String[] lines1 =
-        {
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      JMenu menu = new JMenu();",
-            "      menuBar.add(menu);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines1 = {
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    {",
+        "      JMenu menu = new JMenu();",
+        "      menuBar.add(menu);",
+        "    }",
+        "  }",
+        "}"};
     ContainerInfo frameInfo = parseContainer(lines1);
     frameInfo.refresh();
     // prepare models
@@ -731,8 +729,10 @@ public class JMenuTest extends SwingModelTest {
         LazyVariableDescription.INSTANCE,
         LazyStatementGeneratorDescription.INSTANCE);
     ActionInfo action = createJavaInfo("test.ExternalAction");
-    JMenuItemInfo newItem =
-        test_IMenuInfo_CREATE_forAction0(frameInfo, action, new String[]{
+    JMenuItemInfo newItem = test_IMenuInfo_CREATE_forAction0(
+        frameInfo,
+        action,
+        new String[]{
             "public class Test extends JFrame {",
             "  private ExternalAction externalAction;",
             "  private JMenuItem menuItem;",
@@ -762,26 +762,25 @@ public class JMenuTest extends SwingModelTest {
     // delete "newItem"
     assertTrue(newItem.canDelete());
     newItem.delete();
-    String[] lines =
-        {
-            "public class Test extends JFrame {",
-            "  private ExternalAction externalAction;",
-            "  private JMenu menu;",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    {",
-            "      menu = new JMenu();",
-            "      menuBar.add(menu);",
-            "    }",
-            "  }",
-            "  private ExternalAction getExternalAction() {",
-            "    if (externalAction == null) {",
-            "      externalAction = new ExternalAction();",
-            "    }",
-            "    return externalAction;",
-            "  }",
-            "}"};
+    String[] lines = {
+        "public class Test extends JFrame {",
+        "  private ExternalAction externalAction;",
+        "  private JMenu menu;",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    {",
+        "      menu = new JMenu();",
+        "      menuBar.add(menu);",
+        "    }",
+        "  }",
+        "  private ExternalAction getExternalAction() {",
+        "    if (externalAction == null) {",
+        "      externalAction = new ExternalAction();",
+        "    }",
+        "    return externalAction;",
+        "  }",
+        "}"};
     assertEditor(lines);
   }
 
@@ -790,22 +789,21 @@ public class JMenuTest extends SwingModelTest {
    */
   public void test_IMenuInfo_CREATE_newAction_lazy2() throws Exception {
     createExternalAction();
-    String[] lines1 =
-        {
-            "public class Test extends JFrame {",
-            "  private JMenu menu;",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    menuBar.add(getMenu());",
-            "  }",
-            "  private JMenu getMenu() {",
-            "    if (menu == null) {",
-            "      menu = new JMenu();",
-            "    }",
-            "    return menu;",
-            "  }",
-            "}"};
+    String[] lines1 = {
+        "public class Test extends JFrame {",
+        "  private JMenu menu;",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    menuBar.add(getMenu());",
+        "  }",
+        "  private JMenu getMenu() {",
+        "    if (menu == null) {",
+        "      menu = new JMenu();",
+        "    }",
+        "    return menu;",
+        "  }",
+        "}"};
     ContainerInfo frameInfo = parseContainer(lines1);
     frameInfo.refresh();
     // prepare models
@@ -813,8 +811,10 @@ public class JMenuTest extends SwingModelTest {
         LazyVariableDescription.INSTANCE,
         LazyStatementGeneratorDescription.INSTANCE);
     ActionInfo action = createJavaInfo("test.ExternalAction");
-    JMenuItemInfo newItem =
-        test_IMenuInfo_CREATE_forAction0(frameInfo, action, new String[]{
+    JMenuItemInfo newItem = test_IMenuInfo_CREATE_forAction0(
+        frameInfo,
+        action,
+        new String[]{
             "public class Test extends JFrame {",
             "  private JMenu menu;",
             "  private ExternalAction externalAction;",
@@ -847,29 +847,28 @@ public class JMenuTest extends SwingModelTest {
     // delete "newItem"
     assertTrue(newItem.canDelete());
     newItem.delete();
-    String[] lines =
-        {
-            "public class Test extends JFrame {",
-            "  private JMenu menu;",
-            "  private ExternalAction externalAction;",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    menuBar.add(getMenu());",
-            "  }",
-            "  private JMenu getMenu() {",
-            "    if (menu == null) {",
-            "      menu = new JMenu();",
-            "    }",
-            "    return menu;",
-            "  }",
-            "  private ExternalAction getExternalAction() {",
-            "    if (externalAction == null) {",
-            "      externalAction = new ExternalAction();",
-            "    }",
-            "    return externalAction;",
-            "  }",
-            "}"};
+    String[] lines = {
+        "public class Test extends JFrame {",
+        "  private JMenu menu;",
+        "  private ExternalAction externalAction;",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    menuBar.add(getMenu());",
+        "  }",
+        "  private JMenu getMenu() {",
+        "    if (menu == null) {",
+        "      menu = new JMenu();",
+        "    }",
+        "    return menu;",
+        "  }",
+        "  private ExternalAction getExternalAction() {",
+        "    if (externalAction == null) {",
+        "      externalAction = new ExternalAction();",
+        "    }",
+        "    return externalAction;",
+        "  }",
+        "}"};
     assertEditor(lines);
   }
 
@@ -878,31 +877,30 @@ public class JMenuTest extends SwingModelTest {
    */
   public void test_IMenuInfo_CREATE_newAction_lazy3() throws Exception {
     createExternalAction();
-    ContainerInfo frameInfo =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  private JMenu menu;",
-            "  private final ExternalAction externalAction = new ExternalAction();",
-            "  private JMenuItem menuItem;",
-            "  public Test() {",
-            "    JMenuBar menuBar = new JMenuBar();",
-            "    setJMenuBar(menuBar);",
-            "    menuBar.add(getMenu());",
-            "  }",
-            "  private JMenu getMenu() {",
-            "    if (menu == null) {",
-            "      menu = new JMenu('Menu');",
-            "      getMenuItem();",
-            "    }",
-            "    return menu;",
-            "  }",
-            "  private JMenuItem getMenuItem() {",
-            "    if (menuItem == null) {",
-            "      menuItem = getMenu().add(externalAction);",
-            "    }",
-            "    return menuItem;",
-            "  }",
-            "}");
+    ContainerInfo frameInfo = parseContainer(
+        "public class Test extends JFrame {",
+        "  private JMenu menu;",
+        "  private final ExternalAction externalAction = new ExternalAction();",
+        "  private JMenuItem menuItem;",
+        "  public Test() {",
+        "    JMenuBar menuBar = new JMenuBar();",
+        "    setJMenuBar(menuBar);",
+        "    menuBar.add(getMenu());",
+        "  }",
+        "  private JMenu getMenu() {",
+        "    if (menu == null) {",
+        "      menu = new JMenu('Menu');",
+        "      getMenuItem();",
+        "    }",
+        "    return menu;",
+        "  }",
+        "  private JMenuItem getMenuItem() {",
+        "    if (menuItem == null) {",
+        "      menuItem = getMenu().add(externalAction);",
+        "    }",
+        "    return menuItem;",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JFrame} {this} {/setJMenuBar(menuBar)/}",
         "  {method: public java.awt.Container javax.swing.JFrame.getContentPane()} {property} {}",
@@ -1083,11 +1081,10 @@ public class JMenuTest extends SwingModelTest {
     JPopupMenuSeparatorInfo separator;
     {
       JMenuSeparatorCreationSupport creationSupport = new JMenuSeparatorCreationSupport(menuInfo);
-      separator =
-          (JPopupMenuSeparatorInfo) JavaInfoUtils.createJavaInfo(
-              m_lastEditor,
-              JPopupMenu.Separator.class,
-              creationSupport);
+      separator = (JPopupMenuSeparatorInfo) JavaInfoUtils.createJavaInfo(
+          m_lastEditor,
+          JPopupMenu.Separator.class,
+          creationSupport);
     }
     // do add
     assertTrue(policy.validateCreate(separator));

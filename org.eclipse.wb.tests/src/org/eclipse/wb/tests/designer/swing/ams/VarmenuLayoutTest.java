@@ -18,7 +18,7 @@ import org.eclipse.wb.tests.designer.swing.SwingGefTest;
 
 /**
  * Test for <code>VarmenuLayout</code> support.
- * 
+ *
  * @author scheglov_ke
  */
 public class VarmenuLayoutTest extends SwingGefTest {
@@ -54,14 +54,13 @@ public class VarmenuLayoutTest extends SwingGefTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_CREATE() throws Exception {
-    ContainerInfo panel =
-        openContainer(
-            "import ams.zpointcs.components.*;",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new VarmenuLayout());",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "import ams.zpointcs.components.*;",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new VarmenuLayout());",
+        "  }",
+        "}");
     panel.refresh();
     //
     loadCreationBox();
@@ -69,6 +68,20 @@ public class VarmenuLayoutTest extends SwingGefTest {
     canvas.target(panel).in(150, 100).move();
     canvas.click();
     assertEditor(
+        "import ams.zpointcs.components.*;",
+        "public class Test extends JPanel {",
+        "    /**",
+        "     * @wbp.nonvisual location=197,109",
+        "     */",
+        "    private final Box box = new Box();",
+        "    public Test() {",
+        "      setLayout(new VarmenuLayout());",
+        "    }",
+        "}");
+  }
+
+  public void test_RESIZE_width() throws Exception {
+    ContainerInfo panel = openContainer(
         "import ams.zpointcs.components.*;",
         "public class Test extends JPanel {",
         "  public Test() {",
@@ -79,21 +92,6 @@ public class VarmenuLayoutTest extends SwingGefTest {
         "    }",
         "  }",
         "}");
-  }
-
-  public void test_RESIZE_width() throws Exception {
-    ContainerInfo panel =
-        openContainer(
-            "import ams.zpointcs.components.*;",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new VarmenuLayout());",
-            "    {",
-            "      Box box = new Box();",
-            "      add(box, new VarmenuConstraints(150, 100, 0, 0));",
-            "    }",
-            "  }",
-            "}");
     panel.refresh();
     ComponentInfo box = panel.getChildrenComponents().get(0);
     // drag to non-default width
@@ -125,18 +123,17 @@ public class VarmenuLayoutTest extends SwingGefTest {
   }
 
   public void test_RESIZE_height() throws Exception {
-    ContainerInfo panel =
-        openContainer(
-            "import ams.zpointcs.components.*;",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new VarmenuLayout());",
-            "    {",
-            "      Box box = new Box();",
-            "      add(box, new VarmenuConstraints(150, 100, 0, 0));",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "import ams.zpointcs.components.*;",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new VarmenuLayout());",
+        "    {",
+        "      Box box = new Box();",
+        "      add(box, new VarmenuConstraints(150, 100, 0, 0));",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     ComponentInfo box = panel.getChildrenComponents().get(0);
     // drag to non-default width

@@ -47,7 +47,7 @@ import java.awt.LayoutManager;
 
 /**
  * Test for {@link ContainerInfo}.
- * 
+ *
  * @author scheglov_ke
  */
 public class ContainerTest extends SwingModelTest {
@@ -112,13 +112,12 @@ public class ContainerTest extends SwingModelTest {
    * Test for implicit {@link LayoutInfo}.
    */
   public void test_implicitLayout() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     LayoutInfo layout = panel.getLayout();
     assertInstanceOf(ImplicitLayoutCreationSupport.class, layout.getCreationSupport());
     assertInstanceOf(ImplicitLayoutVariableSupport.class, layout.getVariableSupport());
@@ -131,21 +130,20 @@ public class ContainerTest extends SwingModelTest {
    * for {@link ContainerInfo#getInsets()}.
    */
   public void test_getInsets_getClientAreaInsets() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    {",
-            "      JButton button_1 = new JButton();",
-            "      add(button_1);",
-            "      button_1.setBorder(new LineBorder(Color.RED, 10));",
-            "    }",
-            "    {",
-            "      Button button_2 = new Button();",
-            "      add(button_2);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    {",
+        "      JButton button_1 = new JButton();",
+        "      add(button_1);",
+        "      button_1.setBorder(new LineBorder(Color.RED, 10));",
+        "    }",
+        "    {",
+        "      Button button_2 = new Button();",
+        "      add(button_2);",
+        "    }",
+        "  }",
+        "}");
     assert_creation(panel);
     assertEquals(new Insets(0, 0, 0, 0), panel.getClientAreaInsets());
     assertEquals(new Insets(0, 0, 0, 0), panel.getInsets());
@@ -171,20 +169,19 @@ public class ContainerTest extends SwingModelTest {
    * Test for {@link ContainerInfo#shouldDrawDotsBorder()}.
    */
   public void test_shouldDrawDotsBorder() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new Container());",
-            "    add(new JPanel());",
-            "    add(new JTabbedPane());",
-            "    {",
-            "      JPanel panel = new JPanel();",
-            "      panel.setBorder(new LineBorder(Color.red));",
-            "      add(panel);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    add(new Container());",
+        "    add(new JPanel());",
+        "    add(new JTabbedPane());",
+        "    {",
+        "      JPanel panel = new JPanel();",
+        "      panel.setBorder(new LineBorder(Color.red));",
+        "      add(panel);",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     // prepare containers
     ContainerInfo container_AWT = (ContainerInfo) panel.getChildrenComponents().get(0);
@@ -209,14 +206,13 @@ public class ContainerTest extends SwingModelTest {
    * Test for {@link ContainerInfo#setLayout(LayoutInfo)}.
    */
   public void test_setLayout() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setEnabled(true);",
-            "    add(new JButton());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setEnabled(true);",
+        "    add(new JButton());",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/setEnabled(true)/ /add(new JButton())/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -250,13 +246,12 @@ public class ContainerTest extends SwingModelTest {
    * Test for {@link IPreferenceConstants#P_LAYOUT_OF_PARENT}, that enables layout inheritance.
    */
   public void test_inheritParentLayout() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new GridLayout());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new GridLayout());",
+        "  }",
+        "}");
     GridLayoutInfo parentLayout = (GridLayoutInfo) panel.getLayout();
     // prepare preferences
     PreferencesRepairer preferencesRepairer;
@@ -303,13 +298,12 @@ public class ContainerTest extends SwingModelTest {
    * Test for {@link IPreferenceConstants#P_LAYOUT_OF_PARENT}, that enables layout inheritance.
    */
   public void test_inheritParentLayout_null() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(null);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(null);",
+        "  }",
+        "}");
     AbsoluteLayoutInfo parentLayout = (AbsoluteLayoutInfo) panel.getLayout();
     // prepare preferences
     PreferencesRepairer preferencesRepairer;
@@ -356,13 +350,12 @@ public class ContainerTest extends SwingModelTest {
    * Test for {@link IPreferenceConstants#P_LAYOUT_DEFAULT}, i.e. installation for default layout.
    */
   public void test_setDefaultLayout() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     FlowLayoutInfo flowLayout = (FlowLayoutInfo) panel.getLayout();
     // prepare preferences
     PreferencesRepairer preferencesRepairer;
@@ -414,17 +407,16 @@ public class ContainerTest extends SwingModelTest {
    * Test for copy/paste.
    */
   public void test_clipboard() throws Exception {
-    String[] lines1 =
-        {
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JPanel inner = new JPanel();",
-            "      inner.setLayout(new GridLayout(1, 0));",
-            "      add(inner);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines1 = {
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JPanel inner = new JPanel();",
+        "      inner.setLayout(new GridLayout(1, 0));",
+        "      add(inner);",
+        "    }",
+        "  }",
+        "}"};
     final ContainerInfo panel = parseContainer(lines1);
     panel.refresh();
     // prepare memento
@@ -441,22 +433,21 @@ public class ContainerTest extends SwingModelTest {
         memento.apply();
       }
     });
-    String[] lines =
-        {
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JPanel inner = new JPanel();",
-            "      inner.setLayout(new GridLayout(1, 0));",
-            "      add(inner);",
-            "    }",
-            "    {",
-            "      JPanel panel = new JPanel();",
-            "      add(panel);",
-            "      panel.setLayout(new GridLayout(1, 0));",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines = {
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JPanel inner = new JPanel();",
+        "      inner.setLayout(new GridLayout(1, 0));",
+        "      add(inner);",
+        "    }",
+        "    {",
+        "      JPanel inner = new JPanel();",
+        "      add(inner);",
+        "      inner.setLayout(new GridLayout(1, 0));",
+        "    }",
+        "  }",
+        "}"};
     assertEditor(lines);
   }
 
@@ -469,13 +460,12 @@ public class ContainerTest extends SwingModelTest {
    * No "Set Layout" sub-menu if {@link ContainerInfo} has no layout.
    */
   public void test_setLayoutMenu_0() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new JButton());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    add(new JButton());",
+        "  }",
+        "}");
     ContainerInfo button = (ContainerInfo) panel.getChildrenComponents().get(0);
     // no layout
     assertFalse(button.hasLayout());
@@ -491,13 +481,12 @@ public class ContainerTest extends SwingModelTest {
    * Test that {@link CompositeInfo} contributes "Set layout" sub-menu in context menu.
    */
   public void test_setLayoutMenu_1() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertTrue(panel.hasLayout());
     // prepare "Set Layout" menu manager
     IMenuManager layoutManager = get_SetLayout_MenuManager(panel);
@@ -542,13 +531,12 @@ public class ContainerTest extends SwingModelTest {
     do_projectDispose();
     do_projectCreate();
     try {
-      ContainerInfo panel =
-          parseContainer(
-              "// filler filler filler",
-              "public class Test extends JPanel {",
-              "  public Test() {",
-              "  }",
-              "}");
+      ContainerInfo panel = parseContainer(
+          "// filler filler filler",
+          "public class Test extends JPanel {",
+          "  public Test() {",
+          "  }",
+          "}");
       assertTrue(panel.hasLayout());
       IMenuManager layoutManager = get_SetLayout_MenuManager(panel);
       // use one of the actions to set new layout
@@ -608,14 +596,13 @@ public class ContainerTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new MyContainer());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    add(new MyContainer());",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/add(new MyContainer())/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -637,14 +624,13 @@ public class ContainerTest extends SwingModelTest {
    * Test for {@link ContainerInfo#canSetLayout()}.
    */
   public void test_canSetLayout_enabled() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler filler filler",
-            "// filler filler filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler filler filler",
+        "// filler filler filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     // has Layout
     assertTrue(panel.hasLayout());
@@ -660,14 +646,13 @@ public class ContainerTest extends SwingModelTest {
    */
   public void test_canSetLayout_disabled() throws Exception {
     prepareMyPanel_disabledSetLayout();
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler filler filler",
-            "// filler filler filler filler filler",
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler filler filler",
+        "// filler filler filler filler filler",
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     // has Layout
     assertTrue(panel.hasLayout());

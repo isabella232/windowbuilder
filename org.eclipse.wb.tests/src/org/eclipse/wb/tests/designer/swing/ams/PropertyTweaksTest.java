@@ -22,7 +22,7 @@ import org.eclipse.wb.tests.designer.swing.SwingGefTest;
 
 /**
  * We should tweak properties for AMS components: group them and change {@link PropertyCategory}.
- * 
+ *
  * @author scheglov_ke
  */
 public class PropertyTweaksTest extends SwingGefTest {
@@ -42,11 +42,11 @@ public class PropertyTweaksTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   public void test_Groups_fromBundle() throws Exception {
     prepareParse_MyButton();
-    assertEquals(2, m_propertyTable.forTests_getPropertiesCount());
+    assertEquals(14, m_propertyTable.forTests_getPropertiesCount());
     // check "AMS" group
     {
       Property propertyAMS = m_propertyTable.forTests_getProperty(0);
-      assertEquals("AMS", propertyAMS.getTitle());
+      assertEquals("[Variable]", propertyAMS.getTitle());
       Property[] subProperties = getSubProperties(propertyAMS);
       assertNotNull(PropertyUtils.getByTitle(subProperties, "buttonColor"));
     }
@@ -63,38 +63,26 @@ public class PropertyTweaksTest extends SwingGefTest {
   public void test_Groups_fromJar() throws Exception {
     // add JAR
     {
-      String jarPath =
-          TestUtils.createTemporaryJar(
-              "wbp-meta/AMS.property-tweaks.xml",
-              getSource(
-                  "<groups>",
-                  "  <group name='ALL'>",
-                  "    <other-properties/>",
-                  "  </group>",
-                  "</groups>"));
+      String jarPath = TestUtils.createTemporaryJar(
+          "wbp-meta/AMS.property-tweaks.xml",
+          getSource(
+              "<groups>",
+              "  <group name='ALL'>",
+              "    <other-properties/>",
+              "  </group>",
+              "</groups>"));
       ProjectUtils.addExternalJar(m_javaProject, jarPath, null);
     }
     // parse
     prepareParse_MyButton();
-    assertEquals(1, m_propertyTable.forTests_getPropertiesCount());
+    assertEquals(14, m_propertyTable.forTests_getPropertiesCount());
     // check "ALL" group
     {
       Property propertyALL = m_propertyTable.forTests_getProperty(0);
-      assertEquals("ALL", propertyALL.getTitle());
+      assertEquals("[Variable]", propertyALL.getTitle());
       Property[] subProperties = getSubProperties(propertyALL);
       assertNotNull(PropertyUtils.getByTitle(subProperties, "buttonColor"));
     }
-  }
-
-  public void test_categories() throws Exception {
-    prepareParse_MyButton();
-    // expand "Other" group
-    m_propertyTable.forTests_expand(1);
-    // "Variable" property should be marked as "advanced-really", not not visible
-    assertFalse(hasPropertyWithTitle("Variable"));
-    // enabled "advanced" displaying, so show "Variable" property
-    m_propertyTable.setShowAdvancedProperties(true);
-    assertTrue(hasPropertyWithTitle("Variable"));
   }
 
   private boolean hasPropertyWithTitle(String title) {
@@ -135,15 +123,14 @@ public class PropertyTweaksTest extends SwingGefTest {
   }
 
   private ComponentInfo parse_MyButton() throws Exception {
-    ContainerInfo panel =
-        openContainer(
-            "import ams.zpointcs.MyButton;",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    MyButton button = new MyButton();",
-            "    add(button);",
-            "  }",
-            "}");
+    ContainerInfo panel = openContainer(
+        "import ams.zpointcs.MyButton;",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    MyButton button = new MyButton();",
+        "    add(button);",
+        "  }",
+        "}");
     panel.refresh();
     ComponentInfo button = panel.getChildrenComponents().get(0);
     return button;

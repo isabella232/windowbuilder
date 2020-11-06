@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * Test {@link FormLayoutInfo} in GEF.
- * 
+ *
  * @author scheglov_ke
  */
 public class FormLayoutGefTest extends SwingGefTest {
@@ -891,8 +891,8 @@ public class FormLayoutGefTest extends SwingGefTest {
         "      add(existing, '2, 2');",
         "    }",
         "    {",
-        "      JButton button = new JButton('My JButton');",
-        "      add(button, '4, 2');",
+        "      JButton existing = new JButton('My JButton');",
+        "      add(existing, '4, 2');",
         "    }",
         "  }",
         "}");
@@ -1378,10 +1378,11 @@ public class FormLayoutGefTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   @Override
   public String getTestSource(String... lines) {
-    lines =
-        CodeUtils.join(new String[]{
+    lines = CodeUtils.join(
+        new String[]{
             "import com.jgoodies.forms.layout.*;",
-            "import com.jgoodies.forms.factories.*;"}, lines);
+            "import com.jgoodies.forms.factories.*;"},
+        lines);
     return super.getTestSource(lines);
   }
 

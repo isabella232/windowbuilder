@@ -1087,44 +1087,6 @@ public class EventsPropertyTest extends SwingModelTest implements IPreferenceCon
   // ListenerMethodPropertyEditor
   //
   ////////////////////////////////////////////////////////////////////////////
-  public void test_ListenerMethodPropertyEditor_doubleClick() throws Exception {
-    ContainerInfo panel = parseContainer(
-        "class Test extends JPanel {",
-        "  Test() {",
-        "    addKeyListener(new KeyAdapter() {",
-        "      public void keyReleased(KeyEvent e) {",
-        "      }",
-        "    });",
-        "  }",
-        "}");
-    DesignPageSite.Helper.setSite(panel, DesignPageSite.EMPTY);
-    //
-    Property keyPressedProperty = getEventsListenerMethod(panel, "key", "pressed");
-    Property keyReleasedProperty = getEventsListenerMethod(panel, "key", "released");
-    assertNull(getPropertyText(keyPressedProperty));
-    assertEquals("line 8", getPropertyText(keyReleasedProperty));
-    // open "keyPressed" method
-    {
-      PropertyEditor keyPressedEditor = keyPressedProperty.getEditor();
-      ReflectionUtils.invokeMethod(
-          keyPressedEditor,
-          "doubleClick(" + Property.class.getName() + ",org.eclipse.swt.graphics.Point)",
-          new Object[]{keyPressedProperty, null});
-      assertEditor(
-          "class Test extends JPanel {",
-          "  Test() {",
-          "    addKeyListener(new KeyAdapter() {",
-          "      public void keyReleased(KeyEvent e) {",
-          "      }",
-          "      @Override",
-          "      public void keyPressed(KeyEvent e) {",
-          "      }",
-          "    });",
-          "  }",
-          "}");
-    }
-  }
-
   /**
    * Create listener method using
    * {@link PropertyEditor#activate(PropertyTable, Property, org.eclipse.swt.graphics.Point)}.

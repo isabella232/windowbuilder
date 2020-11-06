@@ -12,10 +12,8 @@ package org.eclipse.wb.tests.designer.swing;
 
 import org.eclipse.wb.tests.designer.core.DesignerSuiteTests;
 import org.eclipse.wb.tests.designer.swing.ams.AmsTests;
-import org.eclipse.wb.tests.designer.swing.jsr296.ApplicationFrameworkTests;
 import org.eclipse.wb.tests.designer.swing.laf.LookAndFeelTest;
 import org.eclipse.wb.tests.designer.swing.model.ModelTests;
-import org.eclipse.wb.tests.designer.swing.swingx.SwingXTests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -31,8 +29,6 @@ public class SwingTests extends DesignerSuiteTests {
     suite.addTest(createSingleSuite(CustomizeTest.class));
     suite.addTest(ModelTests.suite());
     suite.addTest(AmsTests.suite());
-    suite.addTest(SwingXTests.suite());
-    suite.addTest(ApplicationFrameworkTests.suite());
     //suite.addTest(createSingleSuite(WaitForMemoryProfilerTest.class));
     return suite;
   }

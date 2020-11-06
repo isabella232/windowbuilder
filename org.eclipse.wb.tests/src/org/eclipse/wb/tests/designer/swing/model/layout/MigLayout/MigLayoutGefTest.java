@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * Test {@link MigLayoutInfo} in GEF.
- * 
+ *
  * @author scheglov_ke
  */
 public class MigLayoutGefTest extends SwingGefTest {
@@ -626,8 +626,8 @@ public class MigLayoutGefTest extends SwingGefTest {
         "      add(existing, 'cell 0 0');",
         "    }",
         "    {",
-        "      JButton button = new JButton('My JButton');",
-        "      add(button, 'cell 1 0');",
+        "      JButton existing = new JButton('My JButton');",
+        "      add(existing, 'cell 1 0');",
         "    }",
         "  }",
         "}");
@@ -894,10 +894,9 @@ public class MigLayoutGefTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   @Override
   public String getTestSource(String... lines) {
-    lines =
-        CodeUtils.join(new String[]{
-            "import net.miginfocom.layout.*;",
-            "import net.miginfocom.swing.*;"}, lines);
+    lines = CodeUtils.join(
+        new String[]{"import net.miginfocom.layout.*;", "import net.miginfocom.swing.*;"},
+        lines);
     return super.getTestSource(lines);
   }
 
