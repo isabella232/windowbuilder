@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Tests for {@link OpenListenerEditPolicy}.
- * 
+ *
  * @author scheglov_ke
  */
 public class OpenListenerEditPolicyTest extends SwingGefTest {
@@ -73,7 +73,7 @@ public class OpenListenerEditPolicyTest extends SwingGefTest {
         "  public Test() {",
         "    JButton button = new JButton();",
         "    button.addActionListener(new ActionListener() {",
-        "      public void actionPerformed(ActionEvent e) {",
+        "      public void actionPerformed(ActionEvent arg0) {",
         "      }",
         "    });",
         "    add(button);",

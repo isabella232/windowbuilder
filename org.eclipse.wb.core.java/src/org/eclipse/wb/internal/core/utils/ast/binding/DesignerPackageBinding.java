@@ -12,6 +12,7 @@ package org.eclipse.wb.internal.core.utils.ast.binding;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 
 /**
@@ -103,6 +104,11 @@ final class DesignerPackageBinding implements IPackageBinding {
   }
 
   public org.eclipse.jdt.core.dom.IAnnotationBinding[] getAnnotations() {
+    throw new IllegalArgumentException();
+  }
+
+  @Override
+  public IModuleBinding getModule() {
     throw new IllegalArgumentException();
   }
 }

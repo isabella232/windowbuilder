@@ -20,7 +20,7 @@ import org.eclipse.jface.action.IAction;
 
 /**
  * Tests for "simple container" support, such as {@link SimpleContainer} interface.
- * 
+ *
  * @author scheglov_ke
  */
 public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
@@ -40,21 +40,20 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   public void test_canvas_CREATE_filled() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.setContent(existingButton);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.setContent(existingButton);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     // begin creating Button
     loadCreationTool("javax.swing.JButton");
@@ -66,17 +65,16 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_canvas_CREATE_empty() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     // begin creating Button
     JavaInfo newButton = loadCreationTool("javax.swing.JButton");
@@ -106,21 +104,20 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_canvas_PASTE() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "    }",
-            "    {",
-            "      JButton rootButton = new JButton('A');",
-            "      add(rootButton, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "    }",
+        "    {",
+        "      JButton rootButton = new JButton('A');",
+        "      add(rootButton, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo rootButton = mainPanel.getChildrenComponents().get(1);
     // copy "rootButton"
@@ -153,8 +150,8 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
         "      SimplePanel panel = new SimplePanel();",
         "      add(panel);",
         "      {",
-        "        JButton button = new JButton('A');",
-        "        panel.setContent(button);",
+        "        JButton rootButton = new JButton('A');",
+        "        panel.setContent(rootButton);",
         "      }",
         "    }",
         "    {",
@@ -172,21 +169,20 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_canvas_ADD_1() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "    }",
-            "    {",
-            "      JButton rootButton = new JButton();",
-            "      add(rootButton, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "    }",
+        "    {",
+        "      JButton rootButton = new JButton();",
+        "      add(rootButton, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo rootButton = mainPanel.getChildrenComponents().get(1);
     // drag "rootButton"
@@ -215,25 +211,24 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_canvas_ADD_2() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "    }",
-            "    {",
-            "      JButton button_1 = new JButton();",
-            "      add(button_1, BorderLayout.NORTH);",
-            "    }",
-            "    {",
-            "      JButton button_2 = new JButton();",
-            "      add(button_2, BorderLayout.SOUTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "    }",
+        "    {",
+        "      JButton button_1 = new JButton();",
+        "      add(button_1, BorderLayout.NORTH);",
+        "    }",
+        "    {",
+        "      JButton button_2 = new JButton();",
+        "      add(button_2, BorderLayout.SOUTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo button_1 = mainPanel.getChildrenComponents().get(1);
     ComponentInfo button_2 = mainPanel.getChildrenComponents().get(2);
@@ -251,21 +246,20 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   public void test_tree_CREATE_filled_1() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.setContent(existingButton);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.setContent(existingButton);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo existingButton = panel.getChildrenComponents().get(0);
     // begin creating Button
@@ -278,21 +272,20 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_tree_CREATE_filled_2() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.setContent(existingButton);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.setContent(existingButton);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     // begin creating Button
     loadCreationTool("javax.swing.JButton");
@@ -304,17 +297,16 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_tree_CREATE_empty() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     // begin creating Button
     JavaInfo newButton = loadCreationTool("javax.swing.JButton");
@@ -344,21 +336,20 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_tree_PASTE() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "    }",
-            "    {",
-            "      JButton rootButton = new JButton('A');",
-            "      add(rootButton, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "    }",
+        "    {",
+        "      JButton rootButton = new JButton('A');",
+        "      add(rootButton, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo rootButton = mainPanel.getChildrenComponents().get(1);
     // copy "rootButton"
@@ -391,8 +382,8 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
         "      SimplePanel panel = new SimplePanel();",
         "      add(panel);",
         "      {",
-        "        JButton button = new JButton('A');",
-        "        panel.setContent(button);",
+        "        JButton rootButton = new JButton('A');",
+        "        panel.setContent(rootButton);",
         "      }",
         "    }",
         "    {",
@@ -410,21 +401,20 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_tree_MOVE() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton button = new JButton();",
-            "        panel.setContent(button);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton button = new JButton();",
+        "        panel.setContent(button);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo button = panel.getChildrenComponents().get(0);
     // drag "button"
@@ -436,21 +426,20 @@ public abstract class SimpleContainerAbstractGefTest extends SwingGefTest {
 
   public void test_tree_ADD() throws Exception {
     prepareSimplePanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "    }",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "    }",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo button = mainPanel.getChildrenComponents().get(1);
     // drag "button"

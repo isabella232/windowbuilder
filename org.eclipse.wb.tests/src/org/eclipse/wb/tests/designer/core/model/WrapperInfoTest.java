@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test for {@link WrapperMethodInfo}.
- * 
+ *
  * @author sablin_aa
  * @author scheglov_ke
  */
@@ -72,13 +72,12 @@ public class WrapperInfoTest extends SwingModelTest {
 
   public void test_parse_noControl() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    TestWrapper wrapper = new TestWrapper(this);",
-            "  }",
-            "}");
+    ContainerInfo container = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    TestWrapper wrapper = new TestWrapper(this);",
+        "  }",
+        "}");
     // hierarchy
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/new TestWrapper(this)/}",
@@ -104,16 +103,15 @@ public class WrapperInfoTest extends SwingModelTest {
    */
   public void test_deleteWrapper() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    TestWrapper wrapper = new TestWrapper(this);",
-            "    JButton button = wrapper.getControl();",
-            "    button.setEnabled(false);",
-            "  }",
-            "  // filler filler filler",
-            "}");
+    ContainerInfo container = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    TestWrapper wrapper = new TestWrapper(this);",
+        "    JButton button = wrapper.getControl();",
+        "    button.setEnabled(false);",
+        "  }",
+        "  // filler filler filler",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/new TestWrapper(this)/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -137,16 +135,15 @@ public class WrapperInfoTest extends SwingModelTest {
    */
   public void test_deleteWrapped() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    TestWrapper wrapper = new TestWrapper(this);",
-            "    JButton button = wrapper.getControl();",
-            "    button.setEnabled(false);",
-            "  }",
-            "  // filler filler filler",
-            "}");
+    ContainerInfo container = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    TestWrapper wrapper = new TestWrapper(this);",
+        "    JButton button = wrapper.getControl();",
+        "    button.setEnabled(false);",
+        "  }",
+        "  // filler filler filler",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/new TestWrapper(this)/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -166,15 +163,14 @@ public class WrapperInfoTest extends SwingModelTest {
 
   public void test_parse_aroundControl() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton panel = new JButton();",
-            "    TestWrapper wrapper = new TestWrapper(panel);",
-            "    add(panel);",
-            "  }",
-            "}");
+    ContainerInfo container = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton panel = new JButton();",
+        "    TestWrapper wrapper = new TestWrapper(panel);",
+        "    add(panel);",
+        "  }",
+        "}");
     // container contains no wrappers in children
     assertThat(container.getChildren(WrapperMethodInfo.class)).isEmpty();
     // it contains JButton
@@ -192,13 +188,12 @@ public class WrapperInfoTest extends SwingModelTest {
 
   public void test_materialize() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    TestWrapper wrapper = new TestWrapper(this);",
-            "  }",
-            "}");
+    ContainerInfo container = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    TestWrapper wrapper = new TestWrapper(this);",
+        "  }",
+        "}");
     // container contains no wrappers in children
     assertThat(container.getChildren(WrapperMethodInfo.class)).isEmpty();
     // it contains JButton
@@ -220,13 +215,12 @@ public class WrapperInfoTest extends SwingModelTest {
 
   public void test_CREATE() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo container = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     // create wrapper
     WrapperMethodInfo wrapperInfo = createJavaInfo("test.TestWrapper");
     JavaInfo wrappedInfo = wrapperInfo.getWrapper().getWrappedInfo();
@@ -294,17 +288,16 @@ public class WrapperInfoTest extends SwingModelTest {
 
   public void test_MOVE_noControl() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    TestWrapper wrapper = new TestWrapper(this);",
-            "    {",
-            "      JPanel panel = new JPanel();",
-            "      add(panel);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo container = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    TestWrapper wrapper = new TestWrapper(this);",
+        "    {",
+        "      JPanel panel = new JPanel();",
+        "      add(panel);",
+        "    }",
+        "  }",
+        "}");
     // wrapper
     ContainerInfo wrappedComponent = container.getChildren(ContainerInfo.class).get(0);
     WrapperMethodInfo wrapper = wrappedComponent.getChildren(WrapperMethodInfo.class).get(0);
@@ -327,18 +320,17 @@ public class WrapperInfoTest extends SwingModelTest {
 
   public void test_MOVE_withControl() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    TestWrapper wrapper = new TestWrapper(this);",
-            "    JButton button = wrapper.getControl();",
-            "    {",
-            "      JPanel panel = new JPanel();",
-            "      add(panel);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo container = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    TestWrapper wrapper = new TestWrapper(this);",
+        "    JButton button = wrapper.getControl();",
+        "    {",
+        "      JPanel panel = new JPanel();",
+        "      add(panel);",
+        "    }",
+        "  }",
+        "}");
     // wrapper
     ContainerInfo wrappedComponent = container.getChildren(ContainerInfo.class).get(0);
     WrapperMethodInfo wrapper = wrappedComponent.getChildren(WrapperMethodInfo.class).get(0);
@@ -362,22 +354,21 @@ public class WrapperInfoTest extends SwingModelTest {
 
   public void test_clipboard() throws Exception {
     configureWrapperContents();
-    ContainerInfo container =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      JPanel panel_1 = new JPanel();",
-            "      add(panel_1);",
-            "      TestWrapper wrapper = new TestWrapper(panel_1);",
-            "      JButton button = wrapper.getControl();",
-            "    }",
-            "    {",
-            "      JPanel panel_2 = new JPanel();",
-            "      add(panel_2);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo container = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      JPanel panel_1 = new JPanel();",
+        "      add(panel_1);",
+        "      TestWrapper wrapper = new TestWrapper(panel_1);",
+        "      JButton button = wrapper.getControl();",
+        "    }",
+        "    {",
+        "      JPanel panel_2 = new JPanel();",
+        "      add(panel_2);",
+        "    }",
+        "  }",
+        "}");
     container.refresh();
     // panels
     JPanelInfo panel_1 = container.getChildren(JPanelInfo.class).get(0);
@@ -403,8 +394,8 @@ public class WrapperInfoTest extends SwingModelTest {
         "      JPanel panel_2 = new JPanel();",
         "      add(panel_2);",
         "      {",
-        "        TestWrapper testWrapper = new TestWrapper(panel_2);",
-        "        JButton button = testWrapper.getControl();",
+        "        TestWrapper wrapper = new TestWrapper(panel_2);",
+        "        JButton button = wrapper.getControl();",
         "      }",
         "    }",
         "  }",
@@ -472,7 +463,8 @@ public class WrapperInfoTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // contribute special {@link HierarchyProvider}
-    TestUtils.addDynamicExtension(COMPONENTS_HIERARCHY_PROVIDERS_POINT_ID, // 
+    TestUtils.addDynamicExtension(
+        COMPONENTS_HIERARCHY_PROVIDERS_POINT_ID, //
         "  <provider class='" + SwingViewer_HierarchyProvider.class.getName() + "'/>");
     //
     try {

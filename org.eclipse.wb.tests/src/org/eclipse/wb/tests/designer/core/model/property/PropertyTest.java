@@ -16,7 +16,6 @@ import org.eclipse.wb.core.model.broadcast.GenericPropertyGetValue;
 import org.eclipse.wb.core.model.broadcast.GenericPropertyGetValueEx;
 import org.eclipse.wb.core.model.broadcast.GenericPropertySetValue;
 import org.eclipse.wb.core.model.broadcast.JavaEventListener;
-import org.eclipse.wb.internal.core.model.description.GenericPropertyDescription;
 import org.eclipse.wb.internal.core.model.property.GenericProperty;
 import org.eclipse.wb.internal.core.model.property.GenericPropertyComposite;
 import org.eclipse.wb.internal.core.model.property.GenericPropertyImpl;
@@ -30,7 +29,6 @@ import org.eclipse.wb.internal.core.model.property.converter.StringConverter;
 import org.eclipse.wb.internal.core.model.property.editor.string.StringPropertyEditor;
 import org.eclipse.wb.internal.core.model.property.table.PropertyTooltipProvider;
 import org.eclipse.wb.internal.core.model.property.table.PropertyTooltipTextProvider;
-import org.eclipse.wb.internal.core.model.util.PropertyUtils;
 import org.eclipse.wb.internal.core.utils.ast.AstEditor;
 import org.eclipse.wb.internal.swing.model.component.ComponentInfo;
 import org.eclipse.wb.internal.swing.model.component.ContainerInfo;
@@ -77,13 +75,12 @@ public class PropertyTest extends SwingModelTest {
    * Test for {@link JavaProperty#getJavaInfo()}.
    */
   public void test_JavaProperty_getJavaInfo() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     JavaProperty property = (JavaProperty) panel.getPropertyByTitle("enabled");
     //
     assertSame(panel, property.getObjectInfo());
@@ -95,13 +92,12 @@ public class PropertyTest extends SwingModelTest {
    * Test for {@link JavaProperty#getTitle()}.
    */
   public void test_JavaProperty_getTitle() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     JavaProperty property = (JavaProperty) panel.getPropertyByTitle("enabled");
     // default title
     assertEquals("enabled", property.getTitle());
@@ -120,17 +116,16 @@ public class PropertyTest extends SwingModelTest {
    * {@link Property#getComposite(Property[])} .
    */
   public void test_GenericPropertyComposite() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JButton button_1 = new JButton('111');",
-            "    add(button_1);",
-            "    //",
-            "    JButton button_2 = new JButton('222');",
-            "    add(button_2);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JButton button_1 = new JButton('111');",
+        "    add(button_1);",
+        "    //",
+        "    JButton button_2 = new JButton('222');",
+        "    add(button_2);",
+        "  }",
+        "}");
     ComponentInfo button_1 = panel.getChildrenComponents().get(0);
     ComponentInfo button_2 = panel.getChildrenComponents().get(1);
     // "icon" property
@@ -238,7 +233,8 @@ public class PropertyTest extends SwingModelTest {
     assertSame(Property.UNKNOWN_VALUE, composite.getDefaultValue());
   }
 
-  private static GenericPropertyNoValue create_GenericProperty_defaultValue(final String defaultValue) {
+  private static GenericPropertyNoValue create_GenericProperty_defaultValue(
+      final String defaultValue) {
     return new GenericPropertyNoValue(null, "title", StringPropertyEditor.INSTANCE) {
       @Override
       public Object getDefaultValue() throws Exception {
@@ -301,13 +297,12 @@ public class PropertyTest extends SwingModelTest {
    * {@link GenericPropertyImpl#GenericPropertyImpl(GenericPropertyImpl)} constructor.
    */
   public void test_GenericPropertyImpl_copyConstructor() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     // prepare "enabled" property
     GenericPropertyImpl enabledProperty = (GenericPropertyImpl) panel.getPropertyByTitle("enabled");
     assertNotNull(enabledProperty);
@@ -331,13 +326,12 @@ public class PropertyTest extends SwingModelTest {
    * {@link GenericPropertyImpl#GenericPropertyImpl(GenericPropertyImpl, String)} constructor.
    */
   public void test_GenericPropertyImpl_copyConstructor2() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     // prepare "enabled" property
     GenericPropertyImpl enabledProperty = (GenericPropertyImpl) panel.getPropertyByTitle("enabled");
     assertNotNull(enabledProperty);
@@ -354,32 +348,6 @@ public class PropertyTest extends SwingModelTest {
     assertSame(enabledProperty.getDescription(), enabledCopy.getDescription());
   }
 
-  /**
-   * Test for creating copy of {@link GenericPropertyImpl}.
-   * <p>
-   * "Constructor/text" has no {@link GenericPropertyDescription}, but we still want to know type in
-   * copy.
-   */
-  public void test_GenericPropertyImpl_copyConstructor_copyType() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new JButton('a'));",
-            "  }",
-            "}");
-    ComponentInfo button = panel.getChildrenComponents().get(0);
-    // prepare property
-    GenericPropertyImpl textProperty =
-        (GenericPropertyImpl) PropertyUtils.getByPath(button, "Constructor/text");
-    assertNotNull(textProperty);
-    assertSame(String.class, textProperty.getType());
-    // check copy
-    GenericPropertyImpl textCopy = new GenericPropertyImpl(textProperty, "Text");
-    assertSame(String.class, textCopy.getType());
-  }
-
   ////////////////////////////////////////////////////////////////////////////
   //
   // GenericPropertyImpl value
@@ -391,13 +359,12 @@ public class PropertyTest extends SwingModelTest {
    * refresh().
    */
   public void test_GenericPropertyImpl_setValue_getValue_withoutRefresh() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     panel.startEdit();
     // use "name" property
@@ -424,13 +391,12 @@ public class PropertyTest extends SwingModelTest {
    * break existing value.
    */
   public void test_GenericPropertyImpl_setValueUNKNOWN_getValue_withRefresh() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     // use "name" property
     GenericProperty property = (GenericProperty) panel.getPropertyByTitle("name");
@@ -456,13 +422,12 @@ public class PropertyTest extends SwingModelTest {
    * pattern.
    */
   public void test_GenericPropertyImpl_setExpression() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     // use "toolTipText" property
     GenericProperty property = (GenericProperty) panel.getPropertyByTitle("toolTipText");
@@ -488,13 +453,12 @@ public class PropertyTest extends SwingModelTest {
    * validation.
    */
   public void test_GenericProperty_valueValidation_1() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     Property enabledProperty = panel.getPropertyByTitle("enabled");
     // add listener that prevents "enabled" modification
     panel.addBroadcastListener(new GenericPropertySetValue() {
@@ -519,13 +483,12 @@ public class PropertyTest extends SwingModelTest {
    * participation.
    */
   public void test_GenericProperty_valueValidation_2() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     Property enabledProperty = panel.getPropertyByTitle("enabled");
     // add listener that on "enabled" modification modifies also "visible"
     panel.addBroadcastListener(new GenericPropertySetValue() {
@@ -554,13 +517,12 @@ public class PropertyTest extends SwingModelTest {
    * validation.
    */
   public void test_GenericProperty_expressionValidation_1() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     final GenericProperty enabledProperty = (GenericProperty) panel.getPropertyByTitle("enabled");
     final GenericProperty visibleProperty = (GenericProperty) panel.getPropertyByTitle("visible");
     // add listener that prevents "enabled" modification
@@ -596,13 +558,12 @@ public class PropertyTest extends SwingModelTest {
    * Test that {@link JavaEventListener#propertyValueWasSet(GenericPropertyImpl)} event is fired.
    */
   public void test_GenericProperty_propertyValueWasSet() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     final GenericProperty enabledProperty = (GenericProperty) panel.getPropertyByTitle("enabled");
     final AtomicBoolean wasFired = new AtomicBoolean();
     // add listener
@@ -653,13 +614,12 @@ public class PropertyTest extends SwingModelTest {
    * {@link JavaEventListener#invoke(GenericPropertyImpl, Expression, Object[])}.
    */
   public void test_GenericProperty_getValue_expressionListener() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setEnabled(true);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setEnabled(true);",
+        "  }",
+        "}");
     panel.refresh();
     final GenericProperty enabledProperty = (GenericProperty) panel.getPropertyByTitle("enabled");
     // initially normal, boolean value
@@ -683,13 +643,12 @@ public class PropertyTest extends SwingModelTest {
    * Return {@link String} instead of <code>boolean</code>.
    */
   public void test_GenericProperty_getValue_unconditionaListener_String() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setEnabled(true);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setEnabled(true);",
+        "  }",
+        "}");
     panel.refresh();
     final GenericProperty enabledProperty = (GenericProperty) panel.getPropertyByTitle("enabled");
     // initially normal, boolean value
@@ -713,13 +672,12 @@ public class PropertyTest extends SwingModelTest {
    * Check that <code>null</code> is considered as valid value.
    */
   public void test_GenericProperty_getValue_unconditionaListener_null() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setEnabled(true);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setEnabled(true);",
+        "  }",
+        "}");
     panel.refresh();
     final GenericProperty enabledProperty = (GenericProperty) panel.getPropertyByTitle("enabled");
     // initially normal, boolean value
@@ -762,13 +720,12 @@ public class PropertyTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     //
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     Property property = panel.getPropertyByTitle("foo");
     assertEquals(2, property.getValue());
     // set new value (ignoring that it is default value of accessor)
@@ -811,13 +768,12 @@ public class PropertyTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     //
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "    super(2);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "    super(2);",
+        "  }",
+        "}");
     Property property = panel.getPropertyByTitle("foo");
     assertEquals(2, property.getValue());
     // set same value
@@ -840,13 +796,12 @@ public class PropertyTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     //
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertSame(Property.UNKNOWN_VALUE, panel.getPropertyByTitle("foo").getValue());
   }
 
@@ -854,37 +809,14 @@ public class PropertyTest extends SwingModelTest {
    * Test for {@link GenericProperty#getType()}.
    */
   public void test_GenericProperty_getType() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     GenericProperty property = (GenericProperty) panel.getPropertyByTitle("enabled");
     assertSame(boolean.class, property.getType());
-  }
-
-  /**
-   * Test for {@link GenericProperty#getType()}.
-   * <p>
-   * Properties created for constructor parameter also should provide type.
-   */
-  public void test_GenericProperty_getType_forConstructor_subProperty() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new JButton('a'));",
-            "  }",
-            "}");
-    ComponentInfo button = panel.getChildrenComponents().get(0);
-    //
-    GenericProperty property =
-        (GenericProperty) PropertyUtils.getByPath(button, "Constructor/text");
-    assertNotNull(property);
-    assertSame(String.class, property.getType());
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -896,20 +828,19 @@ public class PropertyTest extends SwingModelTest {
    * Test for {@link SetterAccessor}.
    */
   public void test_setterAccessor() throws Exception {
-    JavaInfo panel =
-        parseSource(
-            "test",
-            "Test.java",
-            getSourceDQ(
-                "package test;",
-                "import java.awt.*;",
-                "import javax.swing.*;",
-                "class Test {",
-                "  public static void main(String args[]) {",
-                "    JPanel panel = new JPanel();",
-                "    panel.setEnabled(false);",
-                "  }",
-                "}"));
+    JavaInfo panel = parseSource(
+        "test",
+        "Test.java",
+        getSourceDQ(
+            "package test;",
+            "import java.awt.*;",
+            "import javax.swing.*;",
+            "class Test {",
+            "  public static void main(String args[]) {",
+            "    JPanel panel = new JPanel();",
+            "    panel.setEnabled(false);",
+            "  }",
+            "}"));
     GenericProperty property = (GenericProperty) panel.getPropertyByTitle("enabled");
     assertNotNull(property);
     assertSame(panel, property.getJavaInfo());
@@ -928,13 +859,12 @@ public class PropertyTest extends SwingModelTest {
         assertNull(accessor.getAdapter(Object.class)); // we don't have such adapter, just to cover code
         PropertyTooltipTextProvider tooltipProvider =
             (PropertyTooltipTextProvider) accessor.getAdapter(PropertyTooltipProvider.class);
-        Method getText_method =
-            PropertyTooltipTextProvider.class.getDeclaredMethod(
-                "getText",
-                new Class[]{Property.class});
+        Method getText_method = PropertyTooltipTextProvider.class.getDeclaredMethod(
+            "getText",
+            new Class[]{Property.class});
         getText_method.setAccessible(true);
         String text = (String) getText_method.invoke(tooltipProvider, new Object[]{property});
-        assertThat(text).contains("this component");
+        assertThat(text).contains("enabled");
       }
     }
     // initial check
@@ -1000,15 +930,22 @@ public class PropertyTest extends SwingModelTest {
 
   private static void check_setterAccessor_false(JavaInfo panel, Property property)
       throws Exception {
-    check_setterAccessor(panel, "panel.setEnabled(false);", new String[]{
-        "new JPanel()",
-        "panel.setEnabled(false)"}, property, true);
+    check_setterAccessor(
+        panel,
+        "panel.setEnabled(false);",
+        new String[]{"new JPanel()", "panel.setEnabled(false)"},
+        property,
+        true);
   }
 
-  private static void check_setterAccessor_true(JavaInfo panel, Property property) throws Exception {
-    check_setterAccessor(panel, "panel.setEnabled(true);", new String[]{
-        "new JPanel()",
-        "panel.setEnabled(true)"}, property, true);
+  private static void check_setterAccessor_true(JavaInfo panel, Property property)
+      throws Exception {
+    check_setterAccessor(
+        panel,
+        "panel.setEnabled(true);",
+        new String[]{"new JPanel()", "panel.setEnabled(true)"},
+        property,
+        true);
   }
 
   private static void check_setterAccessor_empty(JavaInfo panel, Property property)
@@ -1025,14 +962,16 @@ public class PropertyTest extends SwingModelTest {
     assertAST(editor);
     //
     String[] innerLines = setSource != null ? new String[]{"    " + setSource} : null;
-    String expectedSource =
-        getSource3(new String[]{
+    String expectedSource = getSource3(
+        new String[]{
             "package test;",
             "import java.awt.*;",
             "import javax.swing.*;",
             "class Test {",
             "  public static void main(String args[]) {",
-            "    JPanel panel = new JPanel();"}, innerLines, new String[]{"  }", "}"});
+            "    JPanel panel = new JPanel();"},
+        innerLines,
+        new String[]{"  }", "}"});
     assertEquals(expectedSource, editor.getSource());
     assertRelatedNodes(panel, relatedNodes);
     // check property
@@ -1048,20 +987,19 @@ public class PropertyTest extends SwingModelTest {
    * Test for property that has {@link ConstructorAccessor} but it is not used.
    */
   public void test_constructorAccessor_1() throws Exception {
-    JavaInfo button =
-        parseSource(
-            "test",
-            "Test.java",
-            getSourceDQ(
-                "package test;",
-                "import java.awt.*;",
-                "import javax.swing.*;",
-                "class Test {",
-                "  public static void main(String args[]) {",
-                "    JButton button = new JButton();",
-                "    button.setText('abc');",
-                "  }",
-                "}"));
+    JavaInfo button = parseSource(
+        "test",
+        "Test.java",
+        getSourceDQ(
+            "package test;",
+            "import java.awt.*;",
+            "import javax.swing.*;",
+            "class Test {",
+            "  public static void main(String args[]) {",
+            "    JButton button = new JButton();",
+            "    button.setText('abc');",
+            "  }",
+            "}"));
     GenericProperty property = (GenericProperty) button.getPropertyByTitle("text");
     assertNotNull(property);
     // initial checks
@@ -1080,11 +1018,10 @@ public class PropertyTest extends SwingModelTest {
     // set value, should be changed using setText()
     {
       property.setValue("12345");
-      check_constructorAccessor(button, new String[]{
-          "    JButton button = new JButton();",
-          "    button.setText(\"12345\");"}, new String[]{
-          "new JButton()",
-          "button.setText(\"12345\")"});
+      check_constructorAccessor(
+          button,
+          new String[]{"    JButton button = new JButton();", "    button.setText(\"12345\");"},
+          new String[]{"new JButton()", "button.setText(\"12345\")"});
     }
     // remove value, setText() should be removed
     {
@@ -1097,11 +1034,10 @@ public class PropertyTest extends SwingModelTest {
     // set value, setText() should be added
     {
       property.setValue("12345");
-      check_constructorAccessor(button, new String[]{
-          "    JButton button = new JButton();",
-          "    button.setText(\"12345\");"}, new String[]{
-          "new JButton()",
-          "button.setText(\"12345\")"});
+      check_constructorAccessor(
+          button,
+          new String[]{"    JButton button = new JButton();", "    button.setText(\"12345\");"},
+          new String[]{"new JButton()", "button.setText(\"12345\")"});
     }
   }
 
@@ -1109,19 +1045,18 @@ public class PropertyTest extends SwingModelTest {
    * Test for property that has active {@link ConstructorAccessor}.
    */
   public void test_constructorAccessor_2() throws Exception {
-    JavaInfo button =
-        parseSource(
-            "test",
-            "Test.java",
-            getSourceDQ(
-                "package test;",
-                "import java.awt.*;",
-                "import javax.swing.*;",
-                "class Test {",
-                "  public static void main(String args[]) {",
-                "    JButton button = new JButton('abc');",
-                "  }",
-                "}"));
+    JavaInfo button = parseSource(
+        "test",
+        "Test.java",
+        getSourceDQ(
+            "package test;",
+            "import java.awt.*;",
+            "import javax.swing.*;",
+            "class Test {",
+            "  public static void main(String args[]) {",
+            "    JButton button = new JButton('abc');",
+            "  }",
+            "}"));
     GenericProperty property = (GenericProperty) button.getPropertyByTitle("text");
     assertNotNull(property);
     // check accessors
@@ -1161,13 +1096,12 @@ public class PropertyTest extends SwingModelTest {
   private static void check_constructorAccessor(JavaInfo button,
       String[] lines,
       String[] relatedNodes) throws Exception {
-    String[] lines_prefix =
-        new String[]{
-            "package test;",
-            "import java.awt.*;",
-            "import javax.swing.*;",
-            "class Test {",
-            "  public static void main(String args[]) {"};
+    String[] lines_prefix = new String[]{
+        "package test;",
+        "import java.awt.*;",
+        "import javax.swing.*;",
+        "class Test {",
+        "  public static void main(String args[]) {"};
     String[] lines_suffix = new String[]{"  }", "}"};
     //
     AstEditor editor = button.getEditor();
@@ -1197,13 +1131,12 @@ public class PropertyTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     //
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new MyButton());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    add(new MyButton());",
+        "  }",
+        "}");
     ComponentInfo button = panel.getChildrenComponents().get(0);
     //
     assertNotNull(button.getPropertyByTitle("foo(java.lang.String)"));

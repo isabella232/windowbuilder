@@ -37,7 +37,7 @@ import javax.swing.JToolBar;
 
 /**
  * Test for {@link VoidInvocationVariableSupport}.
- * 
+ *
  * @author scheglov_ke
  */
 public class VoidInvocationTest extends AbstractVariableTest {
@@ -56,15 +56,14 @@ public class VoidInvocationTest extends AbstractVariableTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_object() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    bar.addSeparator();",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    bar.addSeparator();",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     JToolBarSeparatorInfo separator = (JToolBarSeparatorInfo) bar.getChildrenComponents().get(0);
     VoidInvocationVariableSupport variableSupport =
@@ -117,41 +116,37 @@ public class VoidInvocationTest extends AbstractVariableTest {
    * method/field based ones.
    */
   public void test_noProperties() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    bar.addSeparator(new Dimension(100, 50));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    bar.addSeparator(new Dimension(100, 50));",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     JToolBarSeparatorInfo separator = (JToolBarSeparatorInfo) bar.getChildrenComponents().get(0);
     //
     Property[] properties = separator.getProperties();
     assertThat(properties).hasSize(1);
     assertNotNull(PropertyUtils.getByPath(properties, "Factory"));
-    assertNotNull(PropertyUtils.getByPath(properties, "Factory/size"));
   }
 
   public void test_add() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     // create separator
     JToolBarSeparatorCreationSupport creationSupport = new JToolBarSeparatorCreationSupport(bar);
-    JToolBarSeparatorInfo separator =
-        (JToolBarSeparatorInfo) JavaInfoUtils.createJavaInfo(
-            m_lastEditor,
-            JToolBar.Separator.class,
-            creationSupport);
+    JToolBarSeparatorInfo separator = (JToolBarSeparatorInfo) JavaInfoUtils.createJavaInfo(
+        m_lastEditor,
+        JToolBar.Separator.class,
+        creationSupport);
     // add separator
     bar.command_CREATE(separator, null);
     assertEditor(
@@ -166,19 +161,18 @@ public class VoidInvocationTest extends AbstractVariableTest {
   }
 
   public void test_moveInner() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      bar.add(button);",
-            "    }",
-            "    bar.addSeparator();",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      bar.add(button);",
+        "    }",
+        "    bar.addSeparator();",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     ComponentInfo button = bar.getChildrenComponents().get(0);
     JToolBarSeparatorInfo separator = (JToolBarSeparatorInfo) bar.getChildrenComponents().get(1);
@@ -208,17 +202,16 @@ public class VoidInvocationTest extends AbstractVariableTest {
    */
   public void test_parseComponent_hasComponent() throws Exception {
     prepare_parseComponent();
-    String[] lines =
-        {
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    MyBar bar = new MyBar();",
-            "    add(bar);",
-            "    //",
-            "    JButton button = new JButton();",
-            "    bar.addItem(button);",
-            "  }",
-            "}"};
+    String[] lines = {
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    MyBar bar = new MyBar();",
+        "    add(bar);",
+        "    //",
+        "    JButton button = new JButton();",
+        "    bar.addItem(button);",
+        "  }",
+        "}"};
     parseContainer(lines);
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/add(bar)/}",
@@ -234,16 +227,15 @@ public class VoidInvocationTest extends AbstractVariableTest {
    */
   public void test_parseComponent_invalidComponent() throws Exception {
     prepare_parseComponent();
-    String[] lines =
-        {
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    MyBar bar = new MyBar();",
-            "    add(bar);",
-            "    //",
-            "    bar.addItem(null);",
-            "  }",
-            "}"};
+    String[] lines = {
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    MyBar bar = new MyBar();",
+        "    add(bar);",
+        "    //",
+        "    bar.addItem(null);",
+        "  }",
+        "}"};
     parseContainer(lines);
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/add(bar)/}",

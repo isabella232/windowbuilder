@@ -56,8 +56,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#getExpression(JavaInfo)}.
    */
   public void test_getExpression() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "// filler filler filler",
         "public class Test extends JPanel {",
         "  public Test() {",
@@ -71,8 +70,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#format(String, Object...)}.
    */
   public void test_format() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "// filler filler filler",
         "public class Test extends JPanel {",
         "  public Test() {",
@@ -81,7 +79,7 @@ public class TemplateUtilsTest extends SwingModelTest {
     String id = ObjectInfoUtils.getId(panel);
     {
       String expected = TemplateUtils.ID_PREFIX + id + ".setEnabled(false)";
-      assertEquals(expected, format("{0}.setEnabled({1})", panel, "false"));
+      assertEquals(expected, TemplateUtils.format("{0}.setEnabled({1})", panel, "false"));
     }
   }
 
@@ -94,8 +92,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#resolve(NodeTarget, String)}.
    */
   public void test_resolve_referenceExpression() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    int target;",
@@ -111,8 +108,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#resolve(JavaInfo, StatementTarget, String)}.
    */
   public void test_resolve_referenceExpression_usingStatementTarget() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    int target;",
@@ -128,8 +124,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#resolve(BodyDeclarationTarget, String)}.
    */
   public void test_resolve_referenceExpression_usingBodyDeclarationTarget() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    int target;",
@@ -145,8 +140,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#resolve(NodeTarget, String)}.
    */
   public void test_resolve_thisAccessExpression() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    int target;",
@@ -162,8 +156,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#resolve(NodeTarget, String)}.
    */
   public void test_resolve_accessExpression() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    JButton button = new JButton();",
@@ -182,8 +175,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#resolve(List, StatementTarget)}.
    */
   public void test_resolve_StringList() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    int target;",
@@ -205,8 +197,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#resolve(StatementTarget, String, Object...)}.
    */
   public void test_formatResolve_StatementTarget() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    int target;",
@@ -221,8 +212,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#resolve(StatementTarget, String, Object...)}.
    */
   public void test_formatResolve_BodyDeclarationTarget() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    int target;",
@@ -242,8 +232,7 @@ public class TemplateUtilsTest extends SwingModelTest {
    * Test for {@link TemplateUtils#addStatement(JavaInfo, StatementTarget, List)}.
    */
   public void test_addStatement() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "// filler filler filler",
         "public class Test extends JPanel {",
         "  public Test() {",
@@ -251,7 +240,10 @@ public class TemplateUtilsTest extends SwingModelTest {
         "}");
     StatementTarget target = getBlockTarget(panel, true);
     // do resolve
-    addStatement(panel, target, ImmutableList.of(TemplateUtils.format("{0}", panel), "\t.setEnabled(false);"));
+    addStatement(
+        panel,
+        target,
+        ImmutableList.of(TemplateUtils.format("{0}", panel), "\t.setEnabled(false);"));
     assertEditor(
         "// filler filler filler",
         "public class Test extends JPanel {",
@@ -268,8 +260,7 @@ public class TemplateUtilsTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_evaluate() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
+    ContainerInfo panel = parseContainer(
         "public class Test extends JPanel {",
         "  public Test() {",
         "    JLabel myLabel = new JLabel();",

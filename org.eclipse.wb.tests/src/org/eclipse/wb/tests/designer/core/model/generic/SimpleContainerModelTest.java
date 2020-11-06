@@ -30,15 +30,15 @@ import org.eclipse.wb.internal.core.utils.ast.AstEditor;
 import org.eclipse.wb.internal.swing.model.component.ComponentInfo;
 import org.eclipse.wb.internal.swing.model.component.ContainerInfo;
 import org.eclipse.wb.internal.swing.model.layout.FlowLayoutInfo;
-import org.eclipse.wb.tests.designer.core.AbstractJavaTest;
+import org.eclipse.wb.tests.designer.core.AbstractJavaProjectTest;
 import org.eclipse.wb.tests.designer.core.model.TestObjectInfo;
 import org.eclipse.wb.tests.designer.swing.SwingModelTest;
 import org.eclipse.wb.tests.designer.tests.mock.EasyMockTemplate;
 import org.eclipse.wb.tests.designer.tests.mock.MockRunnable;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.easymock.EasyMock.createStrictControl;
 import static org.easymock.EasyMock.expect;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.easymock.IMocksControl;
 
@@ -47,7 +47,7 @@ import java.util.List;
 
 /**
  * Test for {@link SimpleContainer} and {@link SimpleContainerConfigurable} models.
- * 
+ *
  * @author scheglov_ke
  */
 public class SimpleContainerModelTest extends SwingModelTest {
@@ -69,8 +69,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * No special container association, so only {@link Association} from component will be used.
    */
   public void test_getConfigurations_noContainerAssociation() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer", "true"},
             {"simpleContainer.component", "java.awt.Component"},});
     assertThat(configurations).hasSize(1);
@@ -81,8 +82,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Ask "forCanvas", return common configuration for both - canvas/tree.
    */
   public void test_getConfigurations_forCanvas_common() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer", "true"},
             {"simpleContainer.association", "%parent%.add(%child%)"},
             {"simpleContainer.component", "java.awt.Component"},});
@@ -94,8 +96,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Ask "forCanvas", return explicit "forCanvas".
    */
   public void test_getConfigurations_forCanvas_explicit() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer.canvas", "true"},
             {"simpleContainer.canvas.association", "%parent%.add(%child%)"},
             {"simpleContainer.canvas.component", "java.awt.Component"},});
@@ -107,8 +110,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Ask "forCanvas", but only "forTree" exist.
    */
   public void test_getConfigurations_forCanvas_onlyForTree() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer.tree", "true"},
             {"simpleContainer.tree.association", "%parent%.add(%child%)"},
             {"simpleContainer.tree.component", "java.awt.Component"},});
@@ -119,8 +123,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Ask "forTree", return common configuration for both - canvas/tree.
    */
   public void test_getConfigurations_forTree_common() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(false, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        false,
+        new String[][]{
             {"simpleContainer", "true"},
             {"simpleContainer.association", "%parent%.add(%child%)"},
             {"simpleContainer.component", "java.awt.Component"},});
@@ -131,8 +136,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Ask "forTree", return explicit "forTree".
    */
   public void test_getConfigurations_forTree_explicit() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(false, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        false,
+        new String[][]{
             {"simpleContainer.tree", "true"},
             {"simpleContainer.tree.association", "%parent%.add(%child%)"},
             {"simpleContainer.tree.component", "java.awt.Component"},});
@@ -143,8 +149,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Several different configurations.
    */
   public void test_getConfigurations_3_count() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer", "true"},
             {"simpleContainer.association", "%parent%.add(%child%)"},
             {"simpleContainer.component", "java.awt.Component"},
@@ -164,8 +171,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Ignore if <code>simpleContainer</code> value is not <code>true</code>.
    */
   public void test_getConfigurations_ignoreFalse() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer", "false"},
             {"simpleContainer.association", "%parent%.add(%child%)"},
             {"simpleContainer.component", "java.awt.Component"},});
@@ -176,8 +184,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Use default component/reference validator.
    */
   public void test_getConfigurations_defaultValidators() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer.defaultComponent", "java.awt.Component"},
             {"simpleContainer", "true"},
             {"simpleContainer.association", "%parent%.add(%child%)"},});
@@ -191,8 +200,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_getConfigurations_validateContainer_isContainerType() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer.canvas", "isContainerType('java.awt.Component')"},
             {"simpleContainer.canvas.association", "%parent%.add(%child%)"},
             {"simpleContainer.canvas.component", "java.awt.Component"},});
@@ -201,8 +211,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
   }
 
   public void test_getConfigurations_validateContainer_scriptToFalse() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer.canvas", "1 == 2"},
             {"simpleContainer.canvas.association", "%parent%.add(%child%)"},
             {"simpleContainer.canvas.component", "java.awt.Component"},});
@@ -219,17 +230,20 @@ public class SimpleContainerModelTest extends SwingModelTest {
    */
   public void test_getConfigurations_noComponentValidator() throws Exception {
     try {
-      getConfigurations(true, new String[][]{
-          {"simpleContainer", "true"},
-          {"simpleContainer.association", "%parent%.add(%child%)"},});
+      getConfigurations(
+          true,
+          new String[][]{
+              {"simpleContainer", "true"},
+              {"simpleContainer.association", "%parent%.add(%child%)"},});
       fail();
     } catch (Throwable e) {
     }
   }
 
   public void test_getConfigurations_explicitComponentTypes() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer", "true"},
             {"simpleContainer.association", "%parent%.add(%child%)"},
             {"simpleContainer.component", "javax.swing.JButton javax.swing.JTextField"},});
@@ -244,8 +258,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
    * Use default component validator.
    */
   public void test_getConfigurations_defaultComponent() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer.defaultComponent", "java.awt.Component"},
             {"simpleContainer", "true"},
             {"simpleContainer.association", "%parent%.add(%child%)"},});
@@ -254,8 +269,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
   }
 
   public void test_getConfigurations_componentValidatorExpression() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer", "true"},
             {"simpleContainer.association", "%parent%.add(%child%)"},
             {"simpleContainer.component-validator", "isComponentType(java.awt.Component)"},});
@@ -267,8 +283,9 @@ public class SimpleContainerModelTest extends SwingModelTest {
   }
 
   public void test_getConfigurations_commandValidatorExpression() throws Exception {
-    List<SimpleContainerConfiguration> configurations =
-        getConfigurations(true, new String[][]{
+    List<SimpleContainerConfiguration> configurations = getConfigurations(
+        true,
+        new String[][]{
             {"simpleContainer", "true"},
             {"simpleContainer.association", "%parent%.add(%child%)"},
             {"simpleContainer.component-validator", "isComponentType(java.awt.Component)"},
@@ -310,11 +327,10 @@ public class SimpleContainerModelTest extends SwingModelTest {
     for (int i = 0; i < parameters.length; i++) {
       String[] parameterPair = parameters[i];
       assertEquals(2, parameterPair.length);
-      parameterLines[i] =
-          MessageFormat.format(
-              "    <parameter name=''{0}''>{1}</parameter>",
-              parameterPair[0],
-              parameterPair[1]);
+      parameterLines[i] = MessageFormat.format(
+          "    <parameter name=''{0}''>{1}</parameter>",
+          parameterPair[0],
+          parameterPair[1]);
     }
     // prepare description
     setFileContentSrc(
@@ -326,24 +342,26 @@ public class SimpleContainerModelTest extends SwingModelTest {
             "}"));
     setFileContentSrc(
         "test/SimplePanel.wbp-component.xml",
-        getSource3(new String[]{
-            "<?xml version='1.0' encoding='UTF-8'?>",
-            "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
-            "  <methods>",
-            "    <method name='add'>",
-            "      <parameter type='java.awt.Component' child='true'/>",
-            "    </method>",
-            "  </methods>",
-            "  <parameters>"}, parameterLines, new String[]{"  </parameters>", "</component>"}));
+        getSource3(
+            new String[]{
+                "<?xml version='1.0' encoding='UTF-8'?>",
+                "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
+                "  <methods>",
+                "    <method name='add'>",
+                "      <parameter type='java.awt.Component' child='true'/>",
+                "    </method>",
+                "  </methods>",
+                "  <parameters>"},
+            parameterLines,
+            new String[]{"  </parameters>", "</component>"}));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends SimplePanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends SimplePanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     // get configurations
     return new SimpleContainerFactory(panel, forCanvas).getConfigurations();
@@ -494,13 +512,12 @@ public class SimpleContainerModelTest extends SwingModelTest {
    */
   public void test_CREATE() throws Exception {
     prepareSimplePanel();
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends SimplePanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends SimplePanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     // prepare SimpleContainer
     SimpleContainer simpleContainer = new SimpleContainerFactory(panel, true).get().get(0);
@@ -529,13 +546,12 @@ public class SimpleContainerModelTest extends SwingModelTest {
    */
   public void test_CREATE_twoTimes() throws Exception {
     prepareSimplePanel();
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends SimplePanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends SimplePanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     // prepare SimpleContainer
     SimpleContainer simpleContainer = new SimpleContainerFactory(panel, true).get().get(0);
@@ -568,20 +584,19 @@ public class SimpleContainerModelTest extends SwingModelTest {
    */
   public void test_MOVE() throws Exception {
     prepareSimplePanel();
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    {",
-            "      SimplePanel SimplePanel = new SimplePanel();",
-            "      add(SimplePanel);",
-            "    }",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    {",
+        "      SimplePanel SimplePanel = new SimplePanel();",
+        "      add(SimplePanel);",
+        "    }",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button);",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     ContainerInfo simplePanel = (ContainerInfo) panel.getChildrenComponents().get(0);
     ComponentInfo button = panel.getChildrenComponents().get(1);
@@ -617,20 +632,19 @@ public class SimpleContainerModelTest extends SwingModelTest {
    */
   public void test_clipboard() throws Exception {
     prepareSimplePanel();
-    ContainerInfo rootPanel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    {",
-            "      SimplePanel panel = new SimplePanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton button = new JButton();",
-            "        panel.setContent(button);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo rootPanel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    {",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton button = new JButton();",
+        "        panel.setContent(button);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     rootPanel.refresh();
     // prepare memento
     JavaInfoMemento memento;
@@ -654,11 +668,11 @@ public class SimpleContainerModelTest extends SwingModelTest {
         "      }",
         "    }",
         "    {",
-        "      SimplePanel simplePanel = new SimplePanel();",
-        "      add(simplePanel);",
+        "      SimplePanel panel = new SimplePanel();",
+        "      add(panel);",
         "      {",
         "        JButton button = new JButton();",
-        "        simplePanel.setContent(button);",
+        "        panel.setContent(button);",
         "      }",
         "    }",
         "  }",
@@ -672,7 +686,7 @@ public class SimpleContainerModelTest extends SwingModelTest {
   ////////////////////////////////////////////////////////////////////////////
   static void prepareSimplePanel() throws Exception {
     prepareSimplePanel_classes();
-    AbstractJavaTest.setFileContentSrc(
+    AbstractJavaProjectTest.setFileContentSrc(
         "test/SimplePanel.wbp-component.xml",
         getSourceDQ(
             "<?xml version='1.0' encoding='UTF-8'?>",

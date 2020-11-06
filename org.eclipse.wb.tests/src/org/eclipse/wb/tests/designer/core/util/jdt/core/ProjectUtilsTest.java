@@ -52,7 +52,7 @@ import java.util.Map;
 
 /**
  * Tests for {@link ProjectUtils}.
- * 
+ *
  * @author scheglov_ke
  * @author mitin_aa
  */
@@ -127,7 +127,7 @@ public class ProjectUtilsTest extends AbstractJavaTest {
 
   /**
    * No-op implementation of {@link IProjectNature}.
-   * 
+   *
    * @author scheglov_ke
    */
   public static class MyNatureClass implements IProjectNature {
@@ -165,8 +165,8 @@ public class ProjectUtilsTest extends AbstractJavaTest {
    * Test for {@link ProjectUtils#getJavaVersion(IJavaProject)}.
    */
   public void test_getJavaVersion() throws Exception {
-    // initially has 1.7 compliance
-    assertEquals(1.7, ProjectUtils.getJavaVersion(m_javaProject), 0.001);
+    // initially has 1.8 compliance
+    assertEquals(1.8, ProjectUtils.getJavaVersion(m_javaProject), 0.001);
     // set temporary 1.3 compliance
     {
       String oldCompliance = m_javaProject.getOption(JavaCore.COMPILER_COMPLIANCE, true);
@@ -177,18 +177,18 @@ public class ProjectUtilsTest extends AbstractJavaTest {
         m_javaProject.setOption(JavaCore.COMPILER_COMPLIANCE, oldCompliance);
       }
     }
-    // set "null", so default compliance, we use Java 1.7
+    // set "null", so default compliance, we use Java 1.8
     {
       String oldCompliance = m_javaProject.getOption(JavaCore.COMPILER_COMPLIANCE, true);
       try {
         m_javaProject.setOption(JavaCore.COMPILER_COMPLIANCE, null);
-        assertEquals(1.7, ProjectUtils.getJavaVersion(m_javaProject), 0.001);
+        assertEquals(1.8, ProjectUtils.getJavaVersion(m_javaProject), 0.001);
       } finally {
         m_javaProject.setOption(JavaCore.COMPILER_COMPLIANCE, oldCompliance);
       }
     }
-    // check that again 1.7 compliance
-    assertEquals(1.7, ProjectUtils.getJavaVersion(m_javaProject), 0.001);
+    // check that again 1.8 compliance
+    assertEquals(1.8, ProjectUtils.getJavaVersion(m_javaProject), 0.001);
   }
 
   /**
@@ -247,7 +247,11 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     // create unit
     setFileContentSrc(
         "test/Test.java",
-        getSource("// filler filler filler", "// filler filler filler", "public class Test {", "}"));
+        getSource(
+            "// filler filler filler",
+            "// filler filler filler",
+            "public class Test {",
+            "}"));
     // no Test.class expected
     try {
       classLoader.loadClass("test.Test");
@@ -274,13 +278,12 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     // use test Bundle
     TestBundle testBundle = new TestBundle();
     try {
-      String managerSource =
-          getSource(
-              "package test;",
-              "public class MyManager {",
-              "  // 1.4",
-              "  // filler filler filler",
-              "}");
+      String managerSource = getSource(
+          "package test;",
+          "public class MyManager {",
+          "  // 1.4",
+          "  // filler filler filler",
+          "}");
       testBundle.setFile("resources/1.4/pkg/MyManager.java", managerSource);
       testBundle.install();
       // IJavaProject has 1.4 compliance
@@ -313,14 +316,13 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     // add "manager" from test bundle
     TestBundle testBundle = new TestBundle();
     try {
-      String managerSource =
-          getSource(
-              "package test;",
-              "public class MyManager {",
-              "  // 1.5",
-              "  // filler filler filler",
-              "}");
-      testBundle.setFile("resources/1.5/pkg/MyManager.java", managerSource);
+      String managerSource = getSource(
+          "package test;",
+          "public class MyManager {",
+          "  // 1.8",
+          "  // filler filler filler",
+          "}");
+      testBundle.setFile("resources/1.8/pkg/MyManager.java", managerSource);
       testBundle.install();
       // do ensure
       ProjectUtils.ensureResourceType(m_javaProject, testBundle.getBundle(), managerClassName);
@@ -355,14 +357,13 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     // add "manager" from test bundle
     TestBundle testBundle = new TestBundle();
     try {
-      String managerSource =
-          getSource(
-              "package test;",
-              "public class MyManager {",
-              "  // recent version",
-              "  // filler filler filler",
-              "}");
-      testBundle.setFile("resources/1.5/pkg/MyManager.java", managerSource);
+      String managerSource = getSource(
+          "package test;",
+          "public class MyManager {",
+          "  // recent version",
+          "  // filler filler filler",
+          "}");
+      testBundle.setFile("resources/1.8/pkg/MyManager.java", managerSource);
       testBundle.install();
       // do ensure
       ProjectUtils.ensureResourceType(m_javaProject, testBundle.getBundle(), managerClassName);
@@ -418,14 +419,13 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     // add "manager" from test bundle
     TestBundle testBundle = new TestBundle();
     try {
-      String managerSource =
-          getSource(
-              "package pkg;",
-              "public class MyManager {",
-              "  // recent version",
-              "  // filler filler filler",
-              "}");
-      testBundle.setFile("resources/1.5/pkg/MyManager.java", managerSource);
+      String managerSource = getSource(
+          "package pkg;",
+          "public class MyManager {",
+          "  // recent version",
+          "  // filler filler filler",
+          "}");
+      testBundle.setFile("resources/1.8/pkg/MyManager.java", managerSource);
       testBundle.install();
       // do ensure
       ProjectUtils.ensureResourceType(m_javaProject, testBundle.getBundle(), managerClassName);
@@ -449,13 +449,12 @@ public class ProjectUtilsTest extends AbstractJavaTest {
   public void test_ensureResourceType_binary() throws Exception {
     String managerClassName = "pkg.MyManager";
     String managerPath = "pkg/MyManager.java";
-    String managerSourceOld =
-        getSource(
-            "package pkg;",
-            "public class MyManager {",
-            "  // old version, in binary",
-            "  // filler filler filler",
-            "}");
+    String managerSourceOld = getSource(
+        "package pkg;",
+        "public class MyManager {",
+        "  // old version, in binary",
+        "  // filler filler filler",
+        "}");
     // set some other contents for file
     setFileContentSrc(managerPath, managerSourceOld);
     waitForAutoBuild();
@@ -476,15 +475,14 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     // add "manager" from test bundle
     TestBundle testBundle = new TestBundle();
     try {
-      String managerSourceNew =
-          getSource(
-              "package test;",
-              "public class MyManager {",
-              "  // recent version",
-              "  // filler filler filler",
-              "  public int newField;",
-              "}");
-      testBundle.setFile("resources/1.5/pkg/MyManager.java", managerSourceNew);
+      String managerSourceNew = getSource(
+          "package test;",
+          "public class MyManager {",
+          "  // recent version",
+          "  // filler filler filler",
+          "  public int newField;",
+          "}");
+      testBundle.setFile("resources/1.8/pkg/MyManager.java", managerSourceNew);
       testBundle.install();
       // add "manager" IType using Jar
       m_testProject.addExternalJar(managerJar);
@@ -493,7 +491,7 @@ public class ProjectUtilsTest extends AbstractJavaTest {
         assertThat(managerType).isNotNull();
         assertThat(managerType.getFields()).isEmpty();
       }
-      // no changes, because "manager" is in binary 
+      // no changes, because "manager" is in binary
       ProjectUtils.ensureResourceType(m_javaProject, testBundle.getBundle(), managerClassName);
       {
         IType managerType = m_javaProject.findType(managerClassName);
@@ -516,13 +514,12 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     String managerClassName = "pkg.MyManager";
     String managerPath = "pkg/MyManager.java";
     // set some other contents for file
-    String oldSource =
-        getSource(
-            "package pkg;",
-            "public class MyManager {",
-            "  // old version",
-            "  // filler filler filler filler filler",
-            "}");
+    String oldSource = getSource(
+        "package pkg;",
+        "public class MyManager {",
+        "  // old version",
+        "  // filler filler filler filler filler",
+        "}");
     IFile managerFile = setFileContentSrc(managerPath, oldSource);
     // mark as read-only
     {
@@ -535,14 +532,13 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     // add "manager" from test bundle
     TestBundle testBundle = new TestBundle();
     try {
-      String newSource =
-          getSource(
-              "package pkg;",
-              "public class MyManager {",
-              "  // recent version",
-              "  // filler filler filler filler filler",
-              "}");
-      testBundle.setFile("resources/1.5/pkg/MyManager.java", newSource);
+      String newSource = getSource(
+          "package pkg;",
+          "public class MyManager {",
+          "  // recent version",
+          "  // filler filler filler filler filler",
+          "}");
+      testBundle.setFile("resources/1.8/pkg/MyManager.java", newSource);
       testBundle.install();
       // do ensure, ignored because file is read-only
       ProjectUtils.ensureResourceType(m_javaProject, testBundle.getBundle(), managerClassName);
@@ -846,8 +842,9 @@ public class ProjectUtilsTest extends AbstractJavaTest {
     IPath workspacePath = new Path(workspacePathString);
     IPath osPath = ProjectUtils.getOSPath(workspacePath);
     String osLocation = osPath.toPortableString();
-    String pathEnds =
-        Expectations.get("junit-workspace/" + expectedLocation, new StrValue[]{
+    String pathEnds = Expectations.get(
+        "junit-workspace/" + expectedLocation,
+        new StrValue[]{
             new StrValue("scheglov-macpro", "/" + expectedLocation),
             new StrValue("sablin-aa", ".wbp-tt/Core/" + expectedLocation),
             new StrValue("flanker-windows", "-Core.TWS/" + expectedLocation),

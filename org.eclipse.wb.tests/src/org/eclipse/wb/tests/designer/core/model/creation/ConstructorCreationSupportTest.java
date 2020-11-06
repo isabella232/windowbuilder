@@ -23,8 +23,6 @@ import org.eclipse.wb.internal.core.model.description.ParameterDescription;
 import org.eclipse.wb.internal.core.model.property.GenericProperty;
 import org.eclipse.wb.internal.core.model.property.Property;
 import org.eclipse.wb.internal.core.model.property.editor.ObjectPropertyEditor;
-import org.eclipse.wb.internal.core.model.property.editor.PropertyEditor;
-import org.eclipse.wb.internal.core.model.property.editor.StaticFieldPropertyEditor;
 import org.eclipse.wb.internal.core.model.property.editor.style.StylePropertyEditor;
 import org.eclipse.wb.internal.core.model.util.PropertyUtils;
 import org.eclipse.wb.internal.core.utils.ast.AstNodeUtils;
@@ -45,14 +43,12 @@ import org.eclipse.jface.preference.FieldEditor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.commons.lang.ArrayUtils;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
  * Test for {@link ConstructorCreationSupport}.
- * 
+ *
  * @author scheglov_ke
  */
 public class ConstructorCreationSupportTest extends SwingModelTest {
@@ -74,13 +70,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    * Test for access methods of {@link ConstructorCreationSupport}.
    */
   public void test_access() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test {",
-            "  public static void main(String[] args) {",
-            "    JPanel panel = new JPanel();",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test {",
+        "  public static void main(String[] args) {",
+        "    JPanel panel = new JPanel();",
+        "  }",
+        "}");
     ConstructorCreationSupport creationSupport =
         (ConstructorCreationSupport) panel.getCreationSupport();
     // check node
@@ -136,20 +131,19 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
   }
 
   public void test_delete_rootComponent() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler filler filler",
-            "// filler filler filler filler filler",
-            "public class Test {",
-            "  public static void main(String[] args) {",
-            "    JPanel rootPanel = new JPanel();",
-            "    rootPanel.setBackground(Color.green);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      rootPanel.add(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler filler filler",
+        "// filler filler filler filler filler",
+        "public class Test {",
+        "  public static void main(String[] args) {",
+        "    JPanel rootPanel = new JPanel();",
+        "    rootPanel.setBackground(Color.green);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      rootPanel.add(button);",
+        "    }",
+        "  }",
+        "}");
     assertThat(panel.getCreationSupport()).isInstanceOf(ConstructorCreationSupport.class);
     // delete
     assertTrue(panel.getAssociation().canDelete());
@@ -172,36 +166,7 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
   //
   // Properties
   //
-  ////////////////////////////////////////////////////////////////////////////
-  /**
-   * Test for "Constructor" complex property.
-   */
-  public void test_properties_good() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JLabel label = new JLabel('111', SwingConstants.RIGHT);",
-            "    add(label);",
-            "  }",
-            "}");
-    ComponentInfo label = panel.getChildrenComponents().get(0);
-    assertEquals(6, label.getDescription().getConstructors().size());
-    //
-    Property constructorProperty = label.getPropertyByTitle("Constructor");
-    assertNotNull(constructorProperty);
-    //
-    Property[] subProperties = getSubProperties(constructorProperty);
-    assertEquals(2, subProperties.length);
-    assertEquals("text", subProperties[0].getTitle());
-    // check alignment sub-property
-    {
-      Property alignmentProperty = subProperties[1];
-      assertEquals("horizontalAlignment", alignmentProperty.getTitle());
-      assertInstanceOf(StaticFieldPropertyEditor.class, alignmentProperty.getEditor());
-    }
-  }
-
+  ///////////////////////////////////////////////////////////////////////////
   /**
    * Test for "Constructor" complex property.
    * <p>
@@ -230,13 +195,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    new MyButton(this, 123);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    new MyButton(this, 123);",
+        "  }",
+        "}");
     ComponentInfo button = panel.getChildrenComponents().get(0);
     // check properties
     assertNotNull(PropertyUtils.getByPath(button, "Constructor"));
@@ -281,13 +245,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    new MyButton(this, 123);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    new MyButton(this, 123);",
+        "  }",
+        "}");
     ComponentInfo button = panel.getChildrenComponents().get(0);
     // check properties
     assertNotNull(PropertyUtils.getByPath(button, "Constructor"));
@@ -357,37 +320,6 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
     assertSame(ObjectPropertyEditor.INSTANCE, buttonProperty.getEditor());
   }
 
-  /**
-   * Test {@link ParameterDescription} {@link PropertyEditor}.
-   */
-  public void test_constructorParameterEditor() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new TextArea('', 10, 50, TextArea.SCROLLBARS_BOTH));",
-            "  }",
-            "}");
-    ComponentInfo textArea = panel.getChildrenComponents().get(0);
-    // check for "Constructor" complex property exists
-    Property constructorProperty = textArea.getPropertyByTitle("Constructor");
-    assertNotNull(constructorProperty);
-    // check that there are 4 sub-properties
-    Property[] subProperties = getSubProperties(constructorProperty);
-    assertEquals(4, subProperties.length);
-    assertEquals("text", subProperties[0].getTitle());
-    assertEquals("rows", subProperties[1].getTitle());
-    assertEquals("columns", subProperties[2].getTitle());
-    assertEquals("scrollbars", subProperties[3].getTitle());
-    // check that last property has static field editor
-    StaticFieldPropertyEditor editor = (StaticFieldPropertyEditor) subProperties[3].getEditor();
-    assertTrue(ArrayUtils.isEquals(new String[]{
-        "SCROLLBARS_BOTH",
-        "SCROLLBARS_VERTICAL_ONLY",
-        "SCROLLBARS_HORIZONTAL_ONLY",
-        "SCROLLBARS_NONE"}, getFieldValue(editor, "m_titles")));
-  }
-
   ////////////////////////////////////////////////////////////////////////////
   //
   // CreationDescription
@@ -422,13 +354,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     // create new MyButton
     JavaInfo myButton = createJavaInfo("test.MyButton", "withParameters");
@@ -446,13 +377,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    * Normal Swing component.
    */
   public void test_clipboard_normalProperties() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new JButton('Some text', null));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    add(new JButton('Some text', null));",
+        "  }",
+        "}");
     panel.refresh();
     ComponentInfo button = panel.getChildrenComponents().get(0);
     assertClipboardSource(button, "new javax.swing.JButton(\"Some text\", null)");
@@ -484,13 +414,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    new MyButton(this);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    new MyButton(this);",
+        "  }",
+        "}");
     panel.refresh();
     ComponentInfo button = panel.getChildrenComponents().get(0);
     assertClipboardSource(button, "new test.MyButton(%parent%)");
@@ -524,13 +453,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new MyButton(this));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    add(new MyButton(this));",
+        "  }",
+        "}");
     panel.refresh();
     ComponentInfo button = panel.getChildrenComponents().get(0);
     // set listener that will return %someSpecialPattern% for tagged parameter
@@ -587,13 +515,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    add(new MyButton(Styles.BORDER));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    add(new MyButton(Styles.BORDER));",
+        "  }",
+        "}");
     panel.refresh();
     ComponentInfo button = panel.getChildrenComponents().get(0);
     // check with Styles.BORDER
@@ -635,16 +562,15 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    final ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      MyButton<Double, String> button = new MyButton<Double, String>();",
-            "      add(button);",
-            "    }",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      MyButton<Double, String> button = new MyButton<Double, String>();",
+        "      add(button);",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     // do copy/paste
     {
@@ -663,8 +589,8 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
           "      add(button);",
           "    }",
           "    {",
-          "      MyButton<Double, String> myButton = new MyButton<Double, String>();",
-          "      add(myButton);",
+          "      MyButton<Double, String> button = new MyButton<Double, String>();",
+          "      add(button);",
           "    }",
           "  }",
           "}");
@@ -690,22 +616,21 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    final ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      MyButton button = new MyButton() {",
-            "        protected String myStringMethod(int a, double b, String c) {",
-            "          return 'foo';",
-            "        }",
-            "        protected void myVoidMethod() {",
-            "        }",
-            "      };",
-            "      add(button);",
-            "    }",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      MyButton button = new MyButton() {",
+        "        protected String myStringMethod(int a, double b, String c) {",
+        "          return 'foo';",
+        "        }",
+        "        protected void myVoidMethod() {",
+        "        }",
+        "      };",
+        "      add(button);",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     // do copy/paste
     {
@@ -730,14 +655,14 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
           "      add(button);",
           "    }",
           "    {",
-          "      MyButton myButton = new MyButton() {",
+          "      MyButton button = new MyButton() {",
           "        protected String myStringMethod(int a, double b, String c) {",
           "          return (String) null;",
           "        }",
           "        protected void myVoidMethod() {",
           "        }",
           "      };",
-          "      add(myButton);",
+          "      add(button);",
           "    }",
           "  }",
           "}");
@@ -754,20 +679,24 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    * {@link ConstructorCreationSupport#ConstructorCreationSupport(String, boolean)}.
    */
   public void test_getSource_forCreationId() throws Exception {
-    setJavaContentSrc("test", "MyButton", new String[]{
-        "public class MyButton extends JButton {",
-        "  public MyButton(boolean b) {",
-        "  }",
-        "}"}, new String[]{
-        "<?xml version='1.0' encoding='UTF-8'?>",
-        "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
-        "  <creation>",
-        "    <source><![CDATA[new test.MyButton(false)]]></source>",
-        "  </creation>",
-        "  <creation id='true'>",
-        "    <source><![CDATA[new test.MyButton(true)]]></source>",
-        "  </creation>",
-        "</component>"});
+    setJavaContentSrc(
+        "test",
+        "MyButton",
+        new String[]{
+            "public class MyButton extends JButton {",
+            "  public MyButton(boolean b) {",
+            "  }",
+            "}"},
+        new String[]{
+            "<?xml version='1.0' encoding='UTF-8'?>",
+            "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
+            "  <creation>",
+            "    <source><![CDATA[new test.MyButton(false)]]></source>",
+            "  </creation>",
+            "  <creation id='true'>",
+            "    <source><![CDATA[new test.MyButton(true)]]></source>",
+            "  </creation>",
+            "</component>"});
     String[] lines = {"public class Test extends JPanel {", "  public Test() {", "  }", "}"};
     // parse
     parseContainer(lines);
@@ -791,11 +720,15 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    * {@link ConstructorCreationSupport#forSource(String)}.
    */
   public void test_getSource_forSource() throws Exception {
-    setJavaContentSrc("test", "MyButton", new String[]{
-        "public class MyButton extends JButton {",
-        "  public MyButton(boolean b) {",
-        "  }",
-        "}"}, null);
+    setJavaContentSrc(
+        "test",
+        "MyButton",
+        new String[]{
+            "public class MyButton extends JButton {",
+            "  public MyButton(boolean b) {",
+            "  }",
+            "}"},
+        null);
     String[] lines = {"public class Test extends JPanel {", "  public Test() {", "  }", "}"};
     // parse
     parseContainer(lines);
@@ -808,39 +741,41 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
   }
 
   public void test_CREATE_noInvocations() throws Exception {
-    setJavaContentSrc("test", "MyButton", new String[]{
-        "public class MyButton extends JButton {",
-        "  public MyButton() {",
-        "  }",
-        "}"}, new String[]{
-        "<?xml version='1.0' encoding='UTF-8'?>",
-        "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
-        "  <creation>",
-        "    <source><![CDATA[new test.MyButton()]]></source>",
-        "    <invocation signature='setEnabled(boolean)'><![CDATA[false]]></invocation>",
-        "  </creation>",
-        "</component>"});
+    setJavaContentSrc(
+        "test",
+        "MyButton",
+        new String[]{
+            "public class MyButton extends JButton {",
+            "  public MyButton() {",
+            "  }",
+            "}"},
+        new String[]{
+            "<?xml version='1.0' encoding='UTF-8'?>",
+            "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
+            "  <creation>",
+            "    <source><![CDATA[new test.MyButton()]]></source>",
+            "    <invocation signature='setEnabled(boolean)'><![CDATA[false]]></invocation>",
+            "  </creation>",
+            "</component>"});
     String[] lines1 = {"public class Test extends JPanel {", "  public Test() {", "  }", "}"};
     // parse
     ContainerInfo panel = parseContainer(lines1);
     // add MyButton
     ConstructorCreationSupport creationSupport = new ConstructorCreationSupport(null, false);
-    ComponentInfo newButton =
-        (ComponentInfo) JavaInfoUtils.createJavaInfo(
-            m_lastEditor,
-            m_lastLoader.loadClass("test.MyButton"),
-            creationSupport);
+    ComponentInfo newButton = (ComponentInfo) JavaInfoUtils.createJavaInfo(
+        m_lastEditor,
+        m_lastLoader.loadClass("test.MyButton"),
+        creationSupport);
     ((FlowLayoutInfo) panel.getLayout()).add(newButton, null);
-    String[] lines =
-        {
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      MyButton myButton = new MyButton();",
-            "      add(myButton);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines = {
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      MyButton myButton = new MyButton();",
+        "      add(myButton);",
+        "    }",
+        "  }",
+        "}"};
     assertEditor(lines);
     // check ConstructorCreationSupport state
     {
@@ -859,78 +794,84 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
   }
 
   public void test_CREATE_addInvocations() throws Exception {
-    setJavaContentSrc("test", "MyButton", new String[]{
-        "public class MyButton extends JButton {",
-        "  public MyButton() {",
-        "  }",
-        "}"}, new String[]{
-        "<?xml version='1.0' encoding='UTF-8'?>",
-        "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
-        "  <creation>",
-        "    <source><![CDATA[new test.MyButton()]]></source>",
-        "    <invocation signature='setEnabled(boolean)'><![CDATA[false]]></invocation>",
-        "  </creation>",
-        "</component>"});
+    setJavaContentSrc(
+        "test",
+        "MyButton",
+        new String[]{
+            "public class MyButton extends JButton {",
+            "  public MyButton() {",
+            "  }",
+            "}"},
+        new String[]{
+            "<?xml version='1.0' encoding='UTF-8'?>",
+            "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
+            "  <creation>",
+            "    <source><![CDATA[new test.MyButton()]]></source>",
+            "    <invocation signature='setEnabled(boolean)'><![CDATA[false]]></invocation>",
+            "  </creation>",
+            "</component>"});
     String[] lines1 = {"public class Test extends JPanel {", "  public Test() {", "  }", "}"};
     // parse
     ContainerInfo panel = parseContainer(lines1);
     // add MyButton
     ConstructorCreationSupport creationSupport = new ConstructorCreationSupport(null, true);
-    ComponentInfo newButton =
-        (ComponentInfo) JavaInfoUtils.createJavaInfo(
-            m_lastEditor,
-            m_lastLoader.loadClass("test.MyButton"),
-            creationSupport);
+    ComponentInfo newButton = (ComponentInfo) JavaInfoUtils.createJavaInfo(
+        m_lastEditor,
+        m_lastLoader.loadClass("test.MyButton"),
+        creationSupport);
     ((FlowLayoutInfo) panel.getLayout()).add(newButton, null);
-    String[] lines =
-        {
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      MyButton myButton = new MyButton();",
-            "      add(myButton);",
-            "      myButton.setEnabled(false);",
-            "    }",
-            "  }",
-            "}"};
+    String[] lines = {
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      MyButton myButton = new MyButton();",
+        "      add(myButton);",
+        "      myButton.setEnabled(false);",
+        "    }",
+        "  }",
+        "}"};
     assertEditor(lines);
   }
 
   public void test_template_index() throws Exception {
-    setJavaContentSrc("test", "MyButton", new String[]{
-        "public class MyButton extends JButton {",
-        "  public MyButton(String value) {",
-        "  }",
-        "  public void setValue(String value) {",
-        "  }",
-        "}"}, new String[]{
-        "<?xml version='1.0' encoding='UTF-8'?>",
-        "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
-        "  <creation>",
-        "    <source><![CDATA[new test.MyButton(\"value_%index%\")]]></source>",
-        "  </creation>",
-        "</component>"});
+    setJavaContentSrc(
+        "test",
+        "MyButton",
+        new String[]{
+            "public class MyButton extends JButton {",
+            "  public MyButton(String value) {",
+            "  }",
+            "  public void setValue(String value) {",
+            "  }",
+            "}"},
+        new String[]{
+            "<?xml version='1.0' encoding='UTF-8'?>",
+            "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
+            "  <creation>",
+            "    <source><![CDATA[new test.MyButton(\"value_%index%\")]]></source>",
+            "  </creation>",
+            "</component>"});
     String[] lines1 = {"public class Test extends JPanel {", "  public Test() {", "  }", "}"};
     // parse
     ContainerInfo panel = parseContainer(lines1);
     // add MyButton
     ConstructorCreationSupport creationSupport = new ConstructorCreationSupport(null, true);
-    ComponentInfo newButton =
-        (ComponentInfo) JavaInfoUtils.createJavaInfo(
-            m_lastEditor,
-            m_lastLoader.loadClass("test.MyButton"),
-            creationSupport);
+    ComponentInfo newButton = (ComponentInfo) JavaInfoUtils.createJavaInfo(
+        m_lastEditor,
+        m_lastLoader.loadClass("test.MyButton"),
+        creationSupport);
     ((FlowLayoutInfo) panel.getLayout()).add(newButton, null);
     // check source
-    assertEditor(new String[]{
-        "public class Test extends JPanel {",
-        "  public Test() {",
-        "    {",
-        "      MyButton myButton = new MyButton('value_2');",
-        "      add(myButton);",
-        "    }",
-        "  }",
-        "}"});
+    assertEditor(
+        new String[]{
+            "public class Test extends JPanel {",
+            "  public Test() {",
+            "    {",
+            "      MyButton myButton = new MyButton('value_2');",
+            "      add(myButton);",
+            "    }",
+            "  }",
+            "}"});
   }
 
   /**
@@ -957,14 +898,13 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler filler filler",
-            "// filler filler filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler filler filler",
+        "// filler filler filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     FlowLayoutInfo flowLayout = (FlowLayoutInfo) panel.getLayout();
     // try to add
     try {
@@ -987,7 +927,7 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
   public void test_getAssociation_noParent() throws Exception {
     String[] lines = {"public class Test extends JPanel {", "  public Test() {", "  }", "}"};
     parseContainer(lines);
-    // 
+    //
     Class<?> clazz = JButton.class;
     CreationSupport creationSupport = new ConstructorCreationSupport();
     JavaInfoUtils.createJavaInfo(m_lastEditor, clazz, creationSupport);
@@ -998,26 +938,30 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    * Test for {@link ConstructorCreationSupport#getAssociation()}.
    */
   public void test_getAssociation_hasParent() throws Exception {
-    setJavaContentSrc("test", "MyButton", new String[]{
-        "public class MyButton extends JButton {",
-        "  public MyButton(JPanel parent) {",
-        "  }",
-        "}"}, new String[]{
-        "<?xml version='1.0' encoding='UTF-8'?>",
-        "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
-        "  <creation>",
-        "    <source><![CDATA[new test.MyButton(%parent%)]]></source>",
-        "  </creation>",
-        "  <constructors>",
-        "    <constructor>",
-        "      <parameter type='javax.swing.JPanel' parent='true'/>",
-        "    </constructor>",
-        "  </constructors>",
-        "</component>"});
+    setJavaContentSrc(
+        "test",
+        "MyButton",
+        new String[]{
+            "public class MyButton extends JButton {",
+            "  public MyButton(JPanel parent) {",
+            "  }",
+            "}"},
+        new String[]{
+            "<?xml version='1.0' encoding='UTF-8'?>",
+            "<component xmlns='http://www.eclipse.org/wb/WBPComponent'>",
+            "  <creation>",
+            "    <source><![CDATA[new test.MyButton(%parent%)]]></source>",
+            "  </creation>",
+            "  <constructors>",
+            "    <constructor>",
+            "      <parameter type='javax.swing.JPanel' parent='true'/>",
+            "    </constructor>",
+            "  </constructors>",
+            "</component>"});
     String[] lines = {"public class Test extends JPanel {", "  public Test() {", "  }", "}"};
     // parse
     parseContainer(lines);
-    // 
+    //
     Class<?> clazz = m_lastLoader.loadClass("test.MyButton");
     CreationSupport creationSupport = new ConstructorCreationSupport();
     JavaInfoUtils.createJavaInfo(m_lastEditor, clazz, creationSupport);
@@ -1034,17 +978,16 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    */
   public void test_canUseParent_MOVE_false() throws Exception {
     prepare_canUseParent_MyButton();
-    ContainerInfo frame =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    {",
-            "      JPanel panel_1 = new JPanel();",
-            "      getContentPane().add(panel_1);",
-            "      panel_1.add(new MyButton(panel_1));",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo frame = parseContainer(
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "    {",
+        "      JPanel panel_1 = new JPanel();",
+        "      getContentPane().add(panel_1);",
+        "      panel_1.add(new MyButton(panel_1));",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo contentPane = (ContainerInfo) frame.getChildrenComponents().get(0);
     ContainerInfo panel_1 = (ContainerInfo) contentPane.getChildrenComponents().get(0);
     ComponentInfo button = panel_1.getChildrenComponents().get(0);
@@ -1061,21 +1004,20 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    */
   public void test_canUseParent_MOVE_true() throws Exception {
     prepare_canUseParent_MyButton();
-    ContainerInfo frame =
-        parseContainer(
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "    {",
-            "      JPanel panel_1 = new JPanel();",
-            "      getContentPane().add(panel_1);",
-            "      panel_1.add(new MyButton(panel_1));",
-            "    }",
-            "    {",
-            "      JPanel panel_2 = new JPanel();",
-            "      getContentPane().add(panel_2);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo frame = parseContainer(
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "    {",
+        "      JPanel panel_1 = new JPanel();",
+        "      getContentPane().add(panel_1);",
+        "      panel_1.add(new MyButton(panel_1));",
+        "    }",
+        "    {",
+        "      JPanel panel_2 = new JPanel();",
+        "      getContentPane().add(panel_2);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo contentPane = (ContainerInfo) frame.getChildrenComponents().get(0);
     ContainerInfo panel_1 = (ContainerInfo) contentPane.getChildrenComponents().get(0);
     ContainerInfo panel_2 = (ContainerInfo) contentPane.getChildrenComponents().get(1);
@@ -1093,13 +1035,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    */
   public void test_canUseParent_CREATE_false() throws Exception {
     prepare_canUseParent_MyButton();
-    ContainerInfo frame =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo frame = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "  }",
+        "}");
     frame.refresh();
     // "MyButton" requires JPanel, but we try to use JFrame
     ComponentInfo button = createComponent("test.MyButton");
@@ -1113,13 +1054,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
    */
   public void test_canUseParent_CREATE_true() throws Exception {
     prepare_canUseParent_MyButton();
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     // "MyButton" requires JPanel, we give it
     ComponentInfo button = createComponent("test.MyButton");
     CreationSupport creationSupport = button.getCreationSupport();
@@ -1149,13 +1089,12 @@ public class ConstructorCreationSupportTest extends SwingModelTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     // "MyButton" does not need %parent%, but needs "%parentForButtons%"
     // We don't know what means "%parentForButtons%", so allow.
     ComponentInfo button = createComponent("test.MyButton");

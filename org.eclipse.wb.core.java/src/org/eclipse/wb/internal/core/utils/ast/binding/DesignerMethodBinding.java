@@ -236,7 +236,7 @@ public final class DesignerMethodBinding implements IMethodBinding {
   }
 
   public IVariableBinding[] getSyntheticOuterLocals() {
-    return null;
+    throw new IllegalArgumentException();
   }
 
   public boolean isCompactConstructor() {

@@ -43,7 +43,7 @@ import java.util.Set;
 
 /**
  * Test for {@link ProjectClassLoader}.
- * 
+ *
  * @author scheglov_ke
  */
 public class ProjectClassLoaderTest extends SwingModelTest {
@@ -77,13 +77,12 @@ public class ProjectClassLoaderTest extends SwingModelTest {
             "abstract public class SuperPanel extends JPanel {",
             "}"));
     waitForAutoBuild();
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "abstract class Test extends SuperPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "abstract class Test extends SuperPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     //
     Class<?> superPanelClass = panel.getDescription().getComponentClass();
     assertNotNull(superPanelClass.getPackage());
@@ -126,12 +125,11 @@ public class ProjectClassLoaderTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public abstract class Test extends MyPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public abstract class Test extends MyPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     panel.refresh();
     assertNoErrors(panel);
     assertEquals("<dynamic>", ReflectionUtils.getFieldObject(panel.getObject(), "m_foo"));
@@ -220,15 +218,14 @@ public class ProjectClassLoaderTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     //
-    ContainerInfo panel =
-        parseContainer(
-            "abstract class Test extends JPanel {",
-            "  public Test() {",
-            "  MyButton button = new MyButton();",
-            "    add( button );",
-            "    button.setHorizontalAlignment(0);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "abstract class Test extends JPanel {",
+        "  public Test() {",
+        "  MyButton button = new MyButton();",
+        "    add( button );",
+        "    button.setHorizontalAlignment(0);",
+        "  }",
+        "}");
     assertNoErrors(panel);
   }
 
@@ -277,151 +274,6 @@ public class ProjectClassLoaderTest extends SwingModelTest {
       classLoader.loadClass("my.classes.MyClass");
     } finally {
       projectWithPackage.dispose();
-    }
-  }
-
-  ////////////////////////////////////////////////////////////////////////////
-  //
-  // Fragments
-  //
-  ////////////////////////////////////////////////////////////////////////////
-  /**
-   * Fragments should be included into {@link ClassLoader} of main plugin.
-   */
-  @DisposeProjectAfter
-  public void test_fragments() throws Exception {
-    PdeProjectConversionUtils.convertToPDE(m_testProject.getProject(), null);
-    // create fragment
-    TestProject fragmentProject = new TestProject("TestProject_ru");
-    try {
-      PdeProjectConversionUtils.convertToPDE(fragmentProject.getProject(), "TestProject");
-      {
-        setFileContent(
-            m_testProject.getProject(),
-            "src/com/test",
-            "Application.properties",
-            getSourceDQ("shell.text=Hello!"));
-        setFileContent(
-            fragmentProject.getProject(),
-            "src/com/test",
-            "Application_ru.properties",
-            getSourceDQ("shell.text=Privet!"));
-      }
-      waitForAutoBuild();
-      // prepare ClassLoader
-      ProjectClassLoader classLoader =
-          ProjectClassLoader.create(null, m_testProject.getJavaProject());
-      assertNotNull(classLoader.getResource("com/test/Application.properties"));
-      assertNotNull(classLoader.getResource("com/test/Application_ru.properties"));
-    } finally {
-      fragmentProject.dispose();
-    }
-  }
-
-  /**
-   * Fragments should be included into {@link ClassLoader} of main plugin.
-   */
-  @DisposeProjectAfter
-  public void test_fragments_cycle() throws Exception {
-    PdeProjectConversionUtils.convertToPDE(m_testProject.getProject(), null);
-    // create fragment
-    TestProject fragmentProject = new TestProject("TestProject_ru");
-    try {
-      PdeProjectConversionUtils.convertToPDE(fragmentProject.getProject(), "TestProject");
-      {
-        setFileContent(
-            m_testProject.getProject(),
-            "src/com/test",
-            "Application.properties",
-            getSourceDQ("shell.text=Hello!"));
-        setFileContent(
-            fragmentProject.getProject(),
-            "src/com/test",
-            "Application_ru.properties",
-            getSourceDQ("shell.text=Privet!"));
-      }
-      waitForAutoBuild();
-      // bad thing: add fragment into classpath of its host
-      m_testProject.addRequiredProject(fragmentProject);
-      // prepare ClassLoader
-      ProjectClassLoader classLoader =
-          ProjectClassLoader.create(null, m_testProject.getJavaProject());
-      assertNotNull(classLoader.getResource("com/test/Application.properties"));
-      assertNotNull(classLoader.getResource("com/test/Application_ru.properties"));
-    } finally {
-      fragmentProject.dispose();
-    }
-  }
-
-  /**
-   * Test for fragment that is not Java project. Not sure if this makes sense, but one user has such
-   * project.
-   */
-  @DisposeProjectAfter
-  public void test_fragments_notJavaFragment() throws Exception {
-    PdeProjectConversionUtils.convertToPDE(m_testProject.getProject(), null);
-    // create fragment
-    TestProject fragmentProject = new TestProject("TestProject_ru");
-    try {
-      PdeProjectConversionUtils.convertToPDE(fragmentProject.getProject(), "TestProject");
-      ProjectUtils.removeNature(fragmentProject.getProject(), JavaCore.NATURE_ID);
-      {
-        setFileContent(
-            m_testProject.getProject(),
-            "src/com/test",
-            "Application.properties",
-            getSourceDQ("shell.text=Hello!"));
-        setFileContent(
-            fragmentProject.getProject(),
-            "com/test",
-            "Application_ru.properties",
-            getSourceDQ("shell.text=Privet!"));
-      }
-      waitForAutoBuild();
-      // prepare ClassLoader
-      ProjectClassLoader classLoader =
-          ProjectClassLoader.create(null, m_testProject.getJavaProject());
-      assertNotNull(classLoader.getResource("com/test/Application.properties"));
-      assertNotNull(classLoader.getResource("com/test/Application_ru.properties"));
-    } finally {
-      fragmentProject.dispose();
-    }
-  }
-
-  /**
-   * Fragments should be included into {@link ClassLoader} of main plugin and required plugins.
-   */
-  @DisposeProjectAfter
-  public void test_fragments_ofRequiredProject() throws Exception {
-    PdeProjectConversionUtils.convertToPDE(m_testProject.getProject(), null);
-    // create projects
-    TestProject requiredProject = new TestProject("RequiredProject");
-    TestProject fragmentProject = new TestProject("RequiredProject_ru");
-    try {
-      PdeProjectConversionUtils.convertToPDE(requiredProject.getProject(), null);
-      PdeProjectConversionUtils.convertToPDE(fragmentProject.getProject(), "RequiredProject");
-      {
-        setFileContent(
-            requiredProject.getProject(),
-            "src/com/test",
-            "Application.properties",
-            getSourceDQ("shell.text=Hello!"));
-        setFileContent(
-            fragmentProject.getProject(),
-            "src/com/test",
-            "Application_ru.properties",
-            getSourceDQ("shell.text=Privet!"));
-      }
-      m_testProject.addRequiredProject(requiredProject);
-      waitForAutoBuild();
-      // prepare ClassLoader
-      ProjectClassLoader classLoader =
-          ProjectClassLoader.create(null, m_testProject.getJavaProject());
-      assertNotNull(classLoader.getResource("com/test/Application.properties"));
-      assertNotNull(classLoader.getResource("com/test/Application_ru.properties"));
-    } finally {
-      fragmentProject.dispose();
-      requiredProject.dispose();
     }
   }
 
@@ -480,28 +332,8 @@ public class ProjectClassLoaderTest extends SwingModelTest {
   }
 
   /**
-   * Old Java project style, when source and output is project itself.
-   * <p>
-   * https://groups.google.com/forum/#!topic/google-web-toolkit/r0Klxfkd7qA
-   */
-  @DisposeProjectAfter
-  public void test_addSourceLocations_oldProjectStyle() throws Exception {
-    setFileContent(
-        ".classpath",
-        getSourceDQ(
-            "<classpath>",
-            "  <classpathentry kind='con' path='org.eclipse.jdt.launching.JRE_CONTAINER'/>",
-            "  <classpathentry kind='src' path=''/>",
-            "  <classpathentry kind='output' path='bin'/>",
-            "</classpath>"));
-    // check locations
-    List<String> locations = getSourceLocations();
-    assertThat(locations).containsExactly(workspaceLocation + "/TestProject");
-  }
-
-  /**
    * Move existing {@link IProject} into "subFolder" in workspace.
-   * 
+   *
    * @return the new absolute location of project.
    */
   public static String moveProjectIntoWorkspaceSubFolder() throws Exception {

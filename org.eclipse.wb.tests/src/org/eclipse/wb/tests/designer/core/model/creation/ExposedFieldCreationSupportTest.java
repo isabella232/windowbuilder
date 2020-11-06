@@ -30,7 +30,7 @@ import javax.swing.JFrame;
 
 /**
  * Test for {@link ExposedFieldCreationSupport}.
- * 
+ *
  * @author scheglov_ke
  */
 public class ExposedFieldCreationSupportTest extends SwingModelTest {
@@ -63,13 +63,12 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: test.MyPanel} {this} {}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -220,13 +219,12 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: test.MyPanel} {this} {}",
         "  {implicit-layout: java.awt.BorderLayout} {implicit-layout} {}",
@@ -290,15 +288,14 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    MyPanel myPanel = new MyPanel();",
-            "    add(myPanel);",
-            "    myPanel.m_container.setEnabled(false);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    MyPanel myPanel = new MyPanel();",
+        "    add(myPanel);",
+        "    myPanel.m_container.setEnabled(false);",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/add(myPanel)/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -368,16 +365,15 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends MyPanel {",
-            "  Test() {",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends MyPanel {",
+        "  Test() {",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button);",
+        "    }",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: test.MyPanel} {this} {/add(button)/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -423,15 +419,14 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "    setEnabled(true);",
-            "    m_container.setEnabled(false);",
-            "    m_container.add(new JButton());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "    setEnabled(true);",
+        "    m_container.setEnabled(false);",
+        "    m_container.add(new JButton());",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: test.MyPanel} {this} {/setEnabled(true)/}",
         "  {implicit-layout: java.awt.BorderLayout} {implicit-layout} {}",
@@ -480,13 +475,12 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "    add(new JPanel());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "    add(new JPanel());",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: test.MyPanel} {this} {/add(new JPanel())/}",
         "  {implicit-layout: java.awt.BorderLayout} {implicit-layout} {}",
@@ -536,13 +530,12 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: test.MyPanel} {this} {}",
         "  {implicit-layout: java.awt.BorderLayout} {implicit-layout} {}",
@@ -621,17 +614,16 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    {",
-            "      MyPanel myPanel_0 = new MyPanel();",
-            "      add(myPanel_0);",
-            "      myPanel_0.m_button.setEnabled(false);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    {",
+        "      MyPanel myPanel_0 = new MyPanel();",
+        "      add(myPanel_0);",
+        "      myPanel_0.m_button.setEnabled(false);",
+        "    }",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/add(myPanel_0)/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -655,9 +647,9 @@ public class ExposedFieldCreationSupportTest extends SwingModelTest {
         "      myPanel_0.m_button.setEnabled(false);",
         "    }",
         "    {",
-        "      MyPanel myPanel = new MyPanel();",
-        "      myPanel.m_button.setEnabled(false);",
-        "      add(myPanel);",
+        "      MyPanel myPanel_0 = new MyPanel();",
+        "      myPanel_0.m_button.setEnabled(false);",
+        "      add(myPanel_0);",
         "    }",
         "  }",
         "}");

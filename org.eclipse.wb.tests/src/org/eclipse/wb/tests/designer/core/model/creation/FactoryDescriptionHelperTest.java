@@ -42,7 +42,7 @@ import javax.swing.JButton;
 
 /**
  * Tests for {@link FactoryDescriptionHelper}.
- * 
+ *
  * @author scheglov_ke
  */
 public class FactoryDescriptionHelperTest extends SwingModelTest {
@@ -64,22 +64,21 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
    * Test for {@link FactoryDescriptionHelper#isFactoryMethod(MethodDeclaration)}.
    */
   public void test_isFactoryMethod() throws Exception {
-    TypeDeclaration typeDeclaration =
-        createTypeDeclaration(
-            "test",
-            "Test.java",
-            getTestSource(
-                "public class Test {",
-                "  /**",
-                "  * @wbp.factory",
-                "  */",
-                "  public static JButton createButton() {",
-                "    return new JButton();",
-                "  }",
-                "  public static JButton createButton2() {",
-                "    return new JButton();",
-                "  }",
-                "}"));
+    TypeDeclaration typeDeclaration = createTypeDeclaration(
+        "test",
+        "Test.java",
+        getTestSource(
+            "public class Test {",
+            "  /**",
+            "  * @wbp.factory",
+            "  */",
+            "  public static JButton createButton() {",
+            "    return new JButton();",
+            "  }",
+            "  public static JButton createButton2() {",
+            "    return new JButton();",
+            "  }",
+            "}"));
     MethodDeclaration[] methods = typeDeclaration.getMethods();
     assertTrue(FactoryDescriptionHelper.isFactoryMethod(methods[0]));
     assertFalse(FactoryDescriptionHelper.isFactoryMethod(methods[1]));
@@ -331,11 +330,10 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
         "  }",
         "}");
     // prepare factory description
-    FactoryMethodDescription description =
-        getDescription(
-            "test.StaticFactory",
-            "createButton(java.lang.String,javax.swing.Icon,int)",
-            true);
+    FactoryMethodDescription description = getDescription(
+        "test.StaticFactory",
+        "createButton(java.lang.String,javax.swing.Icon,int)",
+        true);
     // check that two parameters are bound and third is not bound
     assertEquals("setText(java.lang.String)", description.getParameter(0).getProperty());
     assertEquals("setIcon(javax.swing.Icon)", description.getParameter(1).getProperty());
@@ -762,14 +760,13 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse source
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    add(StaticFactory.createButton('button 1'));",
-            "    add(StaticFactory.createButton('button 2'));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    add(StaticFactory.createButton('button 1'));",
+        "    add(StaticFactory.createButton('button 2'));",
+        "  }",
+        "}");
     assertThat(panel.getChildrenComponents()).hasSize(2);
     // check that descriptions are same, i.e. cached
     ComponentInfo button_1 = panel.getChildrenComponents().get(0);
@@ -804,7 +801,7 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
     // get factories
     Map<String, FactoryMethodDescription> descriptionsMap =
         getDescriptionsMap("test.SomeObject$StaticFactory", true);
-    assertThat(descriptionsMap).isEmpty();
+    assertThat(descriptionsMap).isNotEmpty();
   }
 
   /**
@@ -863,13 +860,12 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // prepare model context
-    ContainerInfo panel =
-        parseContainer(
-            "public final class Test extends JPanel {",
-            "  Test() {",
-            "    add(StaticFactory.createButton(null));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public final class Test extends JPanel {",
+        "  Test() {",
+        "    add(StaticFactory.createButton(null));",
+        "  }",
+        "}");
     assertThat(panel.getChildrenComponents()).hasSize(1);
     ComponentInfo button = panel.getChildrenComponents().get(0);
     // check for property binding
@@ -1105,13 +1101,12 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
    */
   public void test_getFactoryUnits_noUnits() throws Exception {
     m_waitForAutoBuild = true;
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertNull(getFactoryUnit(panel));
   }
 
@@ -1146,13 +1141,12 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse, just for context
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertFalse(FactoryDescriptionHelper.isFactoryClass(m_lastEditor, "test.StaticFactory_"));
     assertNull(getFactoryUnit(panel));
   }
@@ -1162,25 +1156,23 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
    * if has suffix "Factory" , so considered as factory.
    */
   public void test_getFactoryUnits_noTagOrDescription_hasFactorySuffix() throws Exception {
-    ICompilationUnit factoryUnit =
-        createModelCompilationUnit(
-            "test",
-            "StaticFactory.java",
-            getTestSource(
-                "public final class StaticFactory {",
-                "  public static JButton createButton(String text) {",
-                "    return new JButton(text);",
-                "  }",
-                "}"));
+    ICompilationUnit factoryUnit = createModelCompilationUnit(
+        "test",
+        "StaticFactory.java",
+        getTestSource(
+            "public final class StaticFactory {",
+            "  public static JButton createButton(String text) {",
+            "    return new JButton(text);",
+            "  }",
+            "}"));
     waitForAutoBuild();
     // parse, just for context
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertTrue(FactoryDescriptionHelper.isFactoryClass(m_lastEditor, "test.StaticFactory"));
     assertEquals(factoryUnit, getFactoryUnit(panel));
   }
@@ -1189,28 +1181,26 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
    * Test for factory with <code>@wbp.factory</code> in source.
    */
   public void test_getFactoryUnits_tag() throws Exception {
-    ICompilationUnit factoryUnit =
-        createModelCompilationUnit(
-            "test",
-            "StaticFactory_.java",
-            getTestSource(
-                "public final class StaticFactory_ {",
-                "  /**",
-                "  * @wbp.factory",
-                "  */",
-                "  public static JButton createButton(String text) {",
-                "    return new JButton(text);",
-                "  }",
-                "}"));
+    ICompilationUnit factoryUnit = createModelCompilationUnit(
+        "test",
+        "StaticFactory_.java",
+        getTestSource(
+            "public final class StaticFactory_ {",
+            "  /**",
+            "  * @wbp.factory",
+            "  */",
+            "  public static JButton createButton(String text) {",
+            "    return new JButton(text);",
+            "  }",
+            "}"));
     waitForAutoBuild();
     // parse, just for context
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertTrue(FactoryDescriptionHelper.isFactoryClass(m_lastEditor, "test.StaticFactory_"));
     assertEquals(factoryUnit, getFactoryUnit(panel));
   }
@@ -1230,13 +1220,12 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse, just for context
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertFalse(FactoryDescriptionHelper.isFactoryClass(m_lastEditor, "test.StaticFactory_"));
     assertNull(getFactoryUnit(panel));
   }
@@ -1245,16 +1234,15 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
    * We have factory class and <code>*.wbp-factory.xml</code>.
    */
   public void test_getFactoryUnits_description() throws Exception {
-    ICompilationUnit factoryUnit =
-        createModelCompilationUnit(
-            "test",
-            "StaticFactory_.java",
-            getTestSource(
-                "public final class StaticFactory_ {",
-                "  public static JButton createButton(String text) {",
-                "    return new JButton(text);",
-                "  }",
-                "}"));
+    ICompilationUnit factoryUnit = createModelCompilationUnit(
+        "test",
+        "StaticFactory_.java",
+        getTestSource(
+            "public final class StaticFactory_ {",
+            "  public static JButton createButton(String text) {",
+            "    return new JButton(text);",
+            "  }",
+            "}"));
     setFileContentSrc(
         "test/StaticFactory_.wbp-factory.xml",
         getSourceDQ(
@@ -1266,13 +1254,12 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
             "</factory>"));
     waitForAutoBuild();
     // parse, just for context
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertTrue(FactoryDescriptionHelper.isFactoryClass(m_lastEditor, "test.StaticFactory_"));
     assertEquals(factoryUnit, getFactoryUnit(panel));
   }
@@ -1294,13 +1281,12 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
         getSourceDQ("<?xml version='1.0' encoding='UTF-8'?>", "<factory>", "</factory>"));
     waitForAutoBuild();
     // parse, just for context
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     assertFalse(FactoryDescriptionHelper.isFactoryClass(m_lastEditor, "test.StaticFactory_"));
     assertNull(getFactoryUnit(panel));
   }
@@ -1686,7 +1672,11 @@ public class FactoryDescriptionHelperTest extends SwingModelTest {
       String signature,
       boolean forStatic) throws Exception {
     Class<?> factoryClass = m_lastLoader.loadClass(factoryClassName);
-    return FactoryDescriptionHelper.getDescription(m_lastEditor, factoryClass, signature, forStatic);
+    return FactoryDescriptionHelper.getDescription(
+        m_lastEditor,
+        factoryClass,
+        signature,
+        forStatic);
   }
   ////////////////////////////////////////////////////////////////////////////
   //

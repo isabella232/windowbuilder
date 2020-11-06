@@ -112,11 +112,12 @@ public class BindingsTest extends AbstractJavaTest {
    * Our copy of {@link ITypeBinding} should implement {@link ITypeBinding#getDeclaredMethods()}.
    */
   public void test_DesignerTypeBinding_getDeclaredMethods() throws Exception {
-    createTypeDeclaration_TestC(getSourceDQ(
-        "  // filler filler filler filler filler",
-        "  private java.util.List foo() {",
-        "    return null;",
-        "  }"));
+    createTypeDeclaration_TestC(
+        getSourceDQ(
+            "  // filler filler filler filler filler",
+            "  private java.util.List foo() {",
+            "    return null;",
+            "  }"));
     // prepare ITypeBinding copy
     ITypeBinding sourceBinding = getNode("java.util.List", Type.class).resolveBinding();
     ITypeBinding ourBinding = m_lastEditor.getBindingContext().get(sourceBinding);
@@ -130,11 +131,12 @@ public class BindingsTest extends AbstractJavaTest {
    * Our copy of {@link ITypeBinding} should implement {@link ITypeBinding#getTypeBounds()}.
    */
   public void test_DesignerTypeBinding_getTypeBounds() throws Exception {
-    createTypeDeclaration_TestC(getSourceDQ(
-        "  // filler filler filler filler filler",
-        "  private <T extends java.util.List> T foo() {",
-        "    return null;",
-        "  }"));
+    createTypeDeclaration_TestC(
+        getSourceDQ(
+            "  // filler filler filler filler filler",
+            "  private <T extends java.util.List> T foo() {",
+            "    return null;",
+            "  }"));
     // prepare ITypeBinding copy
     ITypeBinding sourceBinding = getNode("T foo()", Type.class).resolveBinding();
     ITypeBinding ourBinding = m_lastEditor.getBindingContext().get(sourceBinding);
@@ -149,12 +151,13 @@ public class BindingsTest extends AbstractJavaTest {
    * {@link ITypeBinding#getTypeDeclaration()} and {@link ITypeBinding#getTypeParameters()}.
    */
   public void test_DesignerTypeBinding_getTypeDeclaration() throws Exception {
-    createTypeDeclaration_TestC(getSourceDQ(
-        "  // filler filler filler filler filler",
-        "  // filler filler filler filler filler",
-        "  private void foo() {",
-        "    new java.util.ArrayList<Double>();",
-        "  }"));
+    createTypeDeclaration_TestC(
+        getSourceDQ(
+            "  // filler filler filler filler filler",
+            "  // filler filler filler filler filler",
+            "  private void foo() {",
+            "    new java.util.ArrayList<Double>();",
+            "  }"));
     // prepare ITypeBinding copy
     ITypeBinding ourBinding;
     {
@@ -214,12 +217,13 @@ public class BindingsTest extends AbstractJavaTest {
    * Check different {@link DesignerTypeBinding} in {@link BindingContext} for anonymous classes.
    */
   public void test_DesignerTypeBinding_anonymous() throws Exception {
-    createTypeDeclaration_TestC(getSourceDQ(
-        "  // filler filler filler filler filler",
-        "  private Object field_1 = new Object() { // marker_1",
-        "  };",
-        "  private Object field_2 = new Object() { // marker_2",
-        "  };"));
+    createTypeDeclaration_TestC(
+        getSourceDQ(
+            "  // filler filler filler filler filler",
+            "  private Object field_1 = new Object() { // marker_1",
+            "  };",
+            "  private Object field_2 = new Object() { // marker_2",
+            "  };"));
     // prepare ITypeBinding originals
     ITypeBinding binding_1 = getNode("marker_1", ClassInstanceCreation.class).resolveTypeBinding();
     ITypeBinding binding_2 = getNode("marker_2", ClassInstanceCreation.class).resolveTypeBinding();
@@ -248,12 +252,13 @@ public class BindingsTest extends AbstractJavaTest {
             "  }",
             "}"));
     waitForAutoBuild();
-    createTypeDeclaration_TestC(getSourceDQ(
-        "  // filler filler filler filler filler",
-        "  private G field_0 = new/*marker_0*/ G(new Long(1));",
-        "  private G field_1 = new/*marker_1*/ G<java.lang.Double>(1.5);",
-        "  private G field_2 = new/*marker_2*/ G<java.lang.Integer>(1);",
-        "  private G field_3 = new/*marker_3*/ G<java.util.List<java.lang.String>>(null);"));
+    createTypeDeclaration_TestC(
+        getSourceDQ(
+            "  // filler filler filler filler filler",
+            "  private G field_0 = new/*marker_0*/ G(new Long(1));",
+            "  private G field_1 = new/*marker_1*/ G<java.lang.Double>(1.5);",
+            "  private G field_2 = new/*marker_2*/ G<java.lang.Integer>(1);",
+            "  private G field_3 = new/*marker_3*/ G<java.util.List<java.lang.String>>(null);"));
     // prepare ITypeBinding originals
     ITypeBinding binding_0 = getNode("marker_0", ClassInstanceCreation.class).resolveTypeBinding();
     ITypeBinding binding_1 = getNode("marker_1", ClassInstanceCreation.class).resolveTypeBinding();
@@ -290,12 +295,15 @@ public class BindingsTest extends AbstractJavaTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_DesignerPackageBinding() throws Exception {
+    // TODO NOK
     TypeDeclaration typeDeclaration = createTypeDeclaration_TestC("");
     IPackageBinding originalBinding = typeDeclaration.resolveBinding().getPackage();
     IPackageBinding ourBinding = m_lastEditor.getBindingContext().get(originalBinding);
-    assert_sameProperties(IPackageBinding.class, originalBinding, ourBinding, new String[]{
-        "getName",
-        "isUnnamed"});
+    assert_sameProperties(
+        IPackageBinding.class,
+        originalBinding,
+        ourBinding,
+        new String[]{"getName", "isUnnamed"});
     assert_methodFails(ourBinding, "isEqualTo", NULL_ARG);
   }
 
@@ -308,22 +316,27 @@ public class BindingsTest extends AbstractJavaTest {
    * Basic test for {@link DesignerMethodBinding}.
    */
   public void test_DesignerMethodBinding_1() throws Exception {
+    // TODO NOK
     TypeDeclaration typeDeclaration =
         createTypeDeclaration_TestC(getSourceDQ("  private int foo() {", "    return 0;", "  }"));
     MethodDeclaration methodDeclaration = typeDeclaration.getMethods()[0];
     IMethodBinding originalBinding = methodDeclaration.resolveBinding();
     IMethodBinding ourBinding = m_lastEditor.getBindingContext().get(originalBinding);
-    assert_sameProperties(IMethodBinding.class, originalBinding, ourBinding, new String[]{
-        "getDeclaringClass",
-        "getName",
-        "getReturnType",
-        "getParameterTypes",
-        "getExceptionTypes",
-        "getMethodDeclaration",
-        "isConstructor",
-        "getModifiers",
-        "getDeclaringMember",
-        "isVarargs"});
+    assert_sameProperties(
+        IMethodBinding.class,
+        originalBinding,
+        ourBinding,
+        new String[]{
+            "getDeclaringClass",
+            "getName",
+            "getReturnType",
+            "getParameterTypes",
+            "getExceptionTypes",
+            "getMethodDeclaration",
+            "isConstructor",
+            "getModifiers",
+            "getDeclaringMember",
+            "isVarargs"});
     assert_methodFails(ourBinding, "getParameterAnnotations", new Object[]{0});
     assert_methodFails(ourBinding, "isSubsignature", NULL_ARG);
     assert_methodFails(ourBinding, "overrides", NULL_ARG);
@@ -334,12 +347,13 @@ public class BindingsTest extends AbstractJavaTest {
    * Basic test for {@link DesignerMethodBinding#getMethodDeclaration()}.
    */
   public void test_DesignerMethodBinding_getMethodDeclaration() throws Exception {
-    createTypeDeclaration_TestC(getSourceDQ(
-        "// filler filler filler filler filler",
-        "  private void root() {",
-        "    System.currentTimeMillis();",
-        "    java.util.Arrays.asList('a', 'b', 'c');",
-        "  }"));
+    createTypeDeclaration_TestC(
+        getSourceDQ(
+            "// filler filler filler filler filler",
+            "  private void root() {",
+            "    System.currentTimeMillis();",
+            "    java.util.Arrays.asList('a', 'b', 'c');",
+            "  }"));
     // not generic, same "declaration"
     {
       MethodInvocation invocation = getNode("System.", MethodInvocation.class);
@@ -371,11 +385,8 @@ public class BindingsTest extends AbstractJavaTest {
    * {@link DesignerMethodBinding#removeParameterType(int)}.
    */
   public void test_DesignerMethodBinding_removeParameterType() throws Exception {
-    TypeDeclaration typeDeclaration =
-        createTypeDeclaration_TestC(getSourceDQ(
-            "  private int foo(int a, float b, double c) {",
-            "    return 0;",
-            "  }"));
+    TypeDeclaration typeDeclaration = createTypeDeclaration_TestC(
+        getSourceDQ("  private int foo(int a, float b, double c) {", "    return 0;", "  }"));
     MethodDeclaration methodDeclaration = typeDeclaration.getMethods()[0];
     IMethodBinding originalBinding = methodDeclaration.resolveBinding();
     DesignerMethodBinding ourBinding = m_lastEditor.getBindingContext().get(originalBinding);
@@ -392,13 +403,14 @@ public class BindingsTest extends AbstractJavaTest {
    * {@link IMethodBinding#getMethodDeclaration()}.
    */
   public void test_DesignerMethodBinding_removeParameterType_whenGenerics() throws Exception {
-    createTypeDeclaration_TestC(getSourceDQ(
-        "  // filler filler filler filler filler",
-        "  public <T extends java.util.List> void foo(int a, T b, double c) {",
-        "  }",
-        "  void bar() {",
-        "    foo(0, new java.util.ArrayList(), 0.0);",
-        "  }"));
+    createTypeDeclaration_TestC(
+        getSourceDQ(
+            "  // filler filler filler filler filler",
+            "  public <T extends java.util.List> void foo(int a, T b, double c) {",
+            "  }",
+            "  void bar() {",
+            "    foo(0, new java.util.ArrayList(), 0.0);",
+            "  }"));
     MethodInvocation invocation = getNode("foo(0", MethodInvocation.class);
     IMethodBinding originalBinding = getMethodBinding(invocation);
     DesignerMethodBinding ourBinding = m_lastEditor.getBindingContext().get(originalBinding);
@@ -427,12 +439,11 @@ public class BindingsTest extends AbstractJavaTest {
     IVariableBinding originalBinding =
         ((VariableDeclarationFragment) fieldDeclaration.fragments().get(0)).resolveBinding();
     IVariableBinding ourBinding = m_lastEditor.getBindingContext().get(originalBinding);
-    assert_sameProperties(IVariableBinding.class, originalBinding, ourBinding, new String[]{
-        "getName",
-        "getDeclaringClass",
-        "getType",
-        "isField",
-        "getModifiers"});
+    assert_sameProperties(
+        IVariableBinding.class,
+        originalBinding,
+        ourBinding,
+        new String[]{"getName", "getDeclaringClass", "getType", "isField", "getModifiers"});
     assert_methodFails(ourBinding, "isEqualTo", NULL_ARG);
   }
 
@@ -446,13 +457,12 @@ public class BindingsTest extends AbstractJavaTest {
     FieldDeclaration fieldDeclaration = typeDeclaration.getFields()[0];
     ITypeBinding fieldTypeBinding = fieldDeclaration.getType().resolveBinding();
     //
-    IVariableBinding ourVariable =
-        m_lastEditor.getBindingContext().get(
-            "myField",
-            typeBinding,
-            fieldTypeBinding,
-            true,
-            Modifier.PUBLIC);
+    IVariableBinding ourVariable = m_lastEditor.getBindingContext().get(
+        "myField",
+        typeBinding,
+        fieldTypeBinding,
+        true,
+        Modifier.PUBLIC);
     assertEquals("myField", ourVariable.getName());
     assertEquals(
         getFullyQualifiedName(fieldTypeBinding, false),
@@ -472,12 +482,12 @@ public class BindingsTest extends AbstractJavaTest {
    * Test for {@link BindingContext#getCopy(ITypeBinding)}.
    */
   public void test_getCopy() throws Exception {
-    TypeDeclaration typeDeclaration =
-        createTypeDeclaration_Test(
-            "public class Test extends javax.swing.JFrame {",
-            "  public Test() {",
-            "  }",
-            "}");
+    // TODO NOK
+    TypeDeclaration typeDeclaration = createTypeDeclaration_Test(
+        "public class Test extends javax.swing.JFrame {",
+        "  public Test() {",
+        "  }",
+        "}");
     ITypeBinding typeBinding = getTypeBinding(typeDeclaration);
     ITypeBinding typeBinding2 = m_lastEditor.getBindingContext().getCopy(typeBinding);
     // new ITypeBinding
@@ -506,38 +516,42 @@ public class BindingsTest extends AbstractJavaTest {
    */
   private static void assert_sameTypeBindings(ITypeBinding expectedBinding,
       ITypeBinding actualBinding) throws Exception {
-    assert_sameProperties(ITypeBinding.class, expectedBinding, actualBinding, new String[]{
-        "isPrimitive",
-        "isNullType",
-        "isArray",
-        "getElementType",
-        "getDimensions",
-        "isClass",
-        "isInterface",
-        "isEnum",
-        "getName",
-        "getKey",
-        "getPackage",
-        "getDeclaringClass",
-        "getSuperclass",
-        "getInterfaces",
-        "isTopLevel",
-        "isNested",
-        "isMember",
-        "isLocal",
-        "isAnonymous",
-        "isGenericType",
-        "isParameterizedType",
-        "isTypeVariable",
-        "getTypeArguments",
-        "getTypeDeclaration",
-        "getTypeParameters",
-        "getTypeBounds",
-        "getDeclaredMethods",
-        "getModifiers",
-        "getDeclaredModifiers",
-        "getDeclaringMember",
-        "isIntersectionType"});
+    assert_sameProperties(
+        ITypeBinding.class,
+        expectedBinding,
+        actualBinding,
+        new String[]{
+            "isPrimitive",
+            "isNullType",
+            "isArray",
+            "getElementType",
+            "getDimensions",
+            "isClass",
+            "isInterface",
+            "isEnum",
+            "getName",
+            "getKey",
+            "getPackage",
+            "getDeclaringClass",
+            "getSuperclass",
+            "getInterfaces",
+            "isTopLevel",
+            "isNested",
+            "isMember",
+            "isLocal",
+            "isAnonymous",
+            "isGenericType",
+            "isParameterizedType",
+            "isTypeVariable",
+            "getTypeArguments",
+            "getTypeDeclaration",
+            "getTypeParameters",
+            "getTypeBounds",
+            "getDeclaredMethods",
+            "getModifiers",
+            "getDeclaredModifiers",
+            "getDeclaringMember",
+            "isIntersectionType"});
   }
 
   /**

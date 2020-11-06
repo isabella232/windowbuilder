@@ -20,7 +20,7 @@ import org.eclipse.jface.action.IAction;
 
 /**
  * Tests for "flow container" support for container itself or for its "layout manager".
- * 
+ *
  * @author scheglov_ke
  */
 public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
@@ -40,17 +40,16 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   public void test_canvas_CREATE_empty() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     // begin creating Button
     JavaInfo newButton = loadCreationTool("javax.swing.JButton", "empty");
@@ -80,21 +79,20 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
 
   public void test_canvas_CREATE() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.add(existingButton);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.add(existingButton);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo existingButton = panel.getChildrenComponents().get(0);
     // begin creating Button
@@ -129,25 +127,24 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
 
   public void test_canvas_MOVE() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton buttonA = new JButton();",
-            "        panel.add(buttonA);",
-            "      }",
-            "      {",
-            "        JButton buttonB = new JButton();",
-            "        panel.add(buttonB);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton buttonA = new JButton();",
+        "        panel.add(buttonA);",
+        "      }",
+        "      {",
+        "        JButton buttonB = new JButton();",
+        "        panel.add(buttonB);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo buttonA = panel.getChildrenComponents().get(0);
     ComponentInfo buttonB = panel.getChildrenComponents().get(1);
@@ -180,25 +177,24 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
 
   public void test_canvas_PASTE() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.add(existingButton);",
-            "      }",
-            "    }",
-            "    {",
-            "      JButton rootButton = new JButton('A');",
-            "      add(rootButton, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.add(existingButton);",
+        "      }",
+        "    }",
+        "    {",
+        "      JButton rootButton = new JButton('A');",
+        "      add(rootButton, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo existingButton = panel.getChildrenComponents().get(0);
     ComponentInfo rootButton = mainPanel.getChildrenComponents().get(1);
@@ -233,8 +229,8 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
         "      FlowPanel panel = new FlowPanel();",
         "      add(panel);",
         "      {",
-        "        JButton button = new JButton('A');",
-        "        panel.add(button);",
+        "        JButton rootButton = new JButton('A');",
+        "        panel.add(rootButton);",
         "      }",
         "      {",
         "        JButton existingButton = new JButton();",
@@ -256,25 +252,24 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
 
   public void test_canvas_ADD() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.add(existingButton);",
-            "      }",
-            "    }",
-            "    {",
-            "      JButton rootButton = new JButton();",
-            "      add(rootButton, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.add(existingButton);",
+        "      }",
+        "    }",
+        "    {",
+        "      JButton rootButton = new JButton();",
+        "      add(rootButton, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo existingButton = panel.getChildrenComponents().get(0);
     ComponentInfo rootButton = mainPanel.getChildrenComponents().get(1);
@@ -313,21 +308,20 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
   ////////////////////////////////////////////////////////////////////////////
   public void test_tree_CREATE() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.add(existingButton);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.add(existingButton);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo existingButton = panel.getChildrenComponents().get(0);
     // begin creating Button
@@ -362,25 +356,24 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
 
   public void test_tree_MOVE() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton buttonA = new JButton();",
-            "        panel.add(buttonA);",
-            "      }",
-            "      {",
-            "        JButton buttonB = new JButton();",
-            "        panel.add(buttonB);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton buttonA = new JButton();",
+        "        panel.add(buttonA);",
+        "      }",
+        "      {",
+        "        JButton buttonB = new JButton();",
+        "        panel.add(buttonB);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo buttonA = panel.getChildrenComponents().get(0);
     ComponentInfo buttonB = panel.getChildrenComponents().get(1);
@@ -416,25 +409,24 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
 
   public void test_tree_PASTE() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.add(existingButton);",
-            "      }",
-            "    }",
-            "    {",
-            "      JButton rootButton = new JButton('A');",
-            "      add(rootButton, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.add(existingButton);",
+        "      }",
+        "    }",
+        "    {",
+        "      JButton rootButton = new JButton('A');",
+        "      add(rootButton, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo existingButton = panel.getChildrenComponents().get(0);
     ComponentInfo rootButton = mainPanel.getChildrenComponents().get(1);
@@ -469,8 +461,8 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
         "      FlowPanel panel = new FlowPanel();",
         "      add(panel);",
         "      {",
-        "        JButton button = new JButton('A');",
-        "        panel.add(button);",
+        "        JButton rootButton = new JButton('A');",
+        "        panel.add(rootButton);",
         "      }",
         "      {",
         "        JButton existingButton = new JButton();",
@@ -492,25 +484,24 @@ public abstract class FlowContainerAbstractGefTest extends SwingGefTest {
 
   public void test_tree_ADD() throws Exception {
     prepareFlowPanel();
-    ContainerInfo mainPanel =
-        openContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new BorderLayout());",
-            "    {",
-            "      FlowPanel panel = new FlowPanel();",
-            "      add(panel);",
-            "      {",
-            "        JButton existingButton = new JButton();",
-            "        panel.add(existingButton);",
-            "      }",
-            "    }",
-            "    {",
-            "      JButton rootButton = new JButton();",
-            "      add(rootButton, BorderLayout.NORTH);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo mainPanel = openContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new BorderLayout());",
+        "    {",
+        "      FlowPanel panel = new FlowPanel();",
+        "      add(panel);",
+        "      {",
+        "        JButton existingButton = new JButton();",
+        "        panel.add(existingButton);",
+        "      }",
+        "    }",
+        "    {",
+        "      JButton rootButton = new JButton();",
+        "      add(rootButton, BorderLayout.NORTH);",
+        "    }",
+        "  }",
+        "}");
     ContainerInfo panel = (ContainerInfo) mainPanel.getChildrenComponents().get(0);
     ComponentInfo existingButton = panel.getChildrenComponents().get(0);
     ComponentInfo rootButton = mainPanel.getChildrenComponents().get(1);
