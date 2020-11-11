@@ -35,7 +35,7 @@ import javax.swing.JButton;
 
 /**
  * Test for renaming {@link AbstractSimpleVariableSupport} on "text" property change.
- * 
+ *
  * @author scheglov_ke
  */
 public class TextPropertyRenameTest extends AbstractVariableTest {
@@ -64,11 +64,10 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
         "}",
         "}");
     //
-    JavaInfo component =
-        JavaInfoUtils.createJavaInfo(
-            m_lastEditor,
-            m_lastLoader.loadClass("javax.swing.JButton"),
-            new ConstructorCreationSupport());
+    JavaInfo component = JavaInfoUtils.createJavaInfo(
+        m_lastEditor,
+        m_lastLoader.loadClass("javax.swing.JButton"),
+        new ConstructorCreationSupport());
     assertEquals(
         "firstButton",
         invoke_getNameForText(component, "First", 3, "${text}${class_name}"));
@@ -77,7 +76,11 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
         invoke_getNameForText(component, "First", 3, "${class_acronym}${text}"));
     assertEquals(
         "veryLongTextButton",
-        invoke_getNameForText(component, "Very long text for my JButton", 3, "${text}${class_name}"));
+        invoke_getNameForText(
+            component,
+            "Very long text for my JButton",
+            3,
+            "${text}${class_name}"));
     assertEquals(
         "textCommaButton",
         invoke_getNameForText(
@@ -109,23 +112,21 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
   }
 
   public void test_textPropertyRename_never() throws Exception {
-    String[] lines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            "    add(button);",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            "    button.setText(\"first\");",
-            "    add(button);",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        "    add(button);",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        "    button.setText(\"first\");",
+        "    add(button);",
+        "  }",
+        "}"};
     check_textPropertyRename(
         lines,
         expectedLines,
@@ -134,23 +135,21 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
   }
 
   public void test_textPropertyRename_alwaysBad_controlCharacters() throws Exception {
-    String[] lines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            "    add(button);",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            "    button.setText(\"...\");",
-            "    add(button);",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        "    add(button);",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        "    button.setText(\"...\");",
+        "    add(button);",
+        "  }",
+        "}"};
     check_textPropertyRename(
         lines,
         expectedLines,
@@ -159,48 +158,44 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
   }
 
   public void test_textPropertyRename_alwaysBad_nonLatinCharacters() throws Exception {
-    String[] lines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            "    add(button);",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            "    button.setText(\"\\u0410\\u0411\");",
-            "    add(button);",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        "    add(button);",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        "    button.setText(\"АБ\");",
+        "    add(button);",
+        "  }",
+        "}"};
     check_textPropertyRename(
         lines,
         expectedLines,
-        "\u0410\u0411",
+        "АБ",
         IPreferenceConstants.V_VARIABLE_TEXT_MODE_ALWAYS);
   }
 
   public void test_textPropertyRename_alwaysGood() throws Exception {
-    String[] lines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            "    add(button);",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton firstButton = new JButton();",
-            "    firstButton.setText(\"first\");",
-            "    add(firstButton);",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        "    add(button);",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton firstButton = new JButton();",
+        "    firstButton.setText(\"first\");",
+        "    add(firstButton);",
+        "  }",
+        "}"};
     check_textPropertyRename(
         lines,
         expectedLines,
@@ -209,23 +204,21 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
   }
 
   public void test_textPropertyRename_defaultFalse() throws Exception {
-    String[] lines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton aButton = new JButton();",
-            "    add(aButton);",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton aButton = new JButton();",
-            "    aButton.setText(\"first\");",
-            "    add(aButton);",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton aButton = new JButton();",
+        "    add(aButton);",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton aButton = new JButton();",
+        "    aButton.setText(\"first\");",
+        "    add(aButton);",
+        "  }",
+        "}"};
     check_textPropertyRename(
         lines,
         expectedLines,
@@ -234,23 +227,21 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
   }
 
   public void test_textPropertyRename_defaultTrue() throws Exception {
-    String[] lines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button_1 = new JButton();",
-            "    add(button_1);",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton firstButton = new JButton();",
-            "    firstButton.setText(\"first\");",
-            "    add(firstButton);",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button_1 = new JButton();",
+        "    add(button_1);",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton firstButton = new JButton();",
+        "    firstButton.setText(\"first\");",
+        "    add(firstButton);",
+        "  }",
+        "}"};
     check_textPropertyRename(
         lines,
         expectedLines,
@@ -260,25 +251,23 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
 
   public void test_textPropertyRename_field() throws Exception {
     IJavaProject javaProject = m_testProject.getJavaProject();
-    String[] lines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  private JButton m_button_Q;",
-            "  public Test() {",
-            "    m_button_Q = new JButton();",
-            "    add(m_button_Q);",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  private JButton m_firstButton_Q;",
-            "  public Test() {",
-            "    m_firstButton_Q = new JButton();",
-            "    m_firstButton_Q.setText(\"first\");",
-            "    add(m_firstButton_Q);",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public final class Test extends JPanel {",
+        "  private JButton m_button_Q;",
+        "  public Test() {",
+        "    m_button_Q = new JButton();",
+        "    add(m_button_Q);",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public final class Test extends JPanel {",
+        "  private JButton m_firstButton_Q;",
+        "  public Test() {",
+        "    m_firstButton_Q = new JButton();",
+        "    m_firstButton_Q.setText(\"first\");",
+        "    add(m_firstButton_Q);",
+        "  }",
+        "}"};
     // remember existing project options and set prefix/suffix
     Map<String, String> options;
     {
@@ -298,29 +287,27 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
   }
 
   public void test_textPropertyRename_duplicate() throws Exception {
-    String[] lines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton button = new JButton();",
-            "    add(button);",
-            "    //",
-            "    JButton firstButton = new JButton();",
-            "    add(firstButton);",
-            "  }",
-            "}"};
-    String[] expectedLines =
-        new String[]{
-            "public final class Test extends JPanel {",
-            "  public Test() {",
-            "    JButton firstButton_1 = new JButton();",
-            "    firstButton_1.setText(\"first\");",
-            "    add(firstButton_1);",
-            "    //",
-            "    JButton firstButton = new JButton();",
-            "    add(firstButton);",
-            "  }",
-            "}"};
+    String[] lines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton button = new JButton();",
+        "    add(button);",
+        "    //",
+        "    JButton firstButton = new JButton();",
+        "    add(firstButton);",
+        "  }",
+        "}"};
+    String[] expectedLines = new String[]{
+        "public final class Test extends JPanel {",
+        "  public Test() {",
+        "    JButton firstButton_1 = new JButton();",
+        "    firstButton_1.setText(\"first\");",
+        "    add(firstButton_1);",
+        "    //",
+        "    JButton firstButton = new JButton();",
+        "    add(firstButton);",
+        "  }",
+        "}"};
     check_textPropertyRename(
         lines,
         expectedLines,
@@ -360,13 +347,12 @@ public class TextPropertyRenameTest extends AbstractVariableTest {
    * Test that rename happens for newly added component.
    */
   public void test_renameNewComponent() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     FlowLayoutInfo flowLayout = (FlowLayoutInfo) panel.getLayout();
     // add new JButton
     ComponentInfo newButton = createComponent(JButton.class);

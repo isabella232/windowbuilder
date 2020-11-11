@@ -1296,6 +1296,8 @@ public class MigLayoutTest extends AbstractMigLayoutTest {
         expected_sp = "8.33sp";
       } else if (displayHeight == 1050) {
         expected_sp = "9.52sp";
+      } else if (displayHeight == 1080) {
+        expected_sp = "9.26sp";
       } else {
         throw new AssertionFailedError("Unknown display height: " + displayHeight);
       }

@@ -866,7 +866,7 @@ public class MigLayoutGefTest extends SwingGefTest {
     openPanel(
         "public class Test extends JPanel {",
         "  public Test() {",
-        "    setLayout(new MigLayout('', '', '[100px][75px][50px]'));",
+        "    setLayout(new MigLayout('', '[]', '[75px][100px][50px]'));",
         "  }",
         "}");
     // select panel to show headers
@@ -882,7 +882,7 @@ public class MigLayoutGefTest extends SwingGefTest {
     assertEditor(
         "public class Test extends JPanel {",
         "  public Test() {",
-        "    setLayout(new MigLayout('', '[]', '[75px][50px][100px]'));",
+        "    setLayout(new MigLayout('', '[]', '[100px][50px][75px]'));",
         "  }",
         "}");
   }

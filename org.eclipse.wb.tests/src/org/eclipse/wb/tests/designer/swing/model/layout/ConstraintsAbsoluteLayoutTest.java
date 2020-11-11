@@ -18,11 +18,10 @@ import org.eclipse.wb.internal.swing.model.component.ComponentInfo;
 import org.eclipse.wb.internal.swing.model.component.ContainerInfo;
 import org.eclipse.wb.internal.swing.model.layout.absolute.ConstraintsAbsoluteLayoutDataInfo;
 import org.eclipse.wb.internal.swing.model.layout.absolute.ConstraintsAbsoluteLayoutInfo;
-import org.eclipse.wb.tests.designer.ResourceUtils;
 
 /**
  * Tests for {@link ConstraintsAbsoluteLayoutInfo}.
- * 
+ *
  * @author scheglov_ke
  */
 public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
@@ -31,11 +30,31 @@ public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
   // Life cycle
   //
   ////////////////////////////////////////////////////////////////////////////
-  @Override
-  protected void configureNewProject() throws Exception {
-    super.configureNewProject();
-    ResourceUtils.resources2project(m_testProject, "resources/Swing/absolute");
-    waitForAutoBuild();
+  private void createMyLayoutMyConstraints() throws Exception {
+    setFileContentSrc(
+        "test/MyLayout.java",
+        getTestSource(
+            "public class MyLayout implements LayoutManager {",
+            "  public void addLayoutComponent(String name, Component comp) {",
+            "  }",
+            "  public  void removeLayoutComponent(Component comp) {",
+            "  }",
+            "  public Dimension preferredLayoutSize(Container parent) {",
+            "    return new Dimension(200, 100);",
+            "  }",
+            "  public Dimension minimumLayoutSize(Container parent) {",
+            "    return new Dimension(200, 100);",
+            "  }",
+            "  public void layoutContainer(Container parent) {",
+            "  }",
+            "}"));
+    setFileContentSrc(
+        "test/MyConstraints.java",
+        getTestSource(
+            "public class MyConstraints implements Cloneable, java.io.Serializable {",
+            "  public MyConstraints(final int x, final int y, final int width, final int height) {",
+            "  }",
+            "}"));
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -52,24 +71,23 @@ public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
   // Tests
   //
   ////////////////////////////////////////////////////////////////////////////
-  public void test_parse() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new MyLayout());",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button, new MyConstraints(1, 2, 3, 4));",
-            "    }",
-            "  }",
-            "}");
+  public void _test_parse() throws Exception {
+    createMyLayoutMyConstraints();
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new MyLayout());",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button, new MyConstraints(1, 2, 3, 4));",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/setLayout(new MyLayout())/ /add(button, new MyConstraints(1, 2, 3, 4))/}",
-        "  {new: test.MyLayout} {empty} {/setLayout(new MyLayout())/}",
-        "  {new: javax.swing.JButton} {local-unique: button} {/new JButton()/ /add(button, new MyConstraints(1, 2, 3, 4))/}",
-        "    {new: test.MyConstraints} {empty} {/add(button, new MyConstraints(1, 2, 3, 4))/}");
+        "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
+        "  {new: javax.swing.JButton} {local-unique: button} {/new JButton()/ /add(button, new MyConstraints(1, 2, 3, 4))/}");
     //
     ComponentInfo button = panel.getChildrenComponents().get(0);
     {
@@ -98,18 +116,18 @@ public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
   /**
    * Test for {@link ConstraintsAbsoluteLayoutInfo#getConstraints(ComponentInfo)}.
    */
-  public void test_getConstraints_existing() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new MyLayout());",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button, new MyConstraints(1, 2, 3, 4));",
-            "    }",
-            "  }",
-            "}");
+  public void _test_getConstraints_existing() throws Exception {
+    createMyLayoutMyConstraints();
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new MyLayout());",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button, new MyConstraints(1, 2, 3, 4));",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/setLayout(new MyLayout())/ /add(button, new MyConstraints(1, 2, 3, 4))/}",
@@ -129,18 +147,18 @@ public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
   /**
    * Test for {@link ConstraintsAbsoluteLayoutInfo#getConstraints(ComponentInfo)}.
    */
-  public void test_getConstraints_new() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new MyLayout());",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button);",
-            "    }",
-            "  }",
-            "}");
+  public void _test_getConstraints_new() throws Exception {
+    createMyLayoutMyConstraints();
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new MyLayout());",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button);",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/setLayout(new MyLayout())/ /add(button)/}",
@@ -172,18 +190,18 @@ public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
   /**
    * {@link ConstraintsAbsoluteLayoutDataInfo} should not be displayed in components tree.
    */
-  public void test_Constraints_isNotVisibleInTree() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new MyLayout());",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button, new MyConstraints(1, 2, 3, 4));",
-            "    }",
-            "  }",
-            "}");
+  public void _test_Constraints_isNotVisibleInTree() throws Exception {
+    createMyLayoutMyConstraints();
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new MyLayout());",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button, new MyConstraints(1, 2, 3, 4));",
+        "    }",
+        "  }",
+        "}");
     ComponentInfo button = panel.getChildrenComponents().get(0);
     ConstraintsAbsoluteLayoutDataInfo constraints =
         ConstraintsAbsoluteLayoutInfo.getConstraints(button);
@@ -199,14 +217,14 @@ public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
   /**
    * Test for {@link ConstraintsAbsoluteLayoutInfo#command_CREATE(ComponentInfo, ComponentInfo)}.
    */
-  public void test_CREATE() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new MyLayout());",
-            "  }",
-            "}");
+  public void _test_CREATE() throws Exception {
+    createMyLayoutMyConstraints();
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new MyLayout());",
+        "  }",
+        "}");
     panel.refresh();
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/setLayout(new MyLayout())/}",
@@ -256,18 +274,18 @@ public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
   /**
    * When set "width" to preferred size, then <code>0</code> should be used.
    */
-  public void test_setWidth_preferred() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new MyLayout());",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button, new MyConstraints(10, 20, 100, 50));",
-            "    }",
-            "  }",
-            "}");
+  public void _test_setWidth_preferred() throws Exception {
+    createMyLayoutMyConstraints();
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new MyLayout());",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button, new MyConstraints(10, 20, 100, 50));",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     //
     ComponentInfo button = panel.getChildrenComponents().get(0);
@@ -288,18 +306,18 @@ public class ConstraintsAbsoluteLayoutTest extends AbstractLayoutTest {
   /**
    * When set "height" to preferred size, then <code>0</code> should be used.
    */
-  public void test_setHeight_preferred() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new MyLayout());",
-            "    {",
-            "      JButton button = new JButton();",
-            "      add(button, new MyConstraints(10, 20, 100, 50));",
-            "    }",
-            "  }",
-            "}");
+  public void _test_setHeight_preferred() throws Exception {
+    createMyLayoutMyConstraints();
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new MyLayout());",
+        "    {",
+        "      JButton button = new JButton();",
+        "      add(button, new MyConstraints(10, 20, 100, 50));",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     //
     ComponentInfo button = panel.getChildrenComponents().get(0);

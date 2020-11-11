@@ -13,7 +13,6 @@ package org.eclipse.wb.tests.designer.swing.model.layout;
 import org.eclipse.wb.core.model.IJavaInfoInitializationParticipator;
 import org.eclipse.wb.core.model.JavaInfo;
 import org.eclipse.wb.core.model.ObjectInfoUtils;
-import org.eclipse.wb.core.model.association.ImplicitObjectAssociation;
 import org.eclipse.wb.core.model.association.InvocationChildAssociation;
 import org.eclipse.wb.draw2d.geometry.Dimension;
 import org.eclipse.wb.draw2d.geometry.Point;
@@ -34,10 +33,8 @@ import org.eclipse.wb.internal.swing.SwingToolkitDescription;
 import org.eclipse.wb.internal.swing.ToolkitProvider;
 import org.eclipse.wb.internal.swing.model.component.ComponentInfo;
 import org.eclipse.wb.internal.swing.model.component.ContainerInfo;
-import org.eclipse.wb.internal.swing.model.layout.BorderLayoutInfo;
 import org.eclipse.wb.internal.swing.model.layout.FlowLayoutInfo;
 import org.eclipse.wb.internal.swing.model.layout.ImplicitLayoutCreationSupport;
-import org.eclipse.wb.internal.swing.model.layout.ImplicitLayoutVariableSupport;
 import org.eclipse.wb.internal.swing.model.layout.LayoutInfo;
 import org.eclipse.wb.internal.swing.model.layout.absolute.AbsoluteLayoutCreationSupport;
 import org.eclipse.wb.internal.swing.model.layout.absolute.AbsoluteLayoutInfo;
@@ -63,6 +60,14 @@ import javax.swing.JButton;
 public class AbsoluteLayoutTest extends AbstractLayoutTest {
   private static final IPreferenceStore preferences =
       SwingToolkitDescription.INSTANCE.getPreferences();
+
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    if (m_testProject == null) {
+      do_projectCreate();
+    }
+  }
 
   ////////////////////////////////////////////////////////////////////////////
   //
@@ -238,50 +243,6 @@ public class AbsoluteLayoutTest extends AbstractLayoutTest {
     //
     String actualText = getPropertyText(layoutProperty);
     assertEquals("(absolute)", actualText);
-  }
-
-  /**
-   * Test for implicit absolute layout.
-   */
-  public void test_implicit() throws Exception {
-    setFileContentSrc(
-        "test/AbsolutePanel.java",
-        getTestSource(
-            "public class AbsolutePanel extends JPanel {",
-            "  public AbsolutePanel() {",
-            "    setLayout(null);",
-            "  }",
-            "}"));
-    waitForAutoBuild();
-    //
-    ContainerInfo panel = parseContainer(
-        "// filler filler filler",
-        "public class Test extends AbsolutePanel {",
-        "  public Test() {",
-        "  }",
-        "}");
-    LayoutInfo layout = panel.getLayout();
-    assertInstanceOf(AbsoluteLayoutInfo.class, layout);
-    assertInstanceOf(ImplicitLayoutVariableSupport.class, layout.getVariableSupport());
-    assertInstanceOf(ImplicitObjectAssociation.class, layout.getAssociation());
-    // check creation support
-    {
-      CreationSupport creationSupport = layout.getCreationSupport();
-      assertInstanceOf(ImplicitLayoutCreationSupport.class, creationSupport);
-      assertEquals("implicit-layout: absolute", creationSupport.toString());
-    }
-    // replace with explicit BorderLayout
-    {
-      setLayout(panel, BorderLayout.class);
-      assertEditor(
-          "// filler filler filler",
-          "public class Test extends AbsolutePanel {",
-          "  public Test() {",
-          "    setLayout(new BorderLayout(0, 0));",
-          "  }",
-          "}");
-      assertInstanceOf(BorderLayoutInfo.class, panel.getLayout());
-    }
   }
 
   public void test_absoluteOnContentPane() throws Exception {
@@ -1474,13 +1435,13 @@ public class AbsoluteLayoutTest extends AbstractLayoutTest {
         "}"};
     assertEditor(lines);
     assertHierarchy(
-        "{this: javax.swing.JPanel} {this} {/add(inner)/ /add(panel)/}",
+        "{this: javax.swing.JPanel} {this} {/add(inner)/ /add(inner)/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
         "  {new: javax.swing.JPanel} {local-unique: inner} {/new JPanel()/ /inner.setLayout(null)/ /add(inner)/ /inner.add(button)/}",
         "    {new: javax.swing.JButton} {local-unique: button} {/new JButton()/ /inner.add(button)/ /button.setBounds(1, 2, 3, 4)/}",
         "    {inner.setLayout(null)} {absolute} {}",
-        "  {new: javax.swing.JPanel} {local-unique: panel} {/new JPanel()/ /add(panel)/ /panel.setLayout(null)/ /panel.add(button)/}",
-        "    {panel.setLayout(null)} {absolute} {}",
-        "    {new: javax.swing.JButton} {local-unique: button} {/new JButton()/ /panel.add(button)/ /button.setBounds(1, 2, 3, 4)/}");
+        "  {new: javax.swing.JPanel} {local-unique: inner} {/new JPanel()/ /add(inner)/ /inner.setLayout(null)/ /inner.add(button)/}",
+        "    {inner.setLayout(null)} {absolute} {}",
+        "    {new: javax.swing.JButton} {local-unique: button} {/new JButton()/ /inner.add(button)/ /button.setBounds(1, 2, 3, 4)/}");
   }
 }

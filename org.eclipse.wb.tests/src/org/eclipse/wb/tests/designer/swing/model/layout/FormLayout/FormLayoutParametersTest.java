@@ -27,10 +27,18 @@ import javax.swing.JTextField;
 
 /**
  * Tests for {@link FormLayoutInfo} and automatic alignment.
- * 
+ *
  * @author scheglov_ke
  */
 public class FormLayoutParametersTest extends AbstractFormLayoutTest {
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    if (m_testProject == null) {
+      do_projectCreate();
+    }
+  }
+
   ////////////////////////////////////////////////////////////////////////////
   //
   // Life cycle
@@ -53,16 +61,15 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
    * {@link JTextField} marked as required horizontal grab/fill.
    */
   public void test_CREATE_Text() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,}));",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,}));",
+        "  }",
+        "}");
     // create
     ExecutionUtils.run(panel, new RunnableEx() {
       public void run() throws Exception {
@@ -92,16 +99,15 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
    * Test that horizontal grab/fill for {@link JTextField} can be disabled.
    */
   public void test_CREATE_Text_disabled() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,}));",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,}));",
+        "  }",
+        "}");
     // create
     Activator.getDefault().getPreferenceStore().setValue(IPreferenceConstants.P_ENABLE_GRAB, false);
     ExecutionUtils.run(panel, new RunnableEx() {
@@ -132,16 +138,15 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
    * For {@link JTable} marked as required horizontal/vertical grab/fill.
    */
   public void test_CREATE_Table() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,}));",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,}));",
+        "  }",
+        "}");
     // create
     ExecutionUtils.run(panel, new RunnableEx() {
       public void run() throws Exception {
@@ -185,13 +190,12 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
             "}"));
     waitForAutoBuild();
     // parse
-    final ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends MyPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends MyPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     // create
     ExecutionUtils.run(panel, new RunnableEx() {
       public void run() throws Exception {
@@ -218,22 +222,21 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
    * {@link JLabel} before {@link JTextField}, use "right" alignment.
    */
   public void test_CREATE_LabelBeforeText() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        ColumnSpec.decode('default:grow'),},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,",
-            "        RowSpec.decode('default:grow'),}));",
-            "    {",
-            "      JTextField textField = new JTextField();",
-            "      add(textField, '2, 1, fill, default');",
-            "    }",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        ColumnSpec.decode('default:grow'),},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,",
+        "        RowSpec.decode('default:grow'),}));",
+        "    {",
+        "      JTextField textField = new JTextField();",
+        "      add(textField, '2, 1, fill, default');",
+        "    }",
+        "  }",
+        "}");
     // create
     ExecutionUtils.run(panel, new RunnableEx() {
       public void run() throws Exception {
@@ -270,23 +273,22 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
    * Variant with gap between {@link JLabel} and {@link JTextField}.
    */
   public void test_CREATE_LabelBeforeText_gap() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.RELATED_GAP_COLSPEC,",
-            "        ColumnSpec.decode('default:grow'),},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,",
-            "        RowSpec.decode('default:grow'),}));",
-            "    {",
-            "      JTextField textField = new JTextField();",
-            "      add(textField, '3, 1, fill, default');",
-            "    }",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.RELATED_GAP_COLSPEC,",
+        "        ColumnSpec.decode('default:grow'),},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,",
+        "        RowSpec.decode('default:grow'),}));",
+        "    {",
+        "      JTextField textField = new JTextField();",
+        "      add(textField, '3, 1, fill, default');",
+        "    }",
+        "  }",
+        "}");
     // create
     ExecutionUtils.run(panel, new RunnableEx() {
       public void run() throws Exception {
@@ -322,22 +324,21 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
    * Check that automatic "right alignment" feature for {@link JLabel} can be disabled.
    */
   public void test_CREATE_LabelBeforeText_disabled() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        ColumnSpec.decode('default:grow'),},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,",
-            "        RowSpec.decode('default:grow'),}));",
-            "    {",
-            "      JTextField textField = new JTextField();",
-            "      add(textField, '2, 1, fill, default');",
-            "    }",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        ColumnSpec.decode('default:grow'),},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,",
+        "        RowSpec.decode('default:grow'),}));",
+        "    {",
+        "      JTextField textField = new JTextField();",
+        "      add(textField, '2, 1, fill, default');",
+        "    }",
+        "  }",
+        "}");
     // create
     Activator.getDefault().getPreferenceStore().setValue(
         IPreferenceConstants.P_ENABLE_RIGHT_ALIGNMENT,
@@ -376,22 +377,21 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
    * {@link JTextField} after {@link JLabel} , use "right" alignment for {@link JLabel}.
    */
   public void test_CREATE_TextAfterLabel() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        ColumnSpec.decode('default:grow'),},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,",
-            "        RowSpec.decode('default:grow'),}));",
-            "    {",
-            "      JLabel label = new JLabel('New label');",
-            "      add(label, '1, 1, right, default');",
-            "    }",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        ColumnSpec.decode('default:grow'),},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,",
+        "        RowSpec.decode('default:grow'),}));",
+        "    {",
+        "      JLabel label = new JLabel('New label');",
+        "      add(label, '1, 1, right, default');",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     // add new component
     ExecutionUtils.run(panel, new RunnableEx() {
@@ -430,23 +430,22 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
    * Variant with gap between {@link JLabel} and {@link JTextField}.
    */
   public void test_CREATE_TextAfterLabel_gap() throws Exception {
-    final ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.RELATED_GAP_COLSPEC,",
-            "        ColumnSpec.decode('default:grow'),},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,",
-            "        RowSpec.decode('default:grow'),}));",
-            "    {",
-            "      JLabel label = new JLabel('New label');",
-            "      add(label, '1, 1, right, default');",
-            "    }",
-            "  }",
-            "}");
+    final ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.RELATED_GAP_COLSPEC,",
+        "        ColumnSpec.decode('default:grow'),},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,",
+        "        RowSpec.decode('default:grow'),}));",
+        "    {",
+        "      JLabel label = new JLabel('New label');",
+        "      add(label, '1, 1, right, default');",
+        "    }",
+        "  }",
+        "}");
     panel.refresh();
     // add new component
     ExecutionUtils.run(panel, new RunnableEx() {
@@ -487,10 +486,11 @@ public class FormLayoutParametersTest extends AbstractFormLayoutTest {
   ////////////////////////////////////////////////////////////////////////////
   @Override
   public String getTestSource(String... lines) {
-    lines =
-        CodeUtils.join(new String[]{
+    lines = CodeUtils.join(
+        new String[]{
             "import com.jgoodies.forms.layout.*;",
-            "import com.jgoodies.forms.factories.*;"}, lines);
+            "import com.jgoodies.forms.factories.*;"},
+        lines);
     return super.getTestSource(lines);
   }
 }

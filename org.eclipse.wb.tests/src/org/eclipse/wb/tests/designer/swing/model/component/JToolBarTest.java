@@ -44,7 +44,7 @@ import javax.swing.SwingConstants;
 
 /**
  * Test for {@link JToolBar}.
- * 
+ *
  * @author scheglov_ke
  */
 public class JToolBarTest extends SwingModelTest {
@@ -57,18 +57,17 @@ public class JToolBarTest extends SwingModelTest {
    * Test for association.
    */
   public void test_association_Component() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      bar.add(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      bar.add(button);",
+        "    }",
+        "  }",
+        "}");
     assertNoErrors(panel);
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     panel.refresh();
@@ -82,18 +81,17 @@ public class JToolBarTest extends SwingModelTest {
    * Test for horizontal orientation.
    */
   public void test_orientation_horizontal() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      bar.add(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      bar.add(button);",
+        "    }",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     panel.refresh();
     assertTrue(bar.isHorizontal());
@@ -103,14 +101,13 @@ public class JToolBarTest extends SwingModelTest {
    * Test for {@link SwingConstants#VERTICAL} orientation.
    */
   public void test_orientation_vertical() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar(SwingConstants.VERTICAL);",
-            "    add(bar);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar(SwingConstants.VERTICAL);",
+        "    add(bar);",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     panel.refresh();
     assertFalse(bar.isHorizontal());
@@ -122,14 +119,13 @@ public class JToolBarTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_CREATE() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     // add component
     {
@@ -156,22 +152,21 @@ public class JToolBarTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_OUT() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      bar.add(button);",
-            "    }",
-            "    {",
-            "      JPanel innerPanel = new JPanel();",
-            "      add(innerPanel);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      bar.add(button);",
+        "    }",
+        "    {",
+        "      JPanel innerPanel = new JPanel();",
+        "      add(innerPanel);",
+        "    }",
+        "  }",
+        "}");
     // prepare source
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     ComponentInfo button = bar.getChildrenComponents().get(0);
@@ -198,22 +193,21 @@ public class JToolBarTest extends SwingModelTest {
   }
 
   public void test_MOVE() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    {",
-            "      JButton button = new JButton('000');",
-            "      bar.add(button);",
-            "    }",
-            "    {",
-            "      JButton button = new JButton('111');",
-            "      bar.add(button);",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    {",
+        "      JButton button = new JButton('000');",
+        "      bar.add(button);",
+        "    }",
+        "    {",
+        "      JButton button = new JButton('111');",
+        "      bar.add(button);",
+        "    }",
+        "  }",
+        "}");
     // prepare source
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     ComponentInfo button_0 = bar.getChildrenComponents().get(0);
@@ -243,26 +237,25 @@ public class JToolBarTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_ADD() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    {",
-            "      JPanel innerPanel = new JPanel();",
-            "      add(innerPanel);",
-            "      {",
-            "        JButton button = new JButton();",
-            "        innerPanel.add(button);",
-            "      }",
-            "    }",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    {",
+        "      JPanel innerPanel = new JPanel();",
+        "      add(innerPanel);",
+        "      {",
+        "        JButton button = new JButton();",
+        "        innerPanel.add(button);",
+        "      }",
+        "    }",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     ContainerInfo innerPanel = (ContainerInfo) panel.getChildrenComponents().get(1);
     ComponentInfo button = innerPanel.getChildrenComponents().get(0);
-    // 
+    //
     bar.command_MOVE(button, null);
     assertEditor(
         "class Test extends JPanel {",
@@ -291,16 +284,15 @@ public class JToolBarTest extends SwingModelTest {
    * {@link VariableSupport}.
    */
   public void test_separator_Supports() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    //",
-            "    bar.addSeparator();",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    //",
+        "    bar.addSeparator();",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     JToolBarSeparatorInfo separator = (JToolBarSeparatorInfo) bar.getChildrenComponents().get(0);
     // check association
@@ -384,44 +376,40 @@ public class JToolBarTest extends SwingModelTest {
    * method/field based ones.
    */
   public void test_addSeparator_noBeanProperties() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    bar.addSeparator(new Dimension(100, 50));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    bar.addSeparator(new Dimension(100, 50));",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     ComponentInfo separator = bar.getChildrenComponents().get(0);
     //
     Property[] properties = separator.getProperties();
     assertThat(properties).hasSize(1);
     assertNotNull(PropertyUtils.getByPath(properties, "Factory"));
-    assertNotNull(PropertyUtils.getByPath(properties, "Factory/size"));
   }
 
   /**
    * Test for adding {@link JToolBarSeparatorInfo}.
    */
   public void test_separator_create() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     // create separator
     JToolBarSeparatorCreationSupport creationSupport = new JToolBarSeparatorCreationSupport(bar);
-    JToolBarSeparatorInfo separator =
-        (JToolBarSeparatorInfo) JavaInfoUtils.createJavaInfo(
-            m_lastEditor,
-            JToolBar.Separator.class,
-            creationSupport);
+    JToolBarSeparatorInfo separator = (JToolBarSeparatorInfo) JavaInfoUtils.createJavaInfo(
+        m_lastEditor,
+        JToolBar.Separator.class,
+        creationSupport);
     // add separator
     bar.command_CREATE(separator, null);
     // check creation
@@ -446,19 +434,18 @@ public class JToolBarTest extends SwingModelTest {
   }
 
   public void test_separator_move() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    {",
-            "      JButton button = new JButton();",
-            "      bar.add(button);",
-            "    }",
-            "    bar.addSeparator();",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    {",
+        "      JButton button = new JButton();",
+        "      bar.add(button);",
+        "    }",
+        "    bar.addSeparator();",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     ComponentInfo button = bar.getChildrenComponents().get(0);
     JToolBarSeparatorInfo separator = (JToolBarSeparatorInfo) bar.getChildrenComponents().get(1);
@@ -479,15 +466,14 @@ public class JToolBarTest extends SwingModelTest {
   }
 
   public void test_separator_delete() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    bar.addSeparator();",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    bar.addSeparator();",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     JToolBarSeparatorInfo separator = (JToolBarSeparatorInfo) bar.getChildrenComponents().get(0);
     // delete separator
@@ -531,18 +517,17 @@ public class JToolBarTest extends SwingModelTest {
    */
   public void test_addAction_parse() throws Exception {
     createExternalAction();
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  private ExternalAction action = new ExternalAction();",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "    //",
-            "    JButton button = bar.add(action);",
-            "    button.setEnabled(false);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  private ExternalAction action = new ExternalAction();",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "    //",
+        "    JButton button = bar.add(action);",
+        "    button.setEnabled(false);",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     // we should have ComponentInfo
     assertEquals(1, bar.getChildrenComponents().size());
@@ -565,15 +550,14 @@ public class JToolBarTest extends SwingModelTest {
    */
   public void test_addAction_generate() throws Exception {
     createExternalAction();
-    ContainerInfo panel =
-        parseContainer(
-            "class Test extends JPanel {",
-            "  private ExternalAction action = new ExternalAction();",
-            "  Test() {",
-            "    JToolBar bar = new JToolBar();",
-            "    add(bar);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "class Test extends JPanel {",
+        "  private ExternalAction action = new ExternalAction();",
+        "  Test() {",
+        "    JToolBar bar = new JToolBar();",
+        "    add(bar);",
+        "  }",
+        "}");
     JToolBarInfo bar = (JToolBarInfo) panel.getChildrenComponents().get(0);
     ActionInfo action = ActionContainerInfo.getActions(panel).get(0);
     // add new JButton using ActionInfo

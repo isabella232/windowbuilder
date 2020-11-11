@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import org.eclipse.wb.internal.core.utils.check.Assert;
 import org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils;
 
+import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -106,7 +107,14 @@ public class TestProject {
   ////////////////////////////////////////////////////////////////////////////
   private IPackageFragmentRoot createSourceFolder() throws CoreException {
     IFolder folder = m_project.getFolder("src");
-    folder.create(false, true, null);
+    try {
+      folder.create(false, true, null);
+    } catch (ResourceException re) {
+      // We do not handle the order in which tests are executed, so sometimes the folder already exists
+      if (re.getMessage().indexOf("already exists") < 0) {
+        throw re;
+      }
+    }
     IPackageFragmentRoot root = m_javaProject.getPackageFragmentRoot(folder);
     //
     IClasspathEntry[] oldEntries = m_javaProject.getRawClasspath();

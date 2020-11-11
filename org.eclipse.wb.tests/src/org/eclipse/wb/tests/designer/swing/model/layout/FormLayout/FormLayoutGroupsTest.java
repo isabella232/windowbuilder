@@ -21,30 +21,37 @@ import java.util.List;
 
 /**
  * Test for {@link FormLayoutInfo} groups.
- * 
+ *
  * @author scheglov_ke
  */
 public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    if (m_testProject == null) {
+      do_projectCreate();
+    }
+  }
+
   ////////////////////////////////////////////////////////////////////////////
   //
   // Tests
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_parsing() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,});",
-            "    setLayout(formLayout);",
-            "    formLayout.setColumnGroups(new int[][]{new int[]{1, 3}});",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,});",
+        "    setLayout(formLayout);",
+        "    formLayout.setColumnGroups(new int[][]{new int[]{1, 3}});",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     //
     panel.refresh();
@@ -75,21 +82,20 @@ public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
   }
 
   public void test_removeFromGroup() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,});",
-            "    setLayout(formLayout);",
-            "    formLayout.setColumnGroups(new int[][]{new int[]{1, 4}, new int[]{2, 3}});",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,});",
+        "    setLayout(formLayout);",
+        "    formLayout.setColumnGroups(new int[][]{new int[]{1, 4}, new int[]{2, 3}});",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     //
     panel.refresh();
@@ -120,19 +126,18 @@ public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
   }
 
   public void test_unGroupColumns() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,});",
-            "    setLayout(formLayout);",
-            "    formLayout.setColumnGroups(new int[][]{new int[]{1, 2}});",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,});",
+        "    setLayout(formLayout);",
+        "    formLayout.setColumnGroups(new int[][]{new int[]{1, 2}});",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     //
     panel.refresh();
@@ -169,20 +174,19 @@ public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
   }
 
   public void test_groupNew() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.RELATED_GAP_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,}));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.RELATED_GAP_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,}));",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     //
     panel.refresh();
@@ -230,16 +234,15 @@ public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
   }
 
   public void test_ignoreOne() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    setLayout(new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,}));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    setLayout(new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,}));",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     String expectedSource = m_lastEditor.getSource();
     //
@@ -261,20 +264,19 @@ public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
   }
 
   public void test_groupWithExisting() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,});",
-            "    setLayout(formLayout);",
-            "    formLayout.setColumnGroups(new int[][]{new int[]{1, 2}});",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,});",
+        "    setLayout(formLayout);",
+        "    formLayout.setColumnGroups(new int[][]{new int[]{1, 2}});",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     //
     panel.refresh();
@@ -315,21 +317,20 @@ public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
   }
 
   public void test_groupIgnoreTwoGroups() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,});",
-            "    setLayout(formLayout);",
-            "    formLayout.setColumnGroups(new int[][]{new int[]{1, 2}, new int[]{3, 4}});",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,});",
+        "    setLayout(formLayout);",
+        "    formLayout.setColumnGroups(new int[][]{new int[]{1, 2}, new int[]{3, 4}});",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     String expectedSource = m_lastEditor.getSource();
     //
@@ -364,20 +365,19 @@ public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_groupRows() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,",
-            "        FormSpecs.DEFAULT_ROWSPEC,",
-            "        FormSpecs.DEFAULT_ROWSPEC,});",
-            "    setLayout(formLayout);",
-            "    formLayout.setRowGroups(new int[][]{new int[]{1, 2}});",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,",
+        "        FormSpecs.DEFAULT_ROWSPEC,",
+        "        FormSpecs.DEFAULT_ROWSPEC,});",
+        "    setLayout(formLayout);",
+        "    formLayout.setRowGroups(new int[][]{new int[]{1, 2}});",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     //
     panel.refresh();
@@ -418,19 +418,18 @@ public class FormLayoutGroupsTest extends AbstractFormLayoutTest {
   }
 
   public void test_unGroupRows() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
-            "        FormSpecs.DEFAULT_COLSPEC,},",
-            "      new RowSpec[] {",
-            "        FormSpecs.DEFAULT_ROWSPEC,",
-            "        FormSpecs.DEFAULT_ROWSPEC,});",
-            "    setLayout(formLayout);",
-            "    formLayout.setRowGroups(new int[][]{new int[]{1, 2}});",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    FormLayout formLayout = new FormLayout(new ColumnSpec[] {",
+        "        FormSpecs.DEFAULT_COLSPEC,},",
+        "      new RowSpec[] {",
+        "        FormSpecs.DEFAULT_ROWSPEC,",
+        "        FormSpecs.DEFAULT_ROWSPEC,});",
+        "    setLayout(formLayout);",
+        "    formLayout.setRowGroups(new int[][]{new int[]{1, 2}});",
+        "  }",
+        "}");
     FormLayoutInfo layout = (FormLayoutInfo) panel.getLayout();
     //
     panel.refresh();

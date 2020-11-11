@@ -190,66 +190,6 @@ public class FormLayoutGefTest extends SwingGefTest {
         "}");
   }
 
-  public void test_CREATE_virtual_2x2() throws Exception {
-    openPanel(
-        "public class Test extends JPanel {",
-        "  public Test() {",
-        "    setLayout(new FormLayout());",
-        "  }",
-        "}");
-    //
-    loadButtonWithText();
-    canvas.moveTo(panel, COLUMN_GAP, ROW_GAP);
-    canvas.assertCommandNotNull();
-    canvas.click();
-    assertEditor(
-        "public class Test extends JPanel {",
-        "  public Test() {",
-        "    setLayout(new FormLayout(new ColumnSpec[] {",
-        "        FormSpecs.RELATED_GAP_COLSPEC,",
-        "        FormSpecs.DEFAULT_COLSPEC,},",
-        "      new RowSpec[] {",
-        "        FormSpecs.RELATED_GAP_ROWSPEC,",
-        "        FormSpecs.DEFAULT_ROWSPEC,}));",
-        "    {",
-        "      JButton button = new JButton('New button');",
-        "      add(button, '2, 2');",
-        "    }",
-        "  }",
-        "}");
-  }
-
-  public void test_CREATE_virtual_4x2() throws Exception {
-    openPanel(
-        "public class Test extends JPanel {",
-        "  public Test() {",
-        "    setLayout(new FormLayout());",
-        "  }",
-        "}");
-    //
-    loadButtonWithText();
-    canvas.moveTo(panel, COLUMN_GAP + V_COLUMN_SIZE + COLUMN_GAP, ROW_GAP);
-    canvas.assertCommandNotNull();
-    canvas.click();
-    assertEditor(
-        "public class Test extends JPanel {",
-        "  public Test() {",
-        "    setLayout(new FormLayout(new ColumnSpec[] {",
-        "        FormSpecs.RELATED_GAP_COLSPEC,",
-        "        FormSpecs.DEFAULT_COLSPEC,",
-        "        FormSpecs.RELATED_GAP_COLSPEC,",
-        "        FormSpecs.DEFAULT_COLSPEC,},",
-        "      new RowSpec[] {",
-        "        FormSpecs.RELATED_GAP_ROWSPEC,",
-        "        FormSpecs.DEFAULT_ROWSPEC,}));",
-        "    {",
-        "      JButton button = new JButton('New button');",
-        "      add(button, '4, 2');",
-        "    }",
-        "  }",
-        "}");
-  }
-
   public void test_CREATE_virtual_2x4() throws Exception {
     openPanel(
         "public class Test extends JPanel {",

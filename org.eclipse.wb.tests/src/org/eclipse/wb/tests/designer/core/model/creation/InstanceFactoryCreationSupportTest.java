@@ -52,7 +52,7 @@ import javax.swing.JButton;
 
 /**
  * Test for {@link InstanceFactoryCreationSupport}.
- * 
+ *
  * @author scheglov_ke
  */
 public class InstanceFactoryCreationSupportTest extends SwingModelTest {
@@ -90,14 +90,13 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse source
-    ContainerInfo panel =
-        parseContainer(
-            "public final class Test extends JPanel {",
-            "  private final InstanceFactory m_factory = new InstanceFactory();",
-            "  Test() {",
-            "    add(m_factory.createButton('button', null));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public final class Test extends JPanel {",
+        "  private final InstanceFactory m_factory = new InstanceFactory();",
+        "  Test() {",
+        "    add(m_factory.createButton('button', null));",
+        "  }",
+        "}");
     // check that we have instance factory in container
     {
       List<InstanceFactoryContainerInfo> containers =
@@ -206,16 +205,15 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse source
-    ContainerInfo panel =
-        parseContainer(
-            "public final class Test extends JPanel {",
-            "  private final InstanceFactory m_factory = new InstanceFactory();",
-            "  private final InstanceFactory m_factory2 = new InstanceFactory();",
-            "  Test() {",
-            "    add(m_factory.createButton('111'));",
-            "    add(m_factory2.createButton('222'));",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public final class Test extends JPanel {",
+        "  private final InstanceFactory m_factory = new InstanceFactory();",
+        "  private final InstanceFactory m_factory2 = new InstanceFactory();",
+        "  Test() {",
+        "    add(m_factory.createButton('111'));",
+        "    add(m_factory2.createButton('222'));",
+        "  }",
+        "}");
     // check that we have two instance factories in container
     {
       List<InstanceFactoryContainerInfo> containers =
@@ -325,14 +323,13 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public final class Test extends JPanel {",
-            "  private final InstanceFactory m_factory = new InstanceFactory();",
-            "  Test() {",
-            "    m_factory.createButton(this);",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public final class Test extends JPanel {",
+        "  private final InstanceFactory m_factory = new InstanceFactory();",
+        "  Test() {",
+        "    m_factory.createButton(this);",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {/m_factory.createButton(this)/}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -358,14 +355,13 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse
-    ContainerInfo panel =
-        parseContainer(
-            "public final class Test extends JPanel {",
-            "  private final InstanceFactory m_factory = new InstanceFactory();",
-            "  Test() {",
-            "    m_factory.createObject();",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public final class Test extends JPanel {",
+        "  private final InstanceFactory m_factory = new InstanceFactory();",
+        "  Test() {",
+        "    m_factory.createObject();",
+        "  }",
+        "}");
     assertHierarchy(
         "{this: javax.swing.JPanel} {this} {}",
         "  {implicit-layout: java.awt.FlowLayout} {implicit-layout} {}",
@@ -400,13 +396,12 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse source
-    ContainerInfo frame =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JFrame {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo frame = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JFrame {",
+        "  public Test() {",
+        "  }",
+        "}");
     ContainerInfo contentPane = (ContainerInfo) frame.getChildrenComponents().get(0);
     BorderLayoutInfo borderLayoutInfo = (BorderLayoutInfo) contentPane.getLayout();
     // prepare instance factory class
@@ -424,19 +419,17 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
     // prepare new component
     ComponentInfo newComponent;
     {
-      FactoryMethodDescription description =
-          FactoryDescriptionHelper.getDescription(
-              m_lastEditor,
-              factoryClass,
-              "createButton(java.lang.String)",
-              false);
+      FactoryMethodDescription description = FactoryDescriptionHelper.getDescription(
+          m_lastEditor,
+          factoryClass,
+          "createButton(java.lang.String)",
+          false);
       assertEquals("\"000\"", description.getParameter(0).getDefaultSource());
       //
-      newComponent =
-          (ComponentInfo) JavaInfoUtils.createJavaInfo(
-              m_lastEditor,
-              JButton.class,
-              new InstanceFactoryCreationSupport(factoryInfo, description));
+      newComponent = (ComponentInfo) JavaInfoUtils.createJavaInfo(
+          m_lastEditor,
+          JButton.class,
+          new InstanceFactoryCreationSupport(factoryInfo, description));
     }
     // add component
     {
@@ -502,13 +495,12 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse source
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     FlowLayoutInfo flowLayoutInfo = (FlowLayoutInfo) panel.getLayout();
     // prepare instance factory class
     Class<?> factoryClass = m_lastLoader.loadClass("test.InstanceFactory");
@@ -517,17 +509,15 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
     // prepare new component
     ComponentInfo newComponent;
     {
-      FactoryMethodDescription description =
-          FactoryDescriptionHelper.getDescription(
-              m_lastEditor,
-              factoryClass,
-              "createButton(java.lang.String)",
-              false);
-      newComponent =
-          (ComponentInfo) JavaInfoUtils.createJavaInfo(
-              m_lastEditor,
-              JButton.class,
-              new InstanceFactoryCreationSupport(factoryInfo, description));
+      FactoryMethodDescription description = FactoryDescriptionHelper.getDescription(
+          m_lastEditor,
+          factoryClass,
+          "createButton(java.lang.String)",
+          false);
+      newComponent = (ComponentInfo) JavaInfoUtils.createJavaInfo(
+          m_lastEditor,
+          JButton.class,
+          new InstanceFactoryCreationSupport(factoryInfo, description));
     }
     // add component
     {
@@ -591,13 +581,12 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
     }
     waitForAutoBuild();
     // parse source
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     // prepare instance factory class
     Class<?> factoryClass = m_lastLoader.loadClass("test.InstanceFactory");
     // prepare instance factory model
@@ -623,13 +612,12 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse source
-    ContainerInfo panel =
-        parseContainer(
-            "// filler filler filler",
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "// filler filler filler",
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "  }",
+        "}");
     // prepare instance factory class
     Class<?> factoryClass = m_lastLoader.loadClass("test.InstanceFactory");
     // prepare instance factory model
@@ -657,13 +645,12 @@ public class InstanceFactoryCreationSupportTest extends SwingModelTest {
             "}"));
     waitForAutoBuild();
     // parse source
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  private final InstanceFactory instanceFactory = new InstanceFactory();",
-            "  public Test() {",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  private final InstanceFactory instanceFactory = new InstanceFactory();",
+        "  public Test() {",
+        "  }",
+        "}");
     InstanceFactoryInfo factoryInfo =
         InstanceFactoryContainerInfo.get(panel).getChildrenFactory().get(0);
     assertNotNull(factoryInfo.getAssociation());
